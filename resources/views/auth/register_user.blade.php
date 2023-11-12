@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <title>VTUBIZ | Registration</title>
+    <title>{{ $user->brand_name }} | Registration</title>
     <meta charset="utf-8" />
     <meta name="description" content="Payment Portal For CT_Taste" />
     <meta name="keywords" content="Quick pay with CT_Taste" />
@@ -13,7 +13,7 @@
     <meta property="og:title" content="CT_Taste" />
     <meta property="og:url" content="https://cttaste.com" />
     <meta property="og:site_name" content="CT_Taste" />
-    <link rel="shortcut icon" href="assets/media/logos/fav_01.png" />
+    <link rel="shortcut icon" href="{{ asset('brand_images/'.$user->logo) }}" />
 
     @laravelPWA
     <!--begin::Fonts(mandatory for all pages)-->
@@ -90,15 +90,14 @@
                 <!--begin::Aside-->
                 <div class="d-flex flex-center flex-lg-start flex-column">
                     <!--begin::Logo-->
-                    <a href="/" class="mb-7">
-                        <img src="{{ asset('assets/img/logo/vtulogo.png') }}" srcset="{{ asset('assets/img/logo/vtulogo.png') }}" width='140px' height='35px' alt="">
-          
+                    <a href="/index.html" class="mb-7">
+                        <img alt="Logo" src="{{ asset('brand_images/'.$user->logo) }}" style='width:150px;height:40px' />
                     </a>
                     <!--end::Logo-->
 
                     <!--begin::Title-->
                     <h2 class="text-white fw-normal m-0">
-                        Register A VTUBIZ Account.
+                        Register An Account with {{ $user->brand_name }}.
                     </h2>
                     <!--end::Title-->
                 </div>
@@ -117,14 +116,18 @@
 
                             <!--begin::Form-->
                            
+                           
                             <div id='app'>
-                                <register-component></register-component>
+                                <register-user-component :company_id= '{{ $user->id }}'></register-user-component>
                             </div>
                             <!--end::Form-->
 
                         </div>
                         <!--end::Wrapper-->
 
+                        <!--begin::Footer-->
+                    
+                        <!--end::Footer-->
                     </div>
                     <!--end::Card body-->
                 </div>
@@ -135,7 +138,7 @@
         <!--end::Authentication - Sign-in-->
     </div>
     <!--end::Root-->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{asset('cdn/sweetalert.min.js')}}" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{asset('cdn/jquery-3.6.0.js')}}" crossorigin="anonymous"></script>
     {{-- <script src="{{ asset('assets/js/professionallocker.js')}}"></script> --}}

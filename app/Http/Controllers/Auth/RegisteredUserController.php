@@ -28,9 +28,15 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('auth.register');
+        $host = $request->getHost();
+        $parts = explode('.', $host);
+        $subdomain = $parts[0];
+      
+        $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+        $data['company_id'] = $user->id;
+        return view('auth.register',$data);
     }
 
     /**
@@ -46,7 +52,7 @@ class RegisteredUserController extends Controller
         $data = $request->all();
         $uid = Str::uuid();
         // dd($request->all()); $uid = Str::uuid();
-        if (array_key_exists('company_id', $data)) {
+      
             if(strlen($data['phone']) == 10) {
                 $data['phone'] = "0".$data['phone'];
             }     
@@ -60,20 +66,7 @@ class RegisteredUserController extends Controller
                 'user_type' => 'client_customer',
                 'password' => Hash::make($data['password']),
             ]);
-        } else {
-            $brand_name = str_replace(' ', '-', $data['brand_name']);
-            $user = User::create([
-                'name' => $data['name'],
-                'brand_name' => $brand_name,             
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'uuid' => $uid,
-                'password' => Hash::make($data['password']),
-                'user_type' => 'customer',
-            ]);
-            $user->company_id = $user->id;
-            $user->save();
-        }
+      
 
         event(new Registered($user));
         $user->sendEmailVerificationNotification();

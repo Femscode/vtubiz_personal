@@ -36,11 +36,7 @@ class BusinessController extends Controller
         // return view('business_frontend.index');
         // return 'good';
         $host = $request->getHost();
-
-        // Split the host into parts
         $parts = explode('.', $host);
-
-        // The subdomain is the first part of the host
         $subdomain = $parts[0];
         // dd($subdomain);
         $data['user'] = $user = User::where('brand_name', $subdomain)->first();

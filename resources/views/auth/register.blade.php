@@ -5,8 +5,8 @@
 <head>
     <title>VTUBIZ | Registration</title>
     <meta charset="utf-8" />
-    <meta name="description" content="Top Up, Pay Bills, Stay Connected." />
-    <meta name="keywords" content="A Top Notch VTU Platform!" />
+    <meta name="description" content="Payment Portal For CT_Taste" />
+    <meta name="keywords" content="Quick pay with CT_Taste" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
@@ -118,7 +118,7 @@
                             <!--begin::Form-->
                            
                             <div id='app'>
-                                <register-component></register-component>
+                                <register-component :company_id='{{ $company_id }}'></register-component>
                             </div>
                             <!--end::Form-->
 

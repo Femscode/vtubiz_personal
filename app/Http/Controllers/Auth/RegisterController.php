@@ -73,9 +73,9 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // dd($data);
+        dd($data);
         $uid = Str::uuid();
-        if (array_key_exists('company_id', $data)) {
+     
             if(strlen($data['phone']) == 10) {
                 $data['phone'] = "0".$data['phone'];
             }     
@@ -89,20 +89,7 @@ class RegisterController extends Controller
                 'user_type' => 'client_customer',
                 'password' => Hash::make($data['password']),
             ]);
-        } else {
-            $brand_name = str_replace(' ', '-', $data['brand_name']);
-            $user = User::create([
-                'name' => $data['name'],
-                'brand_name' => $brand_name,             
-                'email' => $data['email'],
-                'phone' => $data['phone'],
-                'uuid' => $uid,
-                'password' => Hash::make($data['password']),
-                'user_type' => 'customer',
-            ]);
-            $user->company_id = $user->id;
-            $user->save();
-        }
+        
 
         event(new Registered($user));
         $user->sendEmailVerificationNotification();

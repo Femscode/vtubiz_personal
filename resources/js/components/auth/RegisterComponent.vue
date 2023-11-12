@@ -4,12 +4,10 @@
     <form v-on:submit.prevent="registerUser()">
       <div class="text-center mb-11">
         <!--begin::Title-->
-        <img class="mx-auto h-100px h-lg-150px  theme-light-show" src="https://preview.keenthemes.com/metronic8/demo1/assets/media/illustrations/sigma-1/3.png" alt="">
+        <!-- <img class="mx-auto h-100px h-lg-150px  theme-light-show" src="https://preview.keenthemes.com/metronic8/demo1/assets/media/illustrations/sigma-1/3.png" alt=""> -->
         <h1 class="text-dark fw-bolder mb-3">Sign Up</h1>
-      
       </div>
       <!--begin::Heading-->
-
 
       <!--begin::Input group--->
       <div class="fv-row mb-3">
@@ -30,8 +28,7 @@
         <!--begin::Email-->
         <input
           autocomplete=""
-          v-model="brand_name"
-          placeholder="Brandname/Username"
+          v-model="company_id"
           type="text"
           class="form-control"
           required
@@ -57,7 +54,6 @@
       <div class="fv-row mb-3">
         <!--begin::Email-->
         <input
-         
           type="email"
           v-model="email"
           placeholder="Email address"
@@ -97,15 +93,22 @@
         />
         <!--end::Password-->
       </div>
-      <div v-if="show_password_confirm" class="alert alert-success">Password matched</div>
+      <div v-if="show_password_confirm" class="alert alert-success">
+        Password matched
+      </div>
       <!--end::Input group--->
 
       <!--begin::Wrapper-->
-    
 
       <!--begin::Submit button-->
       <div class="d-grid mb-10">
-        <button :disabled="!sign_in_status"  type="submit" class="btn btn-primary">Sign Up</button>
+        <button
+          :disabled="!sign_in_status"
+          type="submit"
+          class="btn btn-primary"
+        >
+          Sign Up
+        </button>
       </div>
       <!--end::Submit button-->
 
@@ -123,66 +126,67 @@
 
 <script>
 export default {
+  props: ["company_id"],
   data() {
     return {
       user_name: "",
-      brand_name: "",
+      company_id:this.company_id,
       email: "",
       password: "",
       password_confirmation: "",
-      user_phone: '',
-      show_password_confirm : false,
-      sign_in_status : false
+      user_phone: "",
+      show_password_confirm: false,
+      sign_in_status: false,
     };
   },
   methods: {
     confirmPassword() {
-      if(this.password == this.password_confirmation && this.password.length >= 8) {
-        this.show_password_confirm = true
-        this.sign_in_status = true
+      if (
+        this.password == this.password_confirmation &&
+        this.password.length >= 8
+      ) {
+        this.show_password_confirm = true;
+        this.sign_in_status = true;
+      } else {
+        this.show_password_confirm = false;
+        this.sign_in_status = false;
       }
-      else {
-        this.show_password_confirm = false
-        this.sign_in_status = false
-        
-      }
-
     },
     registerUser() {
       Swal.fire({
-                // icon: "success",
-                title: "Sign Up",
-                text: "Signing in, please wait...",
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-              }).then((result) => {
-                location.reload();
-              });
+        // icon: "success",
+        title: "Sign Up",
+        text: "Signing in, please wait...",
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      }).then((result) => {
+        location.reload();
+      });
       console.log(
         this.email,
         this.user_name,
-        this.brand_name,
+        this.company_id,
         this.password,
         this.password_confirmation
       );
       let fd = new FormData();
       fd.append("name", this.user_name);
-      fd.append("brand_name", this.brand_name);
+      fd.append("company_id", this.company_id);
       fd.append("email", this.email);
       fd.append("phone", this.user_phone);
       fd.append("password", this.password);
       fd.append("password_confirmation", this.password_confirmation);
 
       axios
-        .post('/register', fd)
+        .post("/register", fd)
         .then((response) => {
           console.log(response.data);
-          location.reload()
+          location.reload();
         })
         .catch((error) => {
           console.log(error.response.data.errors);
-          Swal.fire('Opps','Email address already taken!','error')
+          Swal.fire("Opps", "Email address already taken!", "error");
         });
     },
   },
