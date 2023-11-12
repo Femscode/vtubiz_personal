@@ -98,7 +98,7 @@
 
                     <!--begin::Title-->
                     <h2 class="text-white fw-normal m-0">
-                        Register An Account With {{ $user->name }}.
+                        Register An Account With {{ $user->brand_name }}.
                     </h2>
                     <!--end::Title-->
                 </div>
@@ -150,6 +150,7 @@
                                           autocomplete=""
                                           id="company_id"
                                           type="number"
+                                          value='{{ $company_id }}'
                                           class="form-control"
                                           required
                                           name="company_id"
