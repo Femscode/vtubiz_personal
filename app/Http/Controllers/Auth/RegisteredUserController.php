@@ -30,6 +30,7 @@ class RegisteredUserController extends Controller
      */
     public function create(Request $request)
     {
+        // return view('auth.register');
         $host = $request->getHost();
         $parts = explode('.', $host);
         $subdomain = $parts[0];
@@ -50,6 +51,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        // dd($data);
         $uid = Str::uuid();
         // dd($request->all()); $uid = Str::uuid();
       

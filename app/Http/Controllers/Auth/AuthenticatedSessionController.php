@@ -15,9 +15,16 @@ class AuthenticatedSessionController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('auth.login');
+        $host = $request->getHost();
+        $parts = explode('.', $host);
+        $subdomain = $parts[0];
+      
+        $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+        $data['company_id'] = $user->id;
+       
+        return view('auth.login',$data);
     }
 
     /**
