@@ -28,13 +28,34 @@ use Illuminate\Support\Facades\Redirect;
 
 class BusinessController extends Controller
 {
-   
+
     use TransactionTrait;
-  
-    public function index()
+
+    public function index(Request $request)
     {
-        return view('business_frontend.index');
-        return 'good';
+        // return view('business_frontend.index');
+        // return 'good';
+        $host = $request->getHost();
+
+        // Split the host into parts
+        $parts = explode('.', $host);
+
+        // The subdomain is the first part of the host
+        $subdomain = $parts[0];
+        // dd($subdomain);
+        $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+        if ($user) {
+            $id = $user->selected_theme;
+
+            $data['mtn'] = Data::where('network', 1)->orderBy('data_price')->take(20)->get();
+            $data['glo'] = Data::where('network', 2)->orderBy('data_price')->take(20)->get();
+            $data['airtel'] = Data::where('network', 3)->orderBy('data_price')->take(20)->get();
+            $data['nmobile'] = Data::where('network', 4)->orderBy('data_price')->take(20)->get();
+            $view = "business_backend.theme" . $id;
+            return view($view, $data);
+        } else {
+            return redirect("https://vtubiz.com");
+        }
     }
     public function upgrade($id)
     {
@@ -82,10 +103,10 @@ class BusinessController extends Controller
     public function dashboard()
     {
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
-        
+
 
         if ($user->pin == null) {
             return view('dashboard.setpin', $data);
@@ -154,7 +175,7 @@ class BusinessController extends Controller
     public function profile()
     {
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer' || $user->user_type == 'client_customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-profile');
         }
         return view('business_backend.profile', $data);
@@ -247,7 +268,7 @@ class BusinessController extends Controller
     {
 
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer' || $user->user_type == 'client_customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/user-fundwallet');
         }
         $data['active'] = 'fundwallet';
@@ -379,16 +400,16 @@ class BusinessController extends Controller
     public function bulksms_transactions()
     {
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer' || $user->user_type == 'client_customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-bulksms_transactions');
         }
-        $data['transactions'] = $transactions =  BulkSMSTransaction::where('company_id', $user->id)->where('user_id',$user->id)->latest()->get();
+        $data['transactions'] = $transactions =  BulkSMSTransaction::where('company_id', $user->id)->where('user_id', $user->id)->latest()->get();
         return view('business_backend.bulksms_transactions', $data);
     }
     public function data_prices()
     {
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
         $datas = Data::where('user_id', 0)->get();
@@ -434,7 +455,7 @@ class BusinessController extends Controller
     public function airtime_prices()
     {
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
         $airtime = Airtime::where('user_id', $user->id)->first();
@@ -474,7 +495,7 @@ class BusinessController extends Controller
     public function electricity_prices()
     {
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
         $electricity = Electricity::where('user_id', $user->id)->first();
@@ -494,7 +515,8 @@ class BusinessController extends Controller
     }
     public function bulksms_prices()
     {
-        $data['user'] = $user = Auth::user(); if($user->user_type == 'customer') {
+        $data['user'] = $user = Auth::user();
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
 
@@ -504,7 +526,7 @@ class BusinessController extends Controller
     {
 
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
         $cables = Cable::where('user_id', 0)->get();
@@ -530,7 +552,7 @@ class BusinessController extends Controller
     public function examination_prices()
     {
         $data['user'] = $user = Auth::user();
-        if($user->user_type == 'customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
 
