@@ -90,10 +90,10 @@
                 <!--begin::Aside-->
                 <div class="d-flex flex-center flex-lg-start flex-column">
                     <!--begin::Logo-->
-                    <a href="/" class="mb-7">
+                    {{-- <a href="/" class="mb-7">
                         <img src="{{ asset('assets/img/logo/vtulogo.png') }}" srcset="{{ asset('assets/img/logo/vtulogo.png') }}" width='140px' height='35px' alt="">
           
-                    </a>
+                    </a> --}}
                     <!--end::Logo-->
 
                     <!--begin::Title-->
@@ -149,7 +149,7 @@
                                         <input
                                           autocomplete=""
                                           id="company_id"
-                                          type="number"
+                                          type="hidden"
                                           value='{{ $company_id }}'
                                           class="form-control"
                                           required
