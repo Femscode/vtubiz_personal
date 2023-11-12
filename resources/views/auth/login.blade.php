@@ -92,9 +92,9 @@
                 <!--begin::Aside-->
                 <div class="d-flex flex-center flex-lg-start flex-column">
                     <!--begin::Logo-->
-                    <a href="/index.html" class="mb-7">
+                    {{-- <a href="/index.html" class="mb-7">
                         <img alt="Logo" src="/assets/media/logos/ct_white.png" style='width:150px;height:40px' />
-                    </a>
+                    </a> --}}
                     <!--end::Logo-->
 
                     <!--begin::Title-->

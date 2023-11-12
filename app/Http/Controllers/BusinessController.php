@@ -99,7 +99,7 @@ class BusinessController extends Controller
     public function dashboard()
     {
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-dashboard');
         }
 
@@ -405,7 +405,7 @@ class BusinessController extends Controller
     public function data_prices()
     {
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-dashboard');
         }
         $datas = Data::where('user_id', 0)->get();
@@ -451,7 +451,7 @@ class BusinessController extends Controller
     public function airtime_prices()
     {
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-dashboard');
         }
         $airtime = Airtime::where('user_id', $user->id)->first();
@@ -491,7 +491,7 @@ class BusinessController extends Controller
     public function electricity_prices()
     {
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-dashboard');
         }
         $electricity = Electricity::where('user_id', $user->id)->first();
@@ -512,7 +512,7 @@ class BusinessController extends Controller
     public function bulksms_prices()
     {
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-dashboard');
         }
 
@@ -522,7 +522,7 @@ class BusinessController extends Controller
     {
 
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-dashboard');
         }
         $cables = Cable::where('user_id', 0)->get();
@@ -548,7 +548,7 @@ class BusinessController extends Controller
     public function examination_prices()
     {
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer') {
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/my-dashboard');
         }
 
