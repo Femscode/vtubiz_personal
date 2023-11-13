@@ -23,10 +23,11 @@ Route::any('update_account_data', function () {
 });
 
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
 // Auth::routes();
 Route::any('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
-    
+
 
 Route::any('/upgrade/{id}', [BusinessController::class, 'upgrade'])->name('upgrade');
 Route::any('/saveBeneficiary', [BusinessController::class, 'saveBeneficiary'])->name('saveBeneficiary');
@@ -49,7 +50,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Route::get('/', [BusinessController::class, 'landing'])->name('index');
-   
+
     // Route::view('/','coming_soon');
     // Route::any('/notify', [App\Http\Controllers\SubscriptionController::class, 'notify'])->name('notify');
     Route::get('/forgot-password', function () {
@@ -184,10 +185,10 @@ Route::middleware(['auth'])->group(function () {
 
         return back()->with('status', 'verification-link-sent');
     })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-   
+
 
     //the business domain start
-    
+
     Route::view('/business', 'business_frontend.business');
     Route::get('home', [BusinessController::class, 'dashboard'])->name('admin_home')->name('dashboard');
     Route::get('dashboard', [BusinessController::class, 'dashboard'])->name('admin_dashboard');

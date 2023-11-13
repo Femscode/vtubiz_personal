@@ -33,14 +33,14 @@ class SubscriptionController extends Controller
     {
         $data['user'] = $user = Auth::user();
         $datas = Data::where('user_id', 0)->get();
-        $check_data = Data::where('user_id', $user->id)->first();
+        $check_data = Data::where('user_id', $user->company_id)->first();
         // Data::where('user_id', $user->id)->delete();
         // dd($check_data,$datas[0]);
         if ($user->upgrade == 0) {
             if (!$check_data) {
                 foreach ($datas as $data) {
                     Data::create([
-                        'user_id' => $user->id,
+                        'user_id' => $user->company_id,
                         'network' => $data->network,
                         'plan_id' => $data->plan_id,
                         'plan_name' => $data->plan_name,
@@ -261,7 +261,7 @@ class SubscriptionController extends Controller
 
             return response()->json($response);
         }
-        dd($check);
+        // dd($check);
         //purchase the data
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -314,7 +314,7 @@ class SubscriptionController extends Controller
 
     private function handle_buy_data($phone, $network, $plan_id,$group_id=null)
     {
-        dd($phone, $network, $plan_id);
+        // dd($phone, $network, $plan_id);
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
 
@@ -781,7 +781,7 @@ class SubscriptionController extends Controller
             return response()->json($response);
         }
 
-        dd($amount, $request->all());
+        // dd($amount, $request->all());
         //check duplicate
         $check = $this->check_duplicate('check', $user->id);
         if ($check == true) {
@@ -871,7 +871,7 @@ class SubscriptionController extends Controller
 
             return response()->json($response);
         }
-        dd($amount, $discounted_amount, $request->all());
+        // dd($amount, $discounted_amount, $request->all());
         // dd($request->all(),$discounted_amount);
         if ($user->balance < $amount  ) {
             $response = [
@@ -1129,7 +1129,7 @@ class SubscriptionController extends Controller
         // dd($request->all());
         $actual_price = Airtime::where('network', $request->network)->where('user_id', $user->company_id)->first()->airtime_price;
         $real_airtimeprice = $request->amount - ($actual_price / 100) * $request->amount;
-        dd($real_airtimeprice, $actual_price);
+        // dd($real_airtimeprice, $actual_price);
 
         if ($user->balance < $request->discounted_amount ) {
             $response = [
@@ -1212,7 +1212,7 @@ class SubscriptionController extends Controller
         // dd($request->all());
         $actual_price = Airtime::where('network', $network)->where('user_id', $user->company_id)->first()->airtime_price;
         $real_airtimeprice = $amount - ($actual_price / 100) * $amount;
-        dd($real_airtimeprice, $actual_price);
+        // dd($real_airtimeprice, $actual_price);
 
         if ($user->balance < $discounted_amount ) {
             $response = [
@@ -1287,10 +1287,10 @@ class SubscriptionController extends Controller
     public function airtime()
     {
         $data['user'] = $user = Auth::user();
-        $airtime = Airtime::where('user_id', $user->id)->first();
+        $airtime = Airtime::where('user_id', $user->company_id)->first();
         if (!$airtime) {
             Airtime::create([
-                'user_id' => $user->id,
+                'user_id' => $user->company_id,
                 'network' => 1,
                 'airtime_price' => 3,
                 'admin_price' => 3
@@ -1376,7 +1376,7 @@ class SubscriptionController extends Controller
         $electricity = Electricity::where('user_id', $user->id)->first();
         if (!$electricity) {
             Electricity::create([
-                'user_id' => $user->id,
+                'user_id' => $user->company_id,
                 'actual_amount' => 3,
                 'real_amount' => 3
             ]);
@@ -1406,11 +1406,11 @@ class SubscriptionController extends Controller
     {
         $data['user'] = $user = Auth::user();
         $data['active'] = 'examination';
-        $examination = Examination::where('user_id', $user->id)->first();
+        $examination = Examination::where('user_id', $user->company_id)->first();
         if (!$examination) {
 
             Examination::create([
-                'user_id' => $user->id,
+                'user_id' => $user->company_id,
                 'exam_type' => 'WAEC RESULT CHECKER',
                 'name' => 'WAEC RESULT CHECKER',
                 'actual_amount' => 3400,
@@ -1469,11 +1469,11 @@ class SubscriptionController extends Controller
         $data['user'] = $user = Auth::user();
         $data['active'] = 'cable';
         $cables = Cable::where('user_id', 0)->get();
-        $check_cable = Cable::where('user_id', $user->id)->first();
+        $check_cable = Cable::where('user_id', $user->company_id)->first();
         if (!$check_cable) {
             foreach ($cables as $cable) {
                 Cable::create([
-                    'user_id' => $user->id,
+                    'user_id' => $user->company_id,
                     'company' => $cable->company,
                     'plan_id' => $cable->plan_id,
                     'plan_name' => $cable->plan_name,
