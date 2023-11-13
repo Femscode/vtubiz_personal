@@ -445,15 +445,19 @@ class SubscriptionController extends Controller
         foreach ($recipients as $reci) {
             $response = $this->handle_buy_data($reci->phone, $reci->network, $reci->plan_id, $request->group_id);
             // dd($reci, $response);
-            if ($response->getData()->success == false) {
-                if ($response->getData()->type == 'duplicate') {
-                    $response = [
-                        'success' => false,
-                        'message' => 'Please kindly clear your pending transactions before proceeding',
-                        'auto_refund_status' => 'Nil',
-                        'data' => $purchase_status,
-                    ];
-                    return response()->json($response);
+            if (is_object($response) && method_exists($response, 'getData')) {
+                $responseData = $response->getData();
+            
+                if (is_object($responseData) && property_exists($responseData, 'success') && $responseData->success === false) {
+                    if (!is_object($response) || !property_exists($responseData, 'type') || $responseData->type === 'duplicate') {
+                        $response = [
+                            'success' => false,
+                            'message' => 'Please kindly clear your pending transactions before proceeding',
+                            'auto_refund_status' => 'Nil',
+                            'data' => $purchase_status,
+                        ];
+                        return response()->json($response);
+                    }
                 }
             }
             array_push($purchase_status, $response);
@@ -486,15 +490,19 @@ class SubscriptionController extends Controller
 
             $response = $this->handle_buy_airtime($reci->phone, $reci->network, $reci->amount, $discounted_amount, $request->group_id);
             // dd($reci, $response);
-            if ($response->getData()->success == false) {
-                if ($response->getData()->type == 'duplicate') {
-                    $response = [
-                        'success' => false,
-                        'message' => 'Please kindly clear your pending transactions before proceeding',
-                        'auto_refund_status' => 'Nil',
-                        'data' => $purchase_status,
-                    ];
-                    return response()->json($response);
+            if (is_object($response) && method_exists($response, 'getData')) {
+                $responseData = $response->getData();
+            
+                if (is_object($responseData) && property_exists($responseData, 'success') && $responseData->success === false) {
+                    if (!is_object($response) || !property_exists($responseData, 'type') || $responseData->type === 'duplicate') {
+                        $response = [
+                            'success' => false,
+                            'message' => 'Please kindly clear your pending transactions before proceeding',
+                            'auto_refund_status' => 'Nil',
+                            'data' => $purchase_status,
+                        ];
+                        return response()->json($response);
+                    }
                 }
             }
             array_push($purchase_status, $response);
