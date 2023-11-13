@@ -421,7 +421,7 @@ class SubscriptionController extends Controller
         $this->check_duplicate("Delete", $user->id);
 
         curl_close($curl);
-        return $response;
+        return $response_json;
     }
 
     public function admin_rechargeGroup(Request $request)
@@ -446,7 +446,7 @@ class SubscriptionController extends Controller
             $response = $this->handle_buy_data($reci->phone, $reci->network, $reci->plan_id, $request->group_id);
             // dd($reci, $response);
             if ($response->getData()->success == false) {
-                if ($response->getData()->type == 'duplicte') {
+                if ($response->getData()->type == 'duplicate') {
                     $response = [
                         'success' => false,
                         'message' => 'Please kindly clear your pending transactions before proceeding',
@@ -487,7 +487,7 @@ class SubscriptionController extends Controller
             $response = $this->handle_buy_airtime($reci->phone, $reci->network, $reci->amount, $discounted_amount, $request->group_id);
             // dd($reci, $response);
             if ($response->getData()->success == false) {
-                if ($response->getData()->type == 'duplicte') {
+                if ($response->getData()->type == 'duplicate') {
                     $response = [
                         'success' => false,
                         'message' => 'Please kindly clear your pending transactions before proceeding',
@@ -1360,7 +1360,7 @@ class SubscriptionController extends Controller
         $this->check_duplicate("Delete", $user->id);
 
         curl_close($curl);
-        return $response;
+        return $response_json;
     }
     public function airtime()
     {
