@@ -51,6 +51,18 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required'],
+            'company_id' => ['required'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+        if ($validator->fails()) {
+            return redirect()->route('register') // Use the correct route name or URL
+                ->withErrors($validator)
+                ->withInput();
+        }
         // dd($data);
         $uid = Str::uuid();
         // dd($request->all()); $uid = Str::uuid();
@@ -73,7 +85,8 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
         // $user->sendEmailVerificationNotification();
         Auth::login($user);
-        return $user;
+        return redirect('/dashboard');
+        // return $user;
     }
 
   

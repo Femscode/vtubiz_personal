@@ -126,6 +126,16 @@
                                         <!--begin::Title-->
                                         <!-- <img class="mx-auto h-100px h-lg-150px  theme-light-show" src="https://preview.keenthemes.com/metronic8/demo1/assets/media/illustrations/sigma-1/3.png" alt=""> -->
                                         <h1 class="text-dark fw-bolder mb-3">Sign Up</h1>
+                                        @if($errors->any())
+                                        <div class="alert alert-danger">
+                                            <p><strong>Opps Something went wrong</strong></p>
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endif
                                       </div>
                                       <!--begin::Heading-->
                                 
