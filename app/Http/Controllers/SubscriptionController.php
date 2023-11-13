@@ -1757,6 +1757,8 @@ class SubscriptionController extends Controller
     {
 
         $this->validate($request, ['reference' => 'required']);
+        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://easyaccessapi.com.ng/api/query_transaction.php",
@@ -1771,7 +1773,7 @@ class SubscriptionController extends Controller
                 'reference' => $request->reference, //You can also enter your client_reference here only for data and airtime transactions.
             ),
             CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                "AuthorizationToken: " .$env, //replace this with your authorization_token
                 "cache-control: no-cache"
             ),
         ));
@@ -1787,6 +1789,8 @@ class SubscriptionController extends Controller
     public function check_verify_payment(Request $request)
     {
         $this->validate($request, ['reference' => 'required']);
+        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->brand_color;
+
         // dd($request->reference);
 
 
@@ -1797,7 +1801,7 @@ class SubscriptionController extends Controller
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . env('FLW_SECRET_KEY'), // Replace with your actual secret key
+            'Authorization' => 'Bearer ' . $env, // Replace with your actual secret key
         ])->get('https://api.flutterwave.com/v3/transactions/' . $request->reference . '/verify');
 
 
@@ -1810,6 +1814,8 @@ class SubscriptionController extends Controller
     public function admin_check_verify_purchase(Request $request)
     {
         $this->validate($request, ['reference' => 'required']);
+        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://easyaccessapi.com.ng/api/query_transaction.php",
@@ -1824,7 +1830,7 @@ class SubscriptionController extends Controller
                 'reference' => $request->reference, //You can also enter your client_reference here only for data and airtime transactions.
             ),
             CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                "AuthorizationToken: " . $env, //replace this with your authorization_token
                 "cache-control: no-cache"
             ),
         ));
@@ -1844,6 +1850,8 @@ class SubscriptionController extends Controller
     {
         $this->validate($request, ['reference' => 'required']);
         // dd($request->reference);
+        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->brand_color;
+
 
 
         // $history = new Transactions();
@@ -1853,7 +1861,7 @@ class SubscriptionController extends Controller
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
-            'Authorization' => 'Bearer ' . env('FLW_SECRET_KEY'), // Replace with your actual secret key
+            'Authorization' => 'Bearer ' . $env, // Replace with your actual secret key
         ])->get('https://api.flutterwave.com/v3/transactions/' . $request->reference . '/verify');
 
 
