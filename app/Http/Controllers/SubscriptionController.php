@@ -157,11 +157,8 @@ class SubscriptionController extends Controller
     }
     public function buydata(Request $request)
     {
-
-
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
-
         $phone_number = $request->phone_number;
         if (strlen($request->phone_number) == 10) {
             $phone_number = "0" . $request->phone_number;
@@ -462,7 +459,7 @@ class SubscriptionController extends Controller
             }
             array_push($purchase_status, $response);
         }
-
+        return response()->json($response);
         return redirect()->back()->with('message', 'Transaction Successful!');
     }
     public function admin_rechargeAirtimeGroup(Request $request)
@@ -507,7 +504,7 @@ class SubscriptionController extends Controller
             }
             array_push($purchase_status, $response);
         }
-
+        return response()->json($response);
         return redirect()->back()->with('message', 'Transaction Successful!');
     }
     public function redo_transaction(Request $request)
@@ -641,6 +638,8 @@ class SubscriptionController extends Controller
             }
             $data_price =  $data->admin_price;
             $real_dataprice = $data->data_price;
+
+            
             // dd($data_price, $real_dataprice, $data->data_price);
             //check balance
             if ($user->balance < $data_price) {
@@ -710,7 +709,7 @@ class SubscriptionController extends Controller
             if ($response_json['success'] === "true") {
                 $details = $response_json['network'] . " Data Purchase of " . $response_json['dataplan'] . " on " . $phone_number;
 
-                $trans_id = $this->create_transaction('Data Purchase', $response_json['reference_no'], $details, 'debit', $data->data_price, $user->id, 1, $real_dataprice);
+                $trans_id = $this->create_transaction('Data Purchase', $response_json['reference_no'], $details, 'debit', $data_price, $user->id, 1, $real_dataprice);
                 $transaction = Transaction::find($trans_id);
                 $transaction->phone_number = $phone_number;
                 $transaction->network = $tranx->network;

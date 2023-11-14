@@ -38,6 +38,9 @@ class BusinessController extends Controller
         $host = $request->getHost();
         $parts = explode('.', $host);
         $subdomain = $parts[0];
+        if($subdomain == 'www') {
+            $subdomain = $parts[1];
+        }
         // dd($subdomain);
         $data['user'] = $user = User::where('brand_name', $subdomain)->first();
         if ($user) {
