@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Traits\TransactionTrait;
 use App\Models\BulkSMSTransaction;
+use App\Models\DuplicateTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -55,6 +56,15 @@ class BusinessController extends Controller
         } else {
             return redirect("https://vtubiz.com");
         }
+    }
+    public function pending_transactions()
+    {
+        $data['user'] = $user = Auth::user();
+        $data['active'] = 'transactions';
+        $data['transactions'] = $transactions =  DuplicateTransaction::where('user_id', $user->id)->latest()->get();
+      
+        return view('dashboard.pending_transactions', $data);
+        
     }
     public function upgrade($id)
     {

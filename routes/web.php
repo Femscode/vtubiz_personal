@@ -93,6 +93,9 @@ Route::middleware(['auth'])->group(function () {
     // Route::any('make_transfer', [HomeController::class, 'make_transfer'])->name('make_transfer');
 
     Route::get('resend_verification', [App\Http\Controllers\HomeController::class, 'resend_verification'])->name('resend_verification');
+    Route::get('pending_transactions', [BusinessController::class, 'pending_transactions'])->name('pending_transactions');
+    Route::any('/admin_delete_duplicate/{type}/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_delete_duplicate'])->name('admin_delete_duplicate');
+  
     Route::get('transactions', [App\Http\Controllers\HomeController::class, 'transactions'])->name('transactions');
     Route::get('premium-bulksms_transactions', [App\Http\Controllers\HomeController::class, 'bulksms_transactions'])->name('bulksms_transactions');
     Route::get('analysis', [App\Http\Controllers\HomeController::class, 'analysis'])->name('analysis');

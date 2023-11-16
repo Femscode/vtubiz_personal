@@ -122,39 +122,7 @@ class SubscriptionController extends Controller
         return true;
         dd($duplicate);
     }
-    public function admin_delete_duplicate($type, $tranx_id)
-    {
-        $duplicate = DuplicateTransaction::find($tranx_id);
-        $user = User::find($duplicate->user_id);
-        // dd($user, $type,$duplicate);
-        if ($type == 'confirm') {
-            // dd($user);
-            $tranx =  Transaction::create([
-                'user_id' => $user->id,
-                'title' => $duplicate->title,
-                'reference' => 'data_purchase_' . Str::random(5),
-                'description' => $duplicate->details,
-                'before' => $user->balance,
-                'type' => 'debit',
-                'amount' => $duplicate->amount,
-                'status' => 1
-            ]);
-            $user->balance -= $duplicate->amount;
-            $user->total_spent += $duplicate->amount;
-            $user->save();
-            $tranx->after = $user->balance;
-            $tranx->save();
-            //delete duplicate
-            $duplicate->delete();
-            return redirect()->route('duplicate_transactions')->with('message', 'Duplicate confirmed successfully!');
-            return true;
-        } else {
-            $duplicate->delete();
-            return redirect()->route('duplicate_transactions')->with('message', 'Duplicate deleted successfully!');
-        }
 
-        dd($duplicate);
-    }
     public function buydata(Request $request)
     {
         $user = Auth::user();
@@ -438,7 +406,7 @@ class SubscriptionController extends Controller
         $group = DataGroup::where('uid', $request->group_id)->first();
         $recipients = DataRecipient::where('group_id', $group->id)->get();
         $total_amount = $recipients->sum('amount');
-        if($total_amount > $user->balance) {
+        if ($total_amount > $user->balance) {
             $response = [
                 'success' => false,
                 'message' => 'Insufficient balance to process transaction!',
@@ -446,7 +414,6 @@ class SubscriptionController extends Controller
             ];
 
             return response()->json($response);
-
         }
 
         $purchase_status = [];
@@ -455,7 +422,7 @@ class SubscriptionController extends Controller
             // dd($reci, $response);
             if (is_object($response) && method_exists($response, 'getData')) {
                 $responseData = $response->getData();
-            
+
                 if (is_object($responseData) && property_exists($responseData, 'success') && $responseData->success === false) {
                     if (!is_object($response) || !property_exists($responseData, 'type') || $responseData->type === 'duplicate') {
                         $response = [
@@ -490,7 +457,7 @@ class SubscriptionController extends Controller
         $group = AirtimeGroup::where('uid', $request->group_id)->first();
         $recipients = AirtimeRecipient::where('group_id', $group->id)->get();
         $total_amount = $recipients->sum('amount');
-        if($total_amount > $user->balance) {
+        if ($total_amount > $user->balance) {
             $response = [
                 'success' => false,
                 'message' => 'Insufficient balance to process transaction!',
@@ -498,7 +465,6 @@ class SubscriptionController extends Controller
             ];
 
             return response()->json($response);
-
         }
 
         $purchase_status = [];
@@ -511,7 +477,7 @@ class SubscriptionController extends Controller
             // dd($reci, $response);
             if (is_object($response) && method_exists($response, 'getData')) {
                 $responseData = $response->getData();
-            
+
                 if (is_object($responseData) && property_exists($responseData, 'success') && $responseData->success === false) {
                     if (!is_object($response) || !property_exists($responseData, 'type') || $responseData->type === 'duplicate') {
                         $response = [
@@ -528,6 +494,48 @@ class SubscriptionController extends Controller
         }
         return response()->json($response);
         return redirect()->back()->with('message', 'Transaction Successful!');
+    }
+
+    public function admin_delete_duplicate($type, $tranx_id)
+    {
+        $duplicate = DuplicateTransaction::find($tranx_id);
+        $user = User::find($duplicate->user_id);
+        // dd($user, $type,$duplicate);
+        if (Auth::user()->id == $user->id || Auth::user()->email == 'fasanyafemi@gmail.com') {
+
+
+            if ($type == 'confirm') {
+                // dd($user);
+                $tranx =  Transaction::create([
+                    'user_id' => $user->id,
+                    'title' => $duplicate->title,
+                    'reference' => 'data_purchase_' . Str::random(5),
+                    'description' => $duplicate->details,
+                    'before' => $user->balance,
+                    'type' => 'debit',
+                    'amount' => $duplicate->amount,
+                    'status' => 1
+                ]);
+                $user->balance -= $duplicate->amount;
+                $user->total_spent += $duplicate->amount;
+                $user->save();
+                $tranx->after = $user->balance;
+                $tranx->save();
+                //delete duplicate
+                $duplicate->delete();
+                return redirect()->back()->with('message', 'Duplicate confirmed successfully!');
+                return true;
+            } else {
+                if ($user->email == 'fasanyafemi@gmail.com') {
+                    $duplicate->delete();
+                    return redirect()->back()->with('message', 'Duplicate deleted successfully!');
+                } else {
+                    return redirect()->back()->with('message', 'Access Denied!');
+                }
+            }
+        } else {
+            return redirect()->back()->with('message', 'Access Denied');
+        }
     }
     public function redo_transaction(Request $request)
     {
@@ -570,24 +578,24 @@ class SubscriptionController extends Controller
             }
 
             //check duplicate
-          
-       
+
+
             $details =  "Airtime Purchase of " . $tranx->amount . " on " . $tranx->phone_number;
-            $check = $this->check_duplicate('check', $user->id,$tranx->amount,"Airtime Purchase",$details);
-           
+            $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details);
+
             if ($check[0] == true) {
                 $response = [
                     'type' => 'duplicate',
                     'success' => false,
-                    'message' => 'Please confirm the success of '.$check[1]->details. ' before resuming service usage.',
+                    'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
                     'auto_refund_status' => 'Nil'
                 ];
-    
+
                 return response()->json($response);
             }
             //purchase the airtime
-            $env = User::where('email','fasanyafemi@gmail.com')->first()->font_family;
-           
+            $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
+
             //purchase the data
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -607,7 +615,7 @@ class SubscriptionController extends Controller
                     'client_reference' => 'buy_airtime_' . Str::random(7), //update this on your script to receive webhook notifications
                 ),
                 CURLOPT_HTTPHEADER => array(
-                    "AuthorizationToken: " .$env, //replace this with your authorization_token
+                    "AuthorizationToken: " . $env, //replace this with your authorization_token
                     "cache-control: no-cache"
                 ),
             ));
@@ -661,7 +669,7 @@ class SubscriptionController extends Controller
             $data_price =  $data->admin_price;
             $real_dataprice = $data->data_price;
 
-            
+
             // dd($data_price, $real_dataprice, $data->data_price);
             //check balance
             if ($user->balance < $data_price) {
@@ -1235,22 +1243,22 @@ class SubscriptionController extends Controller
         }
 
         //check duplicate
-       
+
         $details =  "Airtime Purchase of " . $request->amount . " on " . $phone_number;
-        $check = $this->check_duplicate('check', $user->id,$request->amount,"Airtime Purchase",$details);
-       
+        $check = $this->check_duplicate('check', $user->id, $request->amount, "Airtime Purchase", $details);
+
         if ($check[0] == true) {
             $response = [
                 'type' => 'duplicate',
                 'success' => false,
-                'message' => 'Please confirm the success of '.$check[1]->details. ' before resuming service usage.',
+                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
                 'auto_refund_status' => 'Nil'
             ];
 
             return response()->json($response);
         }
         //purchase the airtime
-       
+
         //purchase the airtime
         $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
         $curl = curl_init();
@@ -1325,23 +1333,23 @@ class SubscriptionController extends Controller
         }
 
         //check duplicate
-       
+
         $details =  "Airtime Purchase of " . $amount . " on " . $phone;
-        $check = $this->check_duplicate('check', $user->id,$amount,"Airtime Purchase",$details);
-       
+        $check = $this->check_duplicate('check', $user->id, $amount, "Airtime Purchase", $details);
+
         if ($check[0] == true) {
             $response = [
                 'type' => 'duplicate',
                 'success' => false,
-                'message' => 'Please confirm the success of '.$check[1]->details. ' before resuming service usage.',
+                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
                 'auto_refund_status' => 'Nil'
             ];
 
             return response()->json($response);
         }
         //purchase the airtime
-        $env = User::where('email','fasanyafemi@gmail.com')->first()->font_family;
-       
+        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
+
         //purchase the airtime
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -1802,7 +1810,7 @@ class SubscriptionController extends Controller
                 'reference' => $request->reference, //You can also enter your client_reference here only for data and airtime transactions.
             ),
             CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " .$env, //replace this with your authorization_token
+                "AuthorizationToken: " . $env, //replace this with your authorization_token
                 "cache-control: no-cache"
             ),
         ));
