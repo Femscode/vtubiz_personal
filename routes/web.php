@@ -171,6 +171,7 @@ Route::middleware(['auth'])->group(function () {
     Route::any('/reset-pin-with-token', [App\Http\Controllers\UserController::class, 'resetPinWithToken'])->name('reset-pin-with-token');
     Route::any('/reset-forgot-pin', [App\Http\Controllers\UserController::class, 'resetforgotpin'])->name('reset-forgot-pin');
     Route::any('/print_transaction_receipt/{id}', [App\Http\Controllers\UserController::class, 'print_transaction_receipt'])->name('print_transaction_receipt');
+    Route::get('/view_details/{id}', [BulkSMSController::class, 'viewDetails'])->name('view_details');
 
     // Email Verification Routes...
     Route::get('/email/verify', function () {

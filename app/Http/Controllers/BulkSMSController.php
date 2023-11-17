@@ -59,8 +59,14 @@ class BulkSMSController extends Controller
         // return the contact group page
         $data['user'] = $user = Auth::user();
         $data['transaction'] = $contact = Transaction::find($id);
+        if ($user->id == $contact->user_id) {
+            $data['active'] = 'bulksms';
+          
+            return view('dashboard.view_details', $data);
+        } else {
+            return redirect()->back()->with('message', 'Access Denied!');
+        }
 
-        return view('bulksms.view_details', $data);
     }
     public function transactions()
     {
