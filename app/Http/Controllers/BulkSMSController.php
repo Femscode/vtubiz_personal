@@ -47,6 +47,10 @@ class BulkSMSController extends Controller
         // return the contact group page
         $data['user'] = $user = Auth::user();
         $data['contact'] = $contact = ContactGroup::find($id);
+        $user = Auth::user();
+        if($user->id !== $contact->user_id) {
+            return redirect()->back()->with('message','Access Denied');
+        }
         if ($contact->type == 'import') {
             $data['contacts'] = implode(',', unserialize($contact->contacts));
         } else {
@@ -140,6 +144,10 @@ class BulkSMSController extends Controller
     {
         // function to delete created contact group.
         $contact = ContactGroup::find($id);
+        $user = Auth::user();
+        if($user->id !== $contact->user_id) {
+            return redirect()->back()->with('message','Access Denied');
+        }
         $contact->delete();
         return redirect()->back()->with("message", "Contact group deleted succcesfully!");
     }
@@ -488,6 +496,10 @@ class BulkSMSController extends Controller
     {
         $tranx = Transaction::find($id);
         // dd($tranx);
+        $user = Auth::user();
+        if($user->id !== $tranx->user_id) {
+            return redirect()->back()->with('message','Access Denied');
+        }
         $the_work = $this->sendSMS($tranx->sender, $tranx->recipient, $tranx->message, $tranx->amount, $tranx->message_type);
 
         if ($the_work == true) {

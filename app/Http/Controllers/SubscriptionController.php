@@ -564,7 +564,7 @@ class SubscriptionController extends Controller
 
                 return response()->json($response);
             }
-            $actual_price = Airtime::where('network', $tranx->network)->first()->actual_price;
+            $actual_price = Airtime::where('user_id',$user->company_id)->where('network', $tranx->network)->first()->actual_price;
             $real_airtimeprice = $tranx->real_amount - ($actual_price / 100) * $tranx->real_amount;
             // dd($real_airtimeprice, $tranx->amount, $tranx->real_amount);
             if ($user->balance < $tranx->amount) {
@@ -695,7 +695,7 @@ class SubscriptionController extends Controller
 
             $details = $network . " Data Purchase of " . $data->plan_name . " on " . $tranx->phone_number;
 
-            $check = $this->check_duplicate('check', $user->id, $data->data_price, "Data Purchase", $details);
+            $check = $this->check_duplicate('check', $user->id, $data_price, "Data Purchase", $details);
 
             if ($check[0] == true) {
                 $response = [
@@ -752,7 +752,7 @@ class SubscriptionController extends Controller
                 $reference = 'failed_data_' . Str::random(5);
                 $details =   $data->plan_name . " (" . $data->network . ")" . " data purchase on " . $request->phone_number;
 
-                $this->create_transaction('Data Purchase', $reference, $details, 'debit', $data->data_price, $user->id, 0, $real_dataprice);
+                $this->create_transaction('Data Purchase', $reference, $details, 'debit', $data_price, $user->id, 0, $real_dataprice);
             }
             $this->check_duplicate("Delete", $user->id);
 
