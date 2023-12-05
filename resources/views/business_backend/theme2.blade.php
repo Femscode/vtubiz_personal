@@ -633,7 +633,7 @@
                                         @foreach($mtn as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -664,7 +664,7 @@
                                         @foreach($glo as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -695,7 +695,7 @@
                                         @foreach($airtel as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -727,7 +727,7 @@
                                         @foreach($nmobile as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
