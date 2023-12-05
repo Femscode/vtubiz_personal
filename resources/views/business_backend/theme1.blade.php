@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <title>{{ $user->brand_name }} | Home </title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Startbox">
+    <meta name="description" content="VTUBIZ">
     <meta name="author" content="RunWebRun">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- Favicon-->
     <link rel="icon" type="image/png" href="https://vtubiz.com/public/brand_images/{{ $user->logo }}"><!-- Fonts-->

@@ -47,10 +47,10 @@ class BusinessController extends Controller
         if ($user) {
             $id = $user->selected_theme;
 
-            $data['mtn'] = Data::where('network', 1)->orderBy('data_price')->take(20)->get();
-            $data['glo'] = Data::where('network', 2)->orderBy('data_price')->take(20)->get();
-            $data['airtel'] = Data::where('network', 3)->orderBy('data_price')->take(20)->get();
-            $data['nmobile'] = Data::where('network', 4)->orderBy('data_price')->take(20)->get();
+            $data['mtn'] = Data::where('network', 1)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
+            $data['glo'] = Data::where('network', 2)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
+            $data['airtel'] = Data::where('network', 3)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
+            $data['nmobile'] = Data::where('network', 4)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
             $view = "business_backend.theme" . $id;
             return view($view, $data);
         } else {

@@ -91,7 +91,6 @@ class FundingController extends Controller
             if ($user->user_type == 'admin') {
                 return view('business_backend.direct_transfer', $data);
             }
-
             return view('dashboard.direct_transfer', $data);
         }
         // dd($request->all(), $request->amount/100);
