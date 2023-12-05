@@ -14,24 +14,25 @@ use Illuminate\Support\Facades\Http;
 trait TransactionTrait
 {
    
-    public function check_duplicate($type, $user_id, $amount = null, $title = null, $details = null)
+    public function check_duplicate($type, $user_id, $amount = null, $title = null, $details = null, $reference = null)
     {
         if ($type == 'check') {
 
             $duplicate = DuplicateTransaction::where('user_id', $user_id)->first();
             // dd($duplicate);
             if ($duplicate !== null) {
-                return [true,$duplicate];
+                return [true, $duplicate];
             }
-           
+
             $duplicate = DuplicateTransaction::create([
                 'user_id' => $user_id,
                 'title' => $title,
                 'details' => $details,
-                'amount' => $amount
+                'amount' => $amount,
+                'reference' => $reference
             ]);
-          
-            return [false,$duplicate];
+
+            return [false, $duplicate];
         } else {
             $duplicate = DuplicateTransaction::where('user_id', $user_id)->first();
             $duplicate->delete();
@@ -178,7 +179,7 @@ trait TransactionTrait
     }
 
 
-    public function create_transaction($title, $reference, $details, $type, $amount, $user, $status, $real_dataprice = null)
+    public function create_transaction($title, $reference, $details, $type, $amount, $user, $status, $real_dataprice = null, $phone_number = null, $network = null, $plan_id = null)
     {
         //    dd($title, $details, $type, intval($amount),intval($user),$name);
         $r_user = User::find($user);
@@ -203,48 +204,40 @@ trait TransactionTrait
             $tranx->status = 1;
             $tranx->save();
         } elseif ($title == 'Data Purchase') {
-
-            if ($status == 1) {
-                $r_user->balance -= $amount;
-                $r_user->total_spent += $amount;
-                $r_user->save();
-                $profit = $amount - floatval($real_dataprice);
-                $company->balance += $profit;
-                $company->save();
-                $tranx->after = $r_user->balance;
-                $tranx->admin_after = $company->balance;
-                $tranx->save();
-                return $tranx->id;
-            } else {
-                $tranx->description = "Failed Transaction : " . $tranx->description;
-                $tranx->after = $r_user->balance;
-                $tranx->admin_after = $company->balance;
-                $r_user->save();
-                $tranx->save();
-            }
+            $tranx->real_amount = $real_dataprice;
+            $tranx->phone_number = $phone_number;
+            $tranx->network = $network;
+            $tranx->plan_id = $plan_id;
+            $tranx->save();
+            return $tranx->id;
+        } elseif ($title == 'Airtime Purchase') {
+            $company = User::where('id', $r_user->company_id)->first();
+            $tranx->discounted_amount = $real_dataprice;
+            $tranx->phone_number = $phone_number;
+            $tranx->network = $network;
+            $tranx->real_amount = $plan_id;
+            $tranx->save();
+            return $tranx->id;
         } elseif ($title == 'Manual Funding') {
 
             $r_user->balance += $amount;
-          
+
 
             $r_user->save();
             $tranx->after = $r_user->balance;
 
             $tranx->status = 1;
             $tranx->save();
-        }
-        elseif ($title == 'Admin Fund User') {
+        } elseif ($title == 'Admin Fund User') {
 
             $r_user->balance -= $amount;
-         
+
             $r_user->save();
             $tranx->after = $r_user->balance;
 
             $tranx->status = 1;
             $tranx->save();
-        }
-        
-        elseif ($title == 'Payment Received') {
+        } elseif ($title == 'Payment Received') {
 
             $r_user->balance += $amount;
 
@@ -312,27 +305,6 @@ trait TransactionTrait
             }
 
             return $tranx->id;
-        } elseif ($title == 'Airtime Purchase') {
-
-            $company = User::where('id', $r_user->company_id)->first();
-            if ($status == 1) {
-                $r_user->balance -= $amount;
-                $r_user->total_spent += $amount;
-                $r_user->save();
-                $profit = $amount - floatval($real_dataprice);
-                $company->balance += $profit;
-                $company->save();
-                $tranx->after = $r_user->balance;
-                $tranx->admin_after = $company->balance;
-                $tranx->save();
-                return $tranx->id;
-            } else {
-                $tranx->description = "Failed Transaction : " . $tranx->description;
-                $tranx->after = $r_user->balance;
-                $tranx->admin_after = $company->balance;
-                $r_user->save();
-                $tranx->save();
-            }
         } elseif ($title == 'Cable Subscription') {
 
             $company = User::where('id', $r_user->company_id)->first();
@@ -441,6 +413,7 @@ trait TransactionTrait
                 'network' => $network,
                 'discounted_amount' => $discounted_amount,
                 'amount' => $amount,
+                'real_amount' => $amount,
 
                 'date' => $date,
                 'time' => $time,
@@ -513,5 +486,163 @@ trait TransactionTrait
         // return true;
         // dd($title,$reference,$details,$user_id,$phone,$network,$discounted_amount,$amount,$date,$time);
 
+    }
+
+    public function run_schedule_purchase()
+    {
+        // dd($request->all());
+        $currentDate = Carbon::now()->toDateString();
+        $currentTime = Carbon::now()->toTimeString();
+
+
+        $schedules = SchedulePurchase::where('status', 0)
+            ->whereDate('date', $currentDate)
+            ->whereTime('time', '>=', Carbon::parse($currentTime)->subMinutes(35))
+            ->whereTime('time', '<=', $currentTime)
+            ->get();
+        // dd($schedules);
+        foreach ($schedules as $schedule) {
+            $tranx = Transaction::find($schedule->transaction_id);
+            $user = User::find($tranx->user_id);
+            if ($schedule->title == 'Data Purchase') {
+                $data = Data::where('user_id', $user->company_id)->where('plan_id', $tranx->plan_id)->where('network', $tranx->network)->first();
+                // dd($data);
+                if ($data == null) {
+                    $tranx->status = 0;
+                    $tranx->save();
+                    $schedule->status = 2;
+                    $schedule->save();
+                    //in the future, there should be a mail notification here
+                    return false;
+                }
+                $data_price =  $data->admin_price;
+                $real_dataprice = $data->data_price;
+                if ($user->balance < $data_price) {
+                    $tranx->status = 0;
+                    $tranx->save();
+                    $schedule->status = 2;
+                    $schedule->save();
+                    //in the future, there should be a mail notification here
+                    return false;
+                }
+
+                if ($data->network == 1) {
+                    $network = 'MTN';
+                } elseif ($data->network == 2) {
+                    $network = 'GLO';
+                } elseif ($data->network == 3) {
+                    $network = "Airtel";
+                } else {
+                    $network = "9Mobile";
+                }
+
+                $details = $network . " Data Purchase of " . $data->plan_name . " on " . $tranx->phone_number;
+                $client_reference =  'buy_data_' . Str::random(7);
+
+                // $check = $this->check_duplicate('check', $user->id, $data->data_price, "Data Purchase", $details, $client_reference);
+
+                // if ($check[0] == true) {
+                //     $tranx->status = 0;
+                //     $tranx->save();
+                //     $schedule->status = 2;
+                //     $schedule->save();
+
+                //     return false;
+                // }
+
+                $trans_id = $this->create_transaction('Data Purchase', $client_reference, $details, 'debit', $data_price, $user->id, 2, $real_dataprice, $tranx->phone_number, $tranx->network, $tranx->plan_id);
+
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => array(
+                        'network' => $tranx->network,
+                        'mobileno' => $tranx->phone_number,
+                        'dataplan' => $tranx->plan_id,
+                        'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                    ),
+                    CURLOPT_HTTPHEADER => array(
+                        "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                        "cache-control: no-cache"
+                    ),
+                ));
+                $schedule->status = 1;
+                $schedule->save();
+                $tranx->delete();
+                $response = curl_exec($curl);
+                curl_close($curl);
+                return true;
+            } elseif ($schedule->title == 'Airtime Purchase') {
+                $phone_number = $tranx->phone_number;
+                $actual_price = Airtime::where('user_id', $user->company_id)->where('network', $tranx->network)->first()->actual_price;
+                $real_airtimeprice = $tranx->real_amount - ($actual_price / 100) * $tranx->real_amount;
+                if ($user->balance < $tranx->amount) {
+                    $tranx->status = 0;
+                    $tranx->save();
+                    $schedule->status = 2;
+                    $schedule->save();
+                    //in the future, there should be a mail notification here
+                    return false;
+                }
+                $details =  "Airtime Purchase of " . $tranx->amount . " on " . $tranx->phone_number;
+                $client_reference =  'buy_airtime_' . Str::random(7);
+                // $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details, $client_reference);
+
+                // if ($check[0] == true) {
+                //     $tranx->status = 0;
+                //     $tranx->save();
+                //     $schedule->status = 2;
+                //     $schedule->save();
+                //     return false;
+                // }
+
+                $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $tranx->network, $tranx->real_amount);
+
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => array(
+                        'network' => $tranx->network,
+                        'mobileno' => $phone_number,
+                        'amount' => $tranx->amount,
+                        'airtime_type' => 001,
+                        'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                    ),
+                    CURLOPT_HTTPHEADER => array(
+                        "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                        "cache-control: no-cache"
+                    ),
+                ));
+                $response = curl_exec($curl);
+
+                $schedule->status = 1;
+                $schedule->save();
+                $tranx->delete;
+
+                curl_close($curl);
+                return true;
+            } else {
+                $tranx->status = 0;
+                $tranx->save();
+                $schedule->status = 2;
+                $schedule->save();
+                //in the future, there should be a mail notification here
+                return false;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Data;
 use App\Models\User;
 use App\Models\Cable;
@@ -123,271 +124,8 @@ class SubscriptionController extends Controller
         dd($duplicate);
     }
 
-    public function buydata(Request $request)
-    {
-        $user = Auth::user();
-        $company = User::where('id', $user->company_id)->first();
-        $phone_number = $request->phone_number;
-        if (strlen($request->phone_number) == 10) {
-            $phone_number = "0" . $request->phone_number;
-        }
-        $hashed_pin = hash('sha256', $request->pin);
-        if ($user->pin !== $hashed_pin) {
-            $response = [
-                'success' => false,
-                'message' => 'Incorrect Pin!',
-                'auto_refund_status' => 'Nil'
-            ];
+   
 
-            return response()->json($response);
-        }
-        // dd($request->all());
-        if ($request->has('selectedDate')) {
-            $reference = "schedule_purchase_data_" . Str::random(5);
-            $data = Data::where('user_id', $user->company_id)->where('plan_id', $request->plan)->where('network', $request->network)->first();
-            $data_price =  $data->admin_price;
-
-            $details = "Data Purchase of " . $data->{"plan_name_" . $company->id} . " on " . $request->phone_number;
-            $schedule_transaction = $this->create_schedule_transaction(
-                'Data Purchase',
-                $reference,
-                $details,
-                $user->id,
-                $request->phone_number,
-                $request->network,
-                $request->plan,
-                $data_price,
-
-            );
-            $schedule = $this->create_later_purchase(
-                'Data Purchase',
-                $reference,
-                $details,
-                $user->id,
-                $request->phone_number,
-                $request->network,
-                $request->plan,
-                $data_price,
-                $request->selectedDate,
-                $request->selectedTime,
-                $schedule_transaction
-            );
-
-
-            return "schedule_saved";
-        }
-        // dd($request->all());
-        $data = Data::where('user_id', $user->company_id)->where('plan_id', $request->plan)->where('network', $request->network)->first();
-        $data_price =  $data->admin_price;
-        $real_dataprice = $data->data_price;
-        if ($data == null) {
-            $response = [
-                'success' => false,
-                'message' => 'Invalid Plan!',
-                'auto_refund_status' => 'Nil'
-            ];
-
-            return response()->json($response);
-        }
-        //check balance
-        if ($user->balance < $data_price) {
-            $response = [
-                'success' => false,
-                'message' => 'Insufficient balance for the plan you want to get!',
-                'auto_refund_status' => 'Nil'
-            ];
-
-            return response()->json($response);
-        }
-        // dd($request->all(),$data_price, $real_dataprice, env('EASY_ACCESS_AUTH'));
-
-        //check duplicate
-        if ($data->network == 1) {
-            $network = 'MTN';
-        } elseif ($data->network == 2) {
-            $network = 'GLO';
-        } elseif ($data->network == 3) {
-            $network = "Airtel";
-        } else {
-            $network = "9Mobile";
-        }
-        $details = $network . " Data Purchase of " . $data->plan_name . " on " . $request->phone_number;
-        $check = $this->check_duplicate('check', $user->id, $data->data_price, "Data Purchase", $details);
-
-        if ($check[0] == true) {
-            $response = [
-                'type' => 'duplicate',
-                'success' => false,
-                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
-                'auto_refund_status' => 'Nil'
-            ];
-
-            return response()->json($response);
-        }
-        // dd($check);
-        //purchase the data
-        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
-
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => array(
-                'network' => $request->network,
-                'mobileno' => $phone_number,
-                'dataplan' => $request->plan,
-                'client_reference' => 'buy_data_' . Str::random(7), //update this on your script to receive webhook notifications
-            ),
-            CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " . $env, //replace this with your authorization_token
-                "cache-control: no-cache"
-            ),
-        ));
-        $response = curl_exec($curl);
-        $response_json = json_decode($response, true);
-
-        if ($response_json['success'] === "true") {
-            $details = $response_json['network'] . " Data Purchase of " . $response_json['dataplan'] . " on " . $request->phone_number;
-
-            $trans_id = $this->create_transaction('Data Purchase', $response_json['reference_no'], $details, 'debit', $data_price, $user->id, 1, $real_dataprice);
-            $transaction = Transaction::find($trans_id);
-            // $transaction->group_id = $group_id;
-            $transaction->phone_number = $phone_number;
-            $transaction->network = $request->network;
-            $transaction->plan_id = $request->plan;
-            $transaction->redo = 1;
-            $transaction->save();
-            // Transaction was successful
-            // Do something here
-        } else {
-            $reference = 'failed_data_' . Str::random(5);
-            $details =   $data->plan_name . " (" . $data->network . ")" . " data purchase on " . $request->phone_number;
-
-            $this->create_transaction('Data Purchase', $reference, $details, 'debit', $data->data_price, $user->id, 0);
-        }
-        $this->check_duplicate("Delete", $user->id);
-
-        curl_close($curl);
-        return $response;
-    }
-
-    private function handle_buy_data($phone, $network, $plan_id, $group_id = null)
-    {
-        // dd($phone, $network, $plan_id);
-        $user = Auth::user();
-        $company = User::where('id', $user->company_id)->first();
-
-        $phone_number = $phone;
-        if (strlen($phone) == 10) {
-            $phone_number = "0" . $phone;
-        }
-
-        $data = Data::where('user_id', $user->company_id)->where('plan_id', $plan_id)->where('network', $network)->first();
-        $data_price =  $data->admin_price;
-        $real_dataprice = $data->data_price;
-        if ($data == null) {
-            $response = [
-                'success' => false,
-                'message' => 'Invalid Plan!',
-                'auto_refund_status' => 'Nil'
-            ];
-
-            return response()->json($response);
-        }
-        //check balance
-        if ($user->balance < $data_price) {
-            $response = [
-                'success' => false,
-                'message' => 'Insufficient balance for the plan you want to get!',
-                'auto_refund_status' => 'Nil'
-            ];
-
-            return response()->json($response);
-        }
-        // dd($request->all(),$data_price, $real_dataprice, env('EASY_ACCESS_AUTH'));
-
-        //check duplicate
-        if ($data->network == 1) {
-            $network_mi = 'MTN';
-        } elseif ($data->network == 2) {
-            $network_mi = 'GLO';
-        } elseif ($data->network == 3) {
-            $network_mi = "Airtel";
-        } else {
-            $network_mi = "9Mobile";
-        }
-        $details = $network_mi . " Data Purchase of " . $data->plan_name . " on " . $phone;
-        $check = $this->check_duplicate('check', $user->id, $data->data_price, "Data Purchase", $details);
-
-        if ($check[0] == true) {
-            $response = [
-                'type' => 'duplicate',
-                'success' => false,
-                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
-                'auto_refund_status' => 'Nil'
-            ];
-
-            return response()->json($response);
-        }
-
-        //purchase the data
-        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
-
-        //purchase the data
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => array(
-                'network' => $network,
-                'mobileno' => $phone_number,
-                'dataplan' => $plan_id,
-                'client_reference' => 'buy_data_' . Str::random(7), //update this on your script to receive webhook notifications
-            ),
-            CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " . $env, //replace this with your authorization_token
-                "cache-control: no-cache"
-            ),
-        ));
-        $response = curl_exec($curl);
-        $response_json = json_decode($response, true);
-
-        if ($response_json['success'] === "true") {
-            $details = $response_json['network'] . " Data Purchase of " . $response_json['dataplan'] . " on " . $phone;
-
-            $trans_id = $this->create_transaction('Data Purchase', $response_json['reference_no'], $details, 'debit', $data_price, $user->id, 1, $real_dataprice);
-            $transaction = Transaction::find($trans_id);
-            $transaction->group_id = $group_id;
-            $transaction->phone_number = $phone;
-            $transaction->network = $network;
-            $transaction->plan_id = $plan_id;
-            $transaction->redo = 1;
-            $transaction->save();
-            // Transaction was successful
-            // Do something here
-        } else {
-            $reference = 'failed_data_' . Str::random(5);
-            $details =   $data->plan_name . " (" . $data->network . ")" . " data purchase on " . $phone;
-
-            $this->create_transaction('Data Purchase', $reference, $details, 'debit', $data->data_price, $user->id, 0);
-        }
-        $this->check_duplicate("Delete", $user->id);
-
-        curl_close($curl);
-        return $response_json;
-    }
 
     public function admin_rechargeGroup(Request $request)
     {
@@ -537,9 +275,32 @@ class SubscriptionController extends Controller
             return redirect()->back()->with('message', 'Access Denied');
         }
     }
-    public function redo_transaction(Request $request)
+  
+
+    public function notify(Request $request)
     {
+
+        $check = ComingSoon::where('email', $request->email)->first();
+        if ($check) {
+            return redirect()->back()->with('message', 'Email address already included in the waiting list, thanks for your anticipation!');
+        } else {
+            ComingSoon::create(['email' => $request->email]);
+            return redirect()->back()->with('message', 'Email address included in the waiting list, thanks for your anticipation!');
+        }
+    }
+  
+   
+    public function buydata(Request $request)
+    {
+
+
         $user = Auth::user();
+        $company = User::where('id', $user->company_id)->first();
+
+        $phone_number = $request->phone_number;
+        if (strlen($request->phone_number) == 10) {
+            $phone_number = "0" . $request->phone_number;
+        }
         $hashed_pin = hash('sha256', $request->pin);
         if ($user->pin !== $hashed_pin) {
             $response = [
@@ -547,296 +308,565 @@ class SubscriptionController extends Controller
                 'message' => 'Incorrect Pin!',
                 'auto_refund_status' => 'Nil'
             ];
+
             return response()->json($response);
         }
-        $tranx = Transaction::find($request->transaction_id);
-        if ($tranx->title == "Airtime Purchase") {
-            $phone_number = $tranx->phone_number;
-            $company = User::where('id', $user->company_id)->first();
-
-            $hashed_pin = hash('sha256', $request->pin);
-            if ($user->pin !== $hashed_pin) {
-                $response = [
-                    'success' => false,
-                    'message' => 'Incorrect Pin!',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-            $actual_price = Airtime::where('user_id',$user->company_id)->where('network', $tranx->network)->first()->actual_price;
-            $real_airtimeprice = $tranx->real_amount - ($actual_price / 100) * $tranx->real_amount;
-            // dd($real_airtimeprice, $tranx->amount, $tranx->real_amount);
-            if ($user->balance < $tranx->amount) {
-                $response = [
-                    'success' => false,
-                    'message' => 'Insufficient Balance for airtime you want to get!',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-
-            //check duplicate
-
-
-            $details =  "Airtime Purchase of " . $tranx->amount . " on " . $tranx->phone_number;
-            $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details);
-
-            if ($check[0] == true) {
-                $response = [
-                    'type' => 'duplicate',
-                    'success' => false,
-                    'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-            //purchase the airtime
-            $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
-
-            //purchase the data
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => array(
-                    'network' => $tranx->network,
-                    'mobileno' => $phone_number,
-                    'amount' => $tranx->real_amount,
-                    'airtime_type' => 001,
-                    'client_reference' => 'buy_airtime_' . Str::random(7), //update this on your script to receive webhook notifications
-                ),
-                CURLOPT_HTTPHEADER => array(
-                    "AuthorizationToken: " . $env, //replace this with your authorization_token
-                    "cache-control: no-cache"
-                ),
-            ));
-            $response = curl_exec($curl);
-            $response_json = json_decode($response, true);
-
-            if ($response_json['success'] === "true") {
-                $details = $response_json['network'] . " Airtime Purchase of NGN" . $tranx->real_amount . " on " . $phone_number;
-                $trans_id = $this->create_transaction('Airtime Purchase', $response_json['reference_no'], $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice);
-                $transaction = Transaction::find($trans_id);
-                $transaction->phone_number = $phone_number;
-                $transaction->network = $tranx->network;
-                $transaction->discounted_amount = $tranx->discounted_amount;
-                $transaction->redo = 1;
-                $transaction->save();
-                // Transaction was successful
-                // Do something here
-            } else {
-                $reference = 'failed_airtime_' . Str::random(5);
-                $details = "Airtime Purchase of NGN" . $tranx->amount . " on " . $tranx->phone_number;
-                $this->create_transaction('Airtime Purchase', $reference, $response_json['message'], 'debit', $tranx->discounted_amount, $user->id, 0, $real_airtimeprice);
-            }
-            $this->check_duplicate("Delete", $user->id);
-
-            curl_close($curl);
-            return $response;
-        } elseif ($tranx->title == "Data Purchase") {
-            $phone_number = $tranx->phone_number;
-            $company = User::where('id', $user->company_id)->first();
-            $hashed_pin = hash('sha256', $request->pin);
-            if ($user->pin !== $hashed_pin) {
-                $response = [
-                    'success' => false,
-                    'message' => 'Incorrect Pin!',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-
-            $data = Data::where('user_id', $user->company_id)->where('plan_id', $tranx->plan_id)->where('network', $tranx->network)->first();
-            if ($data == null) {
-                $response = [
-                    'success' => false,
-                    'message' => 'Invalid Plan!',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
+        // dd($request->all());
+        if ($request->has('selectedDate')) {
+            $reference = "schedule_purchase_data_" . Str::random(5);
+            $data = Data::where('user_id', $user->company_id)->where('plan_id', $request->plan)->where('network', $request->network)->first();
             $data_price =  $data->admin_price;
-            $real_dataprice = $data->data_price;
+
+            $details = "Data Purchase of " . $data->data_price . " on " . $request->phone_number;
+            $schedule_transaction = $this->create_schedule_transaction(
+                'Data Purchase',
+                $reference,
+                $details,
+                $user->id,
+                $request->phone_number,
+                $request->network,
+                $request->plan,
+                $data_price,
+
+            );
+            $schedule = $this->create_later_purchase(
+                'Data Purchase',
+                $reference,
+                $details,
+                $user->id,
+                $request->phone_number,
+                $request->network,
+                $request->plan,
+                $data_price,
+                $request->selectedDate,
+                $request->selectedTime,
+                $schedule_transaction
+            );
 
 
-            // dd($data_price, $real_dataprice, $data->data_price);
-            //check balance
-            if ($user->balance < $data_price) {
-                $response = [
-                    'success' => false,
-                    'message' => 'Insufficient balance for the plan you want to get!',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-
-            //check duplicate
-            if ($data->network == 1) {
-                $network = 'MTN';
-            } elseif ($data->network == 2) {
-                $network = 'GLO';
-            } elseif ($data->network == 3) {
-                $network = "Airtel";
-            } else {
-                $network = "9Mobile";
-            }
-
-            $details = $network . " Data Purchase of " . $data->plan_name . " on " . $tranx->phone_number;
-
-            $check = $this->check_duplicate('check', $user->id, $data_price, "Data Purchase", $details);
-
-            if ($check[0] == true) {
-                $response = [
-                    'type' => 'duplicate',
-                    'success' => false,
-                    'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-
-            //purchase the data
-            $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
-
-            //purchase the data
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => array(
-                    'network' => $tranx->network,
-                    'mobileno' => $phone_number,
-                    'dataplan' => $tranx->plan_id,
-                    'client_reference' => 'buy_data_' . Str::random(7), //update this on your script to receive webhook notifications
-                ),
-                CURLOPT_HTTPHEADER => array(
-                    "AuthorizationToken: " . $env, //replace this with your authorization_token
-                    "cache-control: no-cache"
-                ),
-            ));
-            $response = curl_exec($curl);
-            $response_json = json_decode($response, true);
-
-            if ($response_json['success'] === "true") {
-                $details = $response_json['network'] . " Data Purchase of " . $response_json['dataplan'] . " on " . $phone_number;
-
-                $trans_id = $this->create_transaction('Data Purchase', $response_json['reference_no'], $details, 'debit', $data_price, $user->id, 1, $real_dataprice);
-                $transaction = Transaction::find($trans_id);
-                $transaction->phone_number = $phone_number;
-                $transaction->network = $tranx->network;
-                $transaction->plan_id = $tranx->plan_id;
-                $transaction->redo = 1;
-                $transaction->save();
-                // Transaction was successful
-                // Do something here
-            } else {
-                $reference = 'failed_data_' . Str::random(5);
-                $details =   $data->plan_name . " (" . $data->network . ")" . " data purchase on " . $request->phone_number;
-
-                $this->create_transaction('Data Purchase', $reference, $details, 'debit', $data_price, $user->id, 0, $real_dataprice);
-            }
-            $this->check_duplicate("Delete", $user->id);
-
-            curl_close($curl);
-            return $response;
-        } elseif ($tranx->title == 'Cable Subscription') {
-        } elseif ($tranx->title == 'Electricity Payment') {
-            $company = User::where('id', $user->company_id)->first();
-            // dd($request->all(),$discounted_amount);
-            if ($user->balance < $tranx->discounted_amount) {
-                $response = [
-                    'success' => false,
-                    'message' => 'Insufficient balance for the plan you want to get!',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-
-            //check duplicate
-            $check = $this->check_duplicate('check', $user->id);
-            if ($check == true) {
-                $response = [
-                    'success' => false,
-                    'message' => 'Duplicate transactions, please try again in few more minuetes!',
-                    'auto_refund_status' => 'Nil'
-                ];
-
-                return response()->json($response);
-            }
-            //purchase the data
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://easyaccessapi.com.ng/api/payelectricity.php",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => array(
-                    'company' => $tranx->company,
-                    'metertype' => $tranx->meter_type,
-                    'meterno' => $tranx->meter_number,
-                    'amount' => $tranx->discounted_amount,
-                ),
-                CURLOPT_HTTPHEADER => array(
-                    "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
-                    "cache-control: no-cache"
-                ),
-            ));
-            $response = curl_exec($curl);
-            $response_json = json_decode($response, true);
-
-            if ($response_json['success'] === "true") {
-                file_put_contents(__DIR__ . '/electricitylog.txt', json_encode($response_json, JSON_PRETTY_PRINT), FILE_APPEND);
-
-                $details = "Payment for " . $response_json['message']['content']['transactions']['product_name'] . ", Meter No: " . $request->meter_number . ". Amount : NGN" . $tranx->amount . " " . $response_json['message']['purchased_code'];
-                $this->create_transaction('Electricity Payment', $response_json['message']['requestId'], $details, 'debit', $tranx->amount, $user->id, 1);
-
-                // Transaction was successful
-                // Do something here
-            } else {
-
-                $details = "Failed Electricity Payment, amount: " . $amount;
-                $reference = 'failed_electricity_' . Str::random(10);
-                $this->create_transaction('Electricity Payment', $reference, $details, 'debit', $amount, $user->id, 0);
-            }
-            $this->check_duplicate("Delete", $user->id);
-
-            curl_close($curl);
-            return $response;
-        } else {
+            return "schedule_saved";
+        }
+        // dd($request->all());
+        $data = Data::where('user_id', $user->company_id)->where('plan_id', $request->plan)->where('network', $request->network)->first();
+        $data_price =  $data->admin_price;
+        $real_dataprice = $data->data_price;
+        if ($data == null) {
             $response = [
                 'success' => false,
-                'message' => 'Invalid Transaction!',
+                'message' => 'Invalid Plan!',
                 'auto_refund_status' => 'Nil'
             ];
+
+            return response()->json($response);
+        }
+        //check balance
+        if ($user->balance < $data_price) {
+            $response = [
+                'success' => false,
+                'message' => 'Insufficient balance for the plan you want to get!',
+                'auto_refund_status' => 'Nil'
+            ];
+
+            return response()->json($response);
+        }
+        // dd($request->all(),$data_price, $real_dataprice, env('EASY_ACCESS_AUTH'));
+
+        //check duplicate
+        if ($data->network == 1) {
+            $network = 'MTN';
+        } elseif ($data->network == 2) {
+            $network = 'GLO';
+        } elseif ($data->network == 3) {
+            $network = "Airtel";
+        } else {
+            $network = "9Mobile";
+        }
+        $details = $network . "Data Purchase of " . $data->plan_name . " on " . $request->phone_number;
+        $client_reference =  'buy_data_' . Str::random(7);
+        // $check = $this->check_duplicate('check', $user->id, $data_price, "Data Purchase", $details, $client_reference);
+
+        // if ($check[0] == true) {
+        //     $response = [
+        //         'type' => 'duplicate',
+        //         'success' => false,
+        //         'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
+        //         'auto_refund_status' => 'Nil'
+        //     ];
+
+        //     return response()->json($response);
+        // }
+        // dd($check);
+        //purchase the data
+        //just to replace env
+        $trans_id = $this->create_transaction('Data Purchase', $client_reference, $details, 'debit', $data_price, $user->id, 2, $real_dataprice, $phone_number, $request->network, $request->plan);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => array(
+                'network' => $request->network,
+                'mobileno' => $phone_number,
+                'dataplan' => $request->plan,
+                'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                "cache-control: no-cache"
+            ),
+        ));
+        $response = curl_exec($curl);
+        $response_json = json_decode($response, true);
+        // return [$response_json,env('EASY_ACCESS_AUTH')];
+
+
+        curl_close($curl);
+        return $response;
+    }
+
+    
+    private function handle_buy_data($phone, $network, $plan_id, $group_id = null)
+    {
+        // dd($phone, $network, $plan_id);
+        $user = Auth::user();
+        $company = User::where('id', $user->company_id)->first();
+
+        $phone_number = $phone;
+        if (strlen($phone) == 10) {
+            $phone_number = "0" . $phone;
+        }
+
+        $data = Data::where('user_id', $user->company_id)->where('plan_id', $plan_id)->where('network', $network)->first();
+        $data_price =  $data->admin_price;
+        $real_dataprice = $data->data_price;
+        if ($data == null) {
+            $response = [
+                'success' => false,
+                'message' => 'Invalid Plan!',
+                'auto_refund_status' => 'Nil'
+            ];
+
+            return response()->json($response);
+        }
+        //check balance
+        if ($user->balance < $data_price) {
+            $response = [
+                'success' => false,
+                'message' => 'Insufficient balance for the plan you want to get!',
+                'auto_refund_status' => 'Nil'
+            ];
+
+            return response()->json($response);
+        }
+        // dd($request->all(),$data_price, $real_dataprice, env('EASY_ACCESS_AUTH'));
+        if ($data->network == 1) {
+            $network_mi = 'MTN';
+        } elseif ($data->network == 2) {
+            $network_mi = 'GLO';
+        } elseif ($data->network == 3) {
+            $network_mi = "Airtel";
+        } else {
+            $network_mi = "9Mobile";
+        }
+        $details = $network_mi . " Data Purchase of " . $data->plan_name . " on " . $phone;
+        $client_reference =  'buy_data_' . Str::random(7);
+
+        // $check = $this->check_duplicate('check', $user->id, $data->data_price, "Data Purchase", $details, $client_reference);
+
+        // if ($check[0] == true) {
+        //     $response = [
+        //         'type' => 'duplicate',
+        //         'success' => false,
+        //         'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
+        //         'auto_refund_status' => 'Nil'
+        //     ];
+
+        //     return response()->json($response);
+        // }
+
+        //purchase the data
+        $trans_id = $this->create_transaction('Data Purchase', $client_reference, $details, 'debit', $data_price, $user->id, 2, $real_dataprice);
+        $transaction = Transaction::find($trans_id);
+        $transaction->group_id = $group_id;
+        $transaction->save();
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => array(
+                'network' => $network,
+                'mobileno' => $phone_number,
+                'dataplan' => $plan_id,
+                'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                "cache-control: no-cache"
+            ),
+        ));
+        $response = curl_exec($curl);
+        $response_json = json_decode($response, true);
+        curl_close($curl);
+        return $response_json;
+    }
+
+    public function run_schedule_purchase()
+    {
+        // dd($request->all());
+        $currentDate = Carbon::now()->toDateString();
+        $currentTime = Carbon::now()->toTimeString();
+
+
+        $schedules = SchedulePurchase::where('status', 0)
+            ->whereDate('date', $currentDate)
+            ->whereTime('time', '>=', Carbon::parse($currentTime)->subMinutes(35))
+            ->whereTime('time', '<=', $currentTime)
+            ->get();
+        // dd($schedules);
+        foreach ($schedules as $schedule) {
+            $tranx = Transaction::find($schedule->transaction_id);
+            $user = User::find($tranx->user_id);
+            if ($schedule->title == 'Data Purchase') {
+                $data = Data::where('user_id', $user->company_id)->where('plan_id', $tranx->plan_id)->where('network', $tranx->network)->first();
+                // dd($data);
+                if ($data == null) {
+                    $tranx->status = 0;
+                    $tranx->save();
+                    $schedule->status = 2;
+                    $schedule->save();
+                    //in the future, there should be a mail notification here
+                    return false;
+                }
+                $data_price =  $data->admin_price;
+                $real_dataprice = $data->data_price;
+                if ($user->balance < $data_price) {
+                    $tranx->status = 0;
+                    $tranx->save();
+                    $schedule->status = 2;
+                    $schedule->save();
+                    //in the future, there should be a mail notification here
+                    return false;
+                }
+
+                if ($data->network == 1) {
+                    $network = 'MTN';
+                } elseif ($data->network == 2) {
+                    $network = 'GLO';
+                } elseif ($data->network == 3) {
+                    $network = "Airtel";
+                } else {
+                    $network = "9Mobile";
+                }
+
+                $details = $network . " Data Purchase of " . $data->plan_name . " on " . $tranx->phone_number;
+                $client_reference =  'buy_data_' . Str::random(7);
+
+                // $check = $this->check_duplicate('check', $user->id, $data->data_price, "Data Purchase", $details, $client_reference);
+
+                // if ($check[0] == true) {
+                //     $tranx->status = 0;
+                //     $tranx->save();
+                //     $schedule->status = 2;
+                //     $schedule->save();
+
+                //     return false;
+                // }
+
+                $trans_id = $this->create_transaction('Data Purchase', $client_reference, $details, 'debit', $data_price, $user->id, 2, $real_dataprice, $tranx->phone_number, $tranx->network, $tranx->plan_id);
+
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => array(
+                        'network' => $tranx->network,
+                        'mobileno' => $tranx->phone_number,
+                        'dataplan' => $tranx->plan_id,
+                        'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                    ),
+                    CURLOPT_HTTPHEADER => array(
+                        "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                        "cache-control: no-cache"
+                    ),
+                ));
+                $schedule->status = 1;
+                $schedule->save();
+                $tranx->delete();
+                $response = curl_exec($curl);
+                curl_close($curl);
+                return true;
+            } elseif ($schedule->title == 'Airtime Purchase') {
+                $phone_number = $tranx->phone_number;
+                $actual_price = Airtime::where('user_id', $user->company_id)->where('network', $tranx->network)->first()->actual_price;
+                $real_airtimeprice = $tranx->real_amount - ($actual_price / 100) * $tranx->real_amount;
+                if ($user->balance < $tranx->amount) {
+                    $tranx->status = 0;
+                    $tranx->save();
+                    $schedule->status = 2;
+                    $schedule->save();
+                    //in the future, there should be a mail notification here
+                    return false;
+                }
+                $details =  "Airtime Purchase of " . $tranx->amount . " on " . $tranx->phone_number;
+                $client_reference =  'buy_airtime_' . Str::random(7);
+                // $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details, $client_reference);
+
+                // if ($check[0] == true) {
+                //     $tranx->status = 0;
+                //     $tranx->save();
+                //     $schedule->status = 2;
+                //     $schedule->save();
+                //     return false;
+                // }
+
+                $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $tranx->network, $tranx->real_amount);
+
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "POST",
+                    CURLOPT_POSTFIELDS => array(
+                        'network' => $tranx->network,
+                        'mobileno' => $phone_number,
+                        'amount' => $tranx->amount,
+                        'airtime_type' => 001,
+                        'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                    ),
+                    CURLOPT_HTTPHEADER => array(
+                        "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                        "cache-control: no-cache"
+                    ),
+                ));
+                $response = curl_exec($curl);
+                $schedule->status = 1;
+                $schedule->save();
+                $tranx->delete;
+
+                curl_close($curl);
+                return true;
+            } else {
+                $tranx->status = 0;
+                $tranx->save();
+                $schedule->status = 2;
+                $schedule->save();
+                //in the future, there should be a mail notification here
+                return false;
+            }
+        }
+    }
+
+    public function buyairtime(Request $request)
+    {
+        $this->validate($request, ['amount' => ['numeric', 'min:100']]);
+        // dd($request->all());
+        $user = Auth::user();
+        $company = User::where('id', $user->company_id)->first();
+        $phone_number = $request->phone_number;
+        if (strlen($request->phone_number) == 10) {
+            $phone_number = "0" . $request->phone_number;
+        }
+        $hashed_pin = hash('sha256', $request->pin);
+        if ($user->pin !== $hashed_pin) {
+            $response = [
+                'success' => false,
+                'message' => 'Incorrect Pin!',
+                'auto_refund_status' => 'Nil'
+            ];
+
             return response()->json($response);
         }
 
+        if ($request->has('selectedDate')) {
+            $reference = "schedule_purchase_airtime_" . Str::random(5);
+            $details = " Airtime Purchase of NGN" . $request->amount . " on " . $request->phone_number;
+            $schedule_transaction = $this->create_schedule_transaction(
+                'Airtime Purchase',
+                $reference,
+                $details,
+                $user->id,
+                $request->phone_number,
+                $request->network,
+                $request->discounted_amount,
+                $request->amount,
 
-        dd($request->all(), $tranx);
+            );
+            $schedule = $this->create_later_purchase(
+                'Airtime Purchase',
+                $reference,
+                $details,
+                $user->id,
+                $request->phone_number,
+                $request->network,
+                $request->discounted_amount,
+                $request->amount,
+                $request->selectedDate,
+                $request->selectedTime,
+                $schedule_transaction
+            );
+
+
+            return "schedule_saved";
+        }
+        // dd($request->all());
+        $actual_price = Airtime::where('network', $request->network)->where('user_id', $user->company_id)->first()->airtime_price;
+        $real_airtimeprice = $request->amount - ($actual_price / 100) * $request->amount;
+        // dd($real_airtimeprice, $actual_price);
+
+        if ($user->balance < $request->discounted_amount) {
+            $response = [
+                'success' => false,
+                'message' => 'Insufficient Balance for airtime you want to get!',
+                'auto_refund_status' => 'Nil'
+            ];
+
+            return response()->json($response);
+        }
+
+        //check duplicate
+
+        $details =  "Airtime Purchase of " . $request->amount . " on " . $request->phone_number;
+        $client_reference =  'buy_airtime_' . Str::random(7);
+
+        // $check = $this->check_duplicate('check', $user->id, $request->amount, "Airtime Purchase", $details, $client_reference);
+
+        // if ($check[0] == true) {
+        //     $response = [
+        //         'type' => 'duplicate',
+        //         'success' => false,
+        //         'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
+        //         'auto_refund_status' => 'Nil'
+        //     ];
+
+        //     return response()->json($response);
+        // }
+
+        //purchase the airtime
+        $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $request->discounted_amount, $user->id, 2, $real_airtimeprice, $phone_number, $request->network, $request->amount);
+
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => array(
+                'network' => $request->network,
+                'mobileno' => $phone_number,
+                'amount' => $request->amount,
+                'airtime_type' => 001,
+                'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+            ),
+            CURLOPT_HTTPHEADER => array(
+                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                "cache-control: no-cache"
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response;
+    }
+
+    public function handle_buy_airtime($phone, $network, $amount, $discounted_amount, $group_id = null)
+    {
+        $user = Auth::user();
+        $company = User::where('id', $user->company_id)->first();
+        $phone_number = $phone;
+        if (strlen($phone) == 10) {
+            $phone_number = "0" . $phone;
+        }
+
+        // dd($request->all());
+        $actual_price = Airtime::where('network', $network)->where('user_id', $user->company_id)->first()->airtime_price;
+        $real_airtimeprice = $amount - ($actual_price / 100) * $amount;
+        // dd($real_airtimeprice, $actual_price);
+
+        if ($user->balance < $discounted_amount) {
+            $response = [
+                'success' => false,
+                'message' => 'Insufficient Balance for airtime you want to get!',
+                'auto_refund_status' => 'Nil'
+            ];
+
+            return response()->json($response);
+        }
+
+        //check duplicate
+
+        $details =  "Airtime Purchase of " . $amount . " on " . $phone;
+        $client_reference =  'buy_airtime_' . Str::random(7);
+        // $check = $this->check_duplicate('check', $user->id, $amount, "Airtime Purchase", $details, $client_reference);
+
+        // if ($check[0] == true) {
+        //     $response = [
+        //         'type' => 'duplicate',
+        //         'success' => false,
+        //         'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
+        //         'auto_refund_status' => 'Nil'
+        //     ];
+
+        //     return response()->json($response);
+        // }
+        //purchase the airtime
+        $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $discounted_amount, $user->id, 2, $real_airtimeprice, $phone, $network, $amount);
+        $transaction = Transaction::find($trans_id);
+        $transaction->group_id = $group_id;
+        $transaction->save();
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => array(
+                'network' => $network,
+                'mobileno' => $phone_number,
+                'amount' => $amount,
+                'airtime_type' => 001,
+                'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+            ),
+            CURLOPT_HTTPHEADER => array(
+                // "AuthorizationToken: " . $env, //replace this with your authorization_token
+                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                "cache-control: no-cache"
+            ),
+        ));
+        $response = curl_exec($curl);
+        $response_json = json_decode($response, true);
+
+        curl_close($curl);
+        return $response_json;
     }
 
     public function buyCable(Request $request)
@@ -884,16 +914,23 @@ class SubscriptionController extends Controller
 
         // dd($amount, $request->all());
         //check duplicate
-        $check = $this->check_duplicate('check', $user->id);
-        if ($check == true) {
+
+        $details =  "Cable Subscription : Plan Name " . $cable->plan_name . " Decoder No:  " . $request->decoder_number . " Amount :NGN" . $amount;
+        $client_reference =  'cable_subscription_' . Str::random(7);
+        $check = $this->check_duplicate('check', $user->id, $amount, "Cable Subscription", $details, $client_reference);
+
+        if ($check[0] == true) {
             $response = [
+                'type' => 'duplicate',
                 'success' => false,
-                'message' => 'Duplicate Transaction, try again in few minuetes time!',
+                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
                 'auto_refund_status' => 'Nil'
             ];
 
             return response()->json($response);
         }
+
+
         //make the subscription
 
         $curl = curl_init();
@@ -938,17 +975,7 @@ class SubscriptionController extends Controller
         curl_close($curl);
         return $response;
     }
-    public function notify(Request $request)
-    {
 
-        $check = ComingSoon::where('email', $request->email)->first();
-        if ($check) {
-            return redirect()->back()->with('message', 'Email address already included in the waiting list, thanks for your anticipation!');
-        } else {
-            ComingSoon::create(['email' => $request->email]);
-            return redirect()->back()->with('message', 'Email address included in the waiting list, thanks for your anticipation!');
-        }
-    }
     public function buyElectricity(Request $request)
     {
         $user = Auth::user();
@@ -985,16 +1012,23 @@ class SubscriptionController extends Controller
         }
 
         //check duplicate
-        $check = $this->check_duplicate('check', $user->id);
-        if ($check == true) {
+
+        $details =  "Electricity Subscription, Meter No:  " . $request->meter_number . " Amount :NGN" . $amount;
+        $client_reference =  'electricity_subscription_' . Str::random(7);
+        $check = $this->check_duplicate('check', $user->id, $amount, "Electricity Subscription", $details, $client_reference);
+
+        if ($check[0] == true) {
             $response = [
+                'type' => 'duplicate',
                 'success' => false,
-                'message' => 'Duplicate transactions, please try again in few more minuetes!',
+                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
                 'auto_refund_status' => 'Nil'
             ];
 
             return response()->json($response);
         }
+
+
         //purchase the data
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -1031,7 +1065,7 @@ class SubscriptionController extends Controller
             $transaction->meter_type = $request->meter_type;
             $transaction->meter_number = $request->meter_number;
             $transaction->discounted_amount = $discounted_amount;
-            $transaction->redo = 1;
+            // $transaction->redo = 1;
             $transaction->save();
             // Transaction was successful
             // Do something here
@@ -1046,6 +1080,7 @@ class SubscriptionController extends Controller
         curl_close($curl);
         return $response;
     }
+
     public function buyExamination(Request $request)
     {
         $this->validate($request, ['amount' => ['required', 'numeric', 'min:100']]);
@@ -1082,16 +1117,22 @@ class SubscriptionController extends Controller
         }
 
         //check duplicate
-        $check = $this->check_duplicate('check', $user->id);
-        if ($check == true) {
+        $details =  "Examination Token : Exam Type " . $request->exam_type . " Amount :NGN" . $amount;
+        $client_reference =  'cable_subscription_' . Str::random(7);
+        $check = $this->check_duplicate('check', $user->id, $amount, "Examination Token", $details, $client_reference);
+
+        if ($check[0] == true) {
             $response = [
+                'type' => 'duplicate',
                 'success' => false,
-                'message' => 'Duplicate transactions, please try again in few more minuetes!',
+                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
                 'auto_refund_status' => 'Nil'
             ];
 
             return response()->json($response);
         }
+
+
         if ($request->exam_type == 'WAEC RESULT CHECKER') {
             //purchase the eexampin
             $curl = curl_init();
@@ -1173,18 +1214,9 @@ class SubscriptionController extends Controller
         return $response;
     }
 
-    public function buyairtime(Request $request)
+    public function redo_transaction(Request $request)
     {
-        $this->validate($request, ['amount' => ['numeric', 'min:100']]);
-        // dd($request->all());
         $user = Auth::user();
-        $company = User::where('id', $user->company_id)->first();
-
-
-        $phone_number = $request->phone_number;
-        if (strlen($request->phone_number) == 10) {
-            $phone_number = "0" . $request->phone_number;
-        }
         $hashed_pin = hash('sha256', $request->pin);
         if ($user->pin !== $hashed_pin) {
             $response = [
@@ -1192,213 +1224,190 @@ class SubscriptionController extends Controller
                 'message' => 'Incorrect Pin!',
                 'auto_refund_status' => 'Nil'
             ];
-
             return response()->json($response);
         }
+        $tranx = Transaction::find($request->transaction_id);
+        if ($tranx->title == "Airtime Purchase") {
+            $phone_number = $tranx->phone_number;
+            $company = User::where('id', $user->company_id)->first();
 
-        if ($request->has('selectedDate')) {
-            $reference = "schedule_purchase_airtime_" . Str::random(5);
-            $details = " Airtime Purchase of NGN" . $request->amount . " on " . $request->phone_number;
-            $schedule_transaction = $this->create_schedule_transaction(
-                'Airtime Purchase',
-                $reference,
-                $details,
-                $user->id,
-                $request->phone_number,
-                $request->network,
-                $request->discounted_amount,
-                $request->amount,
+            $hashed_pin = hash('sha256', $request->pin);
+            if ($user->pin !== $hashed_pin) {
+                $response = [
+                    'success' => false,
+                    'message' => 'Incorrect Pin!',
+                    'auto_refund_status' => 'Nil'
+                ];
 
-            );
-            $schedule = $this->create_later_purchase(
-                'Airtime Purchase',
-                $reference,
-                $details,
-                $user->id,
-                $request->phone_number,
-                $request->network,
-                $request->discounted_amount,
-                $request->amount,
-                $request->selectedDate,
-                $request->selectedTime,
-                $schedule_transaction
-            );
+                return response()->json($response);
+            }
+            $actual_price = Airtime::where('user_id', $user->company_id)->where('network', $tranx->network)->first()->actual_price;
+            $real_airtimeprice = $tranx->real_amount - ($actual_price / 100) * $tranx->real_amount;
+            // dd($real_airtimeprice, $tranx->amount, $tranx->real_amount);
+            if ($user->balance < $tranx->amount) {
+                $response = [
+                    'success' => false,
+                    'message' => 'Insufficient Balance for airtime you want to get!',
+                    'auto_refund_status' => 'Nil'
+                ];
+
+                return response()->json($response);
+            }
+
+            //check duplicate
+
+            $details =  "Airtime Purchase of NGN" . $tranx->real_amount . " on " . $tranx->phone_number;
+            $client_reference =  'buy_airtime_' . Str::random(7);
+
+            // $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details, $client_reference);
+
+            // if ($check[0] == true) {
+            //     $response = [
+            //         'type' => 'duplicate',
+            //         'success' => false,
+            //         'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
+            //         'auto_refund_status' => 'Nil'
+            //     ];
+
+            //     return response()->json($response);
+            // }
+            //purchase the data
+            $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 2, $real_airtimeprice, $phone_number, $tranx->network, $tranx->real_amount);
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array(
+                    'network' => $tranx->network,
+                    'mobileno' => $phone_number,
+                    'amount' => $tranx->real_amount,
+                    'airtime_type' => 001,
+                    'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                    "cache-control: no-cache"
+                ),
+            ));
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+            return $response;
+        } elseif ($tranx->title == "Data Purchase") {
+            $phone_number = $tranx->phone_number;
+            $company = User::where('id', $user->company_id)->first();
+            $hashed_pin = hash('sha256', $request->pin);
+            if ($user->pin !== $hashed_pin) {
+                $response = [
+                    'success' => false,
+                    'message' => 'Incorrect Pin!',
+                    'auto_refund_status' => 'Nil'
+                ];
+
+                return response()->json($response);
+            }
+
+            $data = Data::where('user_id', $user->company_id)->where('plan_id', $tranx->plan_id)->where('network', $tranx->network)->first();
+            if ($data == null) {
+                $response = [
+                    'success' => false,
+                    'message' => 'Invalid Plan!',
+                    'auto_refund_status' => 'Nil'
+                ];
+
+                return response()->json($response);
+            }
+            $data_price =  $data->admin_price;
+            $real_dataprice = $data->data_price;
+            // dd($data_price, $real_dataprice, $data->data_price);
+            //check balance
+            if ($user->balance < $data_price) {
+                $response = [
+                    'success' => false,
+                    'message' => 'Insufficient balance for the plan you want to get!',
+                    'auto_refund_status' => 'Nil'
+                ];
+
+                return response()->json($response);
+            }
+
+            //check duplicate
 
 
-            return "schedule_saved";
-        }
-        // dd($request->all());
-        $actual_price = Airtime::where('network', $request->network)->where('user_id', $user->company_id)->first()->airtime_price;
-        $real_airtimeprice = $request->amount - ($actual_price / 100) * $request->amount;
-        // dd($real_airtimeprice, $actual_price);
+            if ($data->network == 1) {
+                $network = 'MTN';
+            } elseif ($data->network == 2) {
+                $network = 'GLO';
+            } elseif ($data->network == 3) {
+                $network = "Airtel";
+            } else {
+                $network = "9Mobile";
+            }
 
-        if ($user->balance < $request->discounted_amount) {
-            $response = [
-                'success' => false,
-                'message' => 'Insufficient Balance for airtime you want to get!',
-                'auto_refund_status' => 'Nil'
-            ];
+            $details = $network . " Data Purchase of " . $data->plan_name . " on " . $tranx->phone_number;
+            $client_reference =  'buy_data_' . Str::random(7);
 
-            return response()->json($response);
-        }
+            // $check = $this->check_duplicate('check', $user->id, $data->data_price, "Data Purchase", $details, $client_reference);
 
-        //check duplicate
+            // if ($check[0] == true) {
+            //     $response = [
+            //         'type' => 'duplicate',
+            //         'success' => false,
+            //         'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
+            //         'auto_refund_status' => 'Nil'
+            //     ];
 
-        $details =  "Airtime Purchase of " . $request->amount . " on " . $phone_number;
-        $check = $this->check_duplicate('check', $user->id, $request->amount, "Airtime Purchase", $details);
+            //     return response()->json($response);
+            // }
 
-        if ($check[0] == true) {
-            $response = [
-                'type' => 'duplicate',
-                'success' => false,
-                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
-                'auto_refund_status' => 'Nil'
-            ];
+            //purchase the data
+            $trans_id = $this->create_transaction('Data Purchase', $client_reference, $details, 'debit', $data_price, $user->id, 2, $real_dataprice, $phone_number, $request->network, $request->plan);
 
-            return response()->json($response);
-        }
-        //purchase the airtime
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://easyaccessapi.com.ng/api/data.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array(
+                    'network' => $tranx->network,
+                    'mobileno' => $phone_number,
+                    'dataplan' => $tranx->plan_id,
+                    'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                    "cache-control: no-cache"
+                ),
+            ));
+            $response = curl_exec($curl);
+            $response_json = json_decode($response, true);
 
-        //purchase the airtime
-        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => array(
-                'network' => $request->network,
-                'mobileno' => $phone_number,
-                'amount' => $request->amount,
-                'airtime_type' => 001,
-                'client_reference' => 'buy_airtime_' . Str::random(7), //update this on your script to receive webhook notifications
-            ),
-            CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " . $env, //replace this with your authorization_token
-                "cache-control: no-cache"
-            ),
-        ));
-        $response = curl_exec($curl);
-        $response_json = json_decode($response, true);
 
-        if ($response_json['success'] === "true") {
-            $details = $response_json['network'] . " Airtime Purchase of NGN" . $request->amount . " on " . $request->phone_number;
-            $trans_id = $this->create_transaction('Airtime Purchase', $response_json['reference_no'], $details, 'debit', $request->discounted_amount, $user->id, 1, $real_airtimeprice);
-            $transaction = Transaction::find($trans_id);
-            $transaction->phone_number = $phone_number;
-            $transaction->network = $request->network;
-            $transaction->discounted_amount = $request->discounted_amount;
-            $transaction->real_amount = $request->amount;
-            $transaction->redo = 1;
-            $transaction->save();
-            // Transaction was successful
-            // Do something here
+            curl_close($curl);
+            return $response;
         } else {
-            $reference = 'failed_airtime_' . Str::random(5);
-            $details = "Airtime Purchase of NGN" . $request->amount . " on " . $request->phone_number;
-            $this->create_transaction('Airtime Purchase', $reference, $response_json['message'], 'debit', $request->discounted_amount, $user->id, 0, $real_airtimeprice);
-        }
-        $this->check_duplicate("Delete", $user->id);
-
-        curl_close($curl);
-        return $response;
-    }
-    public function handle_buy_airtime($phone, $network, $amount, $discounted_amount, $group_id = null)
-    {
-        $user = Auth::user();
-        $company = User::where('id', $user->company_id)->first();
-        $phone_number = $phone;
-        if (strlen($phone) == 10) {
-            $phone_number = "0" . $phone;
-        }
-
-        // dd($request->all());
-        $actual_price = Airtime::where('network', $network)->where('user_id', $user->company_id)->first()->airtime_price;
-        $real_airtimeprice = $amount - ($actual_price / 100) * $amount;
-        // dd($real_airtimeprice, $actual_price);
-
-        if ($user->balance < $discounted_amount) {
             $response = [
                 'success' => false,
-                'message' => 'Insufficient Balance for airtime you want to get!',
+                'message' => 'Invalid Transaction!',
                 'auto_refund_status' => 'Nil'
             ];
-
             return response()->json($response);
         }
-
-        //check duplicate
-
-        $details =  "Airtime Purchase of " . $amount . " on " . $phone;
-        $check = $this->check_duplicate('check', $user->id, $amount, "Airtime Purchase", $details);
-
-        if ($check[0] == true) {
-            $response = [
-                'type' => 'duplicate',
-                'success' => false,
-                'message' => 'Please confirm the success of ' . $check[1]->details . ' before resuming service usage.',
-                'auto_refund_status' => 'Nil'
-            ];
-
-            return response()->json($response);
-        }
-        //purchase the airtime
-        $env = User::where('email', 'fasanyafemi@gmail.com')->first()->font_family;
-
-        //purchase the airtime
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => array(
-                'network' => $network,
-                'mobileno' => $phone_number,
-                'amount' => $amount,
-                'airtime_type' => 001,
-                'client_reference' => 'buy_airtime_' . Str::random(7), //update this on your script to receive webhook notifications
-            ),
-            CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " . $env, //replace this with your authorization_token
-                "cache-control: no-cache"
-            ),
-        ));
-        $response = curl_exec($curl);
-        $response_json = json_decode($response, true);
-
-        if ($response_json['success'] === "true") {
-            $details = $response_json['network'] . " Airtime Purchase of NGN" . $amount . " on " . $phone_number;
-            $trans_id = $this->create_transaction('Airtime Purchase', $response_json['reference_no'], $details, 'debit', $discounted_amount, $user->id, 1, $real_airtimeprice);
-            $transaction = Transaction::find($trans_id);
-            $transaction->group_id = $group_id;
-            $transaction->phone_number = $phone_number;
-            $transaction->network = $network;
-            $transaction->discounted_amount = $discounted_amount;
-            $transaction->real_amount = $amount;
-            $transaction->redo = 1;
-            $transaction->save();
-            // Transaction was successful
-            // Do something here
-        } else {
-            $reference = 'failed_airtime_' . Str::random(5);
-            $details = "Airtime Purchase of NGN" . $amount . " on " . $phone_number;
-            $this->create_transaction('Airtime Purchase', $reference, $response_json['message'], 'debit', $discounted_amount, $user->id, 0, $real_airtimeprice);
-        }
-        $this->check_duplicate("Delete", $user->id);
-
-        curl_close($curl);
-        return $response_json;
     }
+
+   
     public function airtime()
     {
         $data['user'] = $user = Auth::user();

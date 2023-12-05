@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Paystack;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Traits\TransactionTrait;
@@ -227,6 +228,60 @@ class FundingController extends Controller
             $user->save();
         }
         return response()->json("OK", 200);
+    }
+
+    public function easywebhook(Request $request)
+    {
+        file_put_contents(__DIR__ . '/easywebhook.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
+        $jsonData = $request->getContent();
+        file_put_contents(__DIR__ . '/easy_json_data.json', $jsonData, FILE_APPEND);
+        $data = json_decode($jsonData, true);
+        $client_reference = $data['client_reference'];
+        $reference = $data['reference'];
+        $status =  $data['status'];
+
+        if ($status == 'success' || $status == 'successful') {
+
+            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference;
+            file_put_contents(__DIR__ . '/easy_check_url.json', $url);
+            $response = Http::get($url);
+        } else {
+            $url = 'https://vtubiz.com/run_normal/' . $client_reference . '/' . $reference;
+            $response = Http::get($url);
+        }
+        return response()->json("OK", 200);
+    }
+
+    public function run_debit($client_reference, $reference)
+    {
+        $tranx = Transaction::where('reference', $client_reference)
+            ->orderByDesc('created_at')
+            ->first();
+        $tranx->reference = $reference;
+        $user = User::find($tranx->user_id);
+        $user->balance -= $tranx->amount;
+        $user->total_spent += $tranx->amount;
+        $user->save();
+        $company = User::where('id', $user->company_id)->first();
+        $profit = $tranx->amount - floatval($tranx->real_amount);
+        $company->balance += $profit;
+        $company->save();
+        $tranx->after = $user->balance;
+        $tranx->status = 1;
+        $tranx->admin_after = $company->balance;
+        $tranx->redo = 1;
+        $tranx->save();
+        // $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
+        // $duplicate->delete();
+    }
+    public function run_normal($client_reference, $reference)
+    {
+        $tranx = Transaction::where('reference', $client_reference)->latest()->first();
+        $tranx->reference = $reference;
+        $tranx->status = 0;
+        $tranx->save();
+        // $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
+        // $duplicate->delete();
     }
     public static function computeSHA512TransactionHash($stringifiedData, $clientSecret)
     {
