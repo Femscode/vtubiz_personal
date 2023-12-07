@@ -53,7 +53,7 @@
     <div class="navbar navbar-mobile navbar-mobile-style-1 bg-white mfp-hide" id="navbar-mobile-style-1">
         <div class="navbar-wrapper">
             <div class="navbar-head"><a class="navbar-brand d-block d-md-none" href="">
-            {{ $user->brand_name }}       
+            <h2>{{ $user->brand_name }}</h2>      
             </a><a class="navbar-toggle popup-modal-dismiss"
                     href="#"><span></span><span></span><span></span></a></div>
             <div class="navbar-body">
