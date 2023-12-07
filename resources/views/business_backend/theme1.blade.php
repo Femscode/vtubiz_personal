@@ -340,8 +340,7 @@
                                     src="{{ asset('theme4/assets/img/about-us-4-900x990.jpg')}}" alt=""></div>
                             <div class="me-100" data-img-height style="--img-height: 70%;" data-show="{{ $user->brand_name }}"><a
                                     class="image-link" href="theme4/assets/img/about-us-3-900x630.jpg"><img
-                                        class="rounded-4" loading="lazy" src="{{ asset('theme4/assets/img/about-us-3-900x630.jpg"
-                                      ')}}  alt=""></a></div>
+                                        class="rounded-4" loading="lazy" src="{{asset('theme4/assets/img/about-us-3-900x630.jpg')}}"  alt=""></a></div>
                         </div>
                     </div>
                 </div>
