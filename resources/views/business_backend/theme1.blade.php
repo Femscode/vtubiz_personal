@@ -10,10 +10,10 @@
     <meta charset="utf-8">
     <title>{{ $user->brand_name }} | Home </title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="VTUBIZ">
+    <meta name="description" content="Startbox">
     <meta name="author" content="RunWebRun">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- Favicon-->
-    <link rel="icon" type="image/png" href="https://vtubiz.com/public/brand_images/{{ $user->logo }}"><!-- Fonts-->
+    <link rel="icon" type="image/png" href="{{ asset('brand_images/'.$user->logo) }}"><!-- Fonts-->
     
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&amp;display=swap">
     <!-- Style-->
@@ -31,7 +31,7 @@
     <nav class="navbar navbar-expand-lg navbar-top  bg-white">
         <div class="container"><a class="navbar-brand" href="">
             <img class="rounded-circle header-profile-user"
-            src="https://vtubiz.com/public/brand_images/{{ $user->logo }}" style='width:50px;height:50px' />
+            src="{{ asset('brand_images/'.$user->logo) }}" style='width:50px;height:50px' />
                </a><a class="navbar-toggle order-4 popup-inline"
                 href="#navbar-mobile-style-1"><span></span><span></span><span></span></a>
             <ul class="nav navbar-nav order-2 ms-auto nav-no-opacity">
@@ -169,7 +169,7 @@
                 <div class="row gy-70">
                     <div class="col-lg-6 offset-lg-1 order-lg-2">
                         @if($user->image_1 !== null )
-                        <img src="{{ asset('public/website_images/'.$user->image_1) }}" alt=""
+                        <img src="{{ asset('website_images/'.$user->image_1) }}" alt=""
                             style='border-radius:15px' class="img-fluid w-100">
                         @else
                         <img
@@ -463,7 +463,7 @@
                                         @foreach($mtn as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -493,7 +493,7 @@
                                         @foreach($glo as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -523,7 +523,7 @@
                                         @foreach($airtel as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -554,7 +554,7 @@
                                         @foreach($nmobile as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -585,7 +585,7 @@
                                 href="theme4/assets/img/home-1-900x990.jpg" style="--img-height: 110%;"
                                 data-img-height>
                                 @if($user->image_1 !== null )
-                                <img src="{{ asset('public/website_images/'.$user->image_2) }}" alt=""
+                                <img src="{{ asset('website_images/'.$user->image_2) }}" alt=""
                                     style='border-radius:15px' class="img-fluid w-100">
                                 @else
                                 <img loading="lazy" src="{{ asset('theme4/assets/img/home-1-900x990.jpg')}}" alt="">
@@ -673,8 +673,9 @@
         <div class="container">
             <div class="row gy-50">
                 <div class="col-12 col-lg-3"><a class="d-block mb-30" href="#">
-                    <img class="rounded-circle header-profile-user"
-                    src="https://vtubiz.com/public/brand_images/{{ $user->logo }}" style='width:50px;height:50px' />
+                    <h2>{{ $user->brand_name }}</h2>
+                    {{-- <img class="rounded-circle header-profile-user"
+                    src="{{ asset('brand_images/'.$user->logo) }}" style='width:50px;height:50px' /> --}}
                     
                 </a>
                     <ul class="nav text-white align-items-center mb-20 nav-gap-md nav-no-opacity">
