@@ -30,9 +30,12 @@
     <!-- Navbar top-->
     <nav class="navbar navbar-expand-lg navbar-top  bg-white">
         <div class="container"><a class="navbar-brand" href="">
-            <h2>{{ $user->brand_name }}</h2>
-            {{-- <img class="rounded-circle header-profile-user"
-            src="{{ asset('brand_images/'.$user->logo) }}" style='width:50px;height:50px' /> --}}
+            @if($user->logo !== null)
+            <img class="rounded-circle header-profile-user"
+            src="{{ asset('brand_images/'.$user->logo) }}" style='width:50px;height:50px' />
+           @else
+            <h4>{{ $user->brand_name }}</h4>
+            @endif
                </a><a class="navbar-toggle order-4 popup-inline"
                 href="#navbar-mobile-style-1"><span></span><span></span><span></span></a>
             <ul class="nav navbar-nav order-2 ms-auto nav-no-opacity">
