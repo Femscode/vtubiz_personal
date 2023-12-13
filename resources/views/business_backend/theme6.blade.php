@@ -69,9 +69,12 @@
                             <button class="btn btn-warning px-6 " type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="me-1">
-                                    {{-- <img class="rounded-circle header-profile-user"
-                                        src="{{ asset('brand_images/'.$user->logo) }}" style='width:50px;height:50px' /> --}}
-                                </span> {{ $user->brand_name }}
+                                    @if($user->logo !== null)
+            <img class="rounded-circle header-profile-user"
+            src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+           @else
+            <h2>{{ $user->brand_name }}</h2>
+            @endif     </span>
                             </button>
 
                         </div>
