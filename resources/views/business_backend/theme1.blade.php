@@ -32,7 +32,7 @@
         <div class="container"><a class="navbar-brand" href="">
             @if($user->logo !== null)
             <img class="rounded-circle header-profile-user"
-            src="{{ asset('brand_images/'.$user->logo) }}" style='width:50px;height:50px' />
+            src="{{ asset('/public/brand_images/'.$user->logo) }}" style='width:50px;height:50px' />
            @else
             <h4>{{ $user->brand_name }}</h4>
             @endif
