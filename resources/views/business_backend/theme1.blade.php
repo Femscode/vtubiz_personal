@@ -33,11 +33,12 @@
             @if($user->logo !== null)
             <img class="rounded-circle header-profile-user"
             src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
-           @else
-            <h2 class='mt-2 pt-2'>{{ $user->brand_name }}</h2>
-            @endif
+          
                </a><a class="navbar-toggle order-4 popup-inline"
                 href="#navbar-mobile-style-1"><span></span><span></span><span></span></a>
+                @else
+                <h2>{{ $user->brand_name }}</h2>
+                @endif
             <ul class="nav navbar-nav order-2 ms-auto nav-no-opacity">
                 <li class="nav-item "><a class="nav-link" href="#"><span>Home</span></a></li>
                 <li class="nav-item "><a class="nav-link" href="#about_us"><span>About Us</span></a></li>
