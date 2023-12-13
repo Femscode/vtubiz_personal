@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Traits\TransactionTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\DuplicateTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
@@ -232,9 +233,7 @@ class FundingController extends Controller
 
     public function easywebhook(Request $request)
     {
-        file_put_contents(__DIR__ . '/easywebhook.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
         $jsonData = $request->getContent();
-        file_put_contents(__DIR__ . '/easy_json_data.json', $jsonData, FILE_APPEND);
         $data = json_decode($jsonData, true);
         $client_reference = $data['client_reference'];
         $reference = $data['reference'];
@@ -243,12 +242,13 @@ class FundingController extends Controller
         if ($status == 'success' || $status == 'successful') {
 
             $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference;
-            file_put_contents(__DIR__ . '/easy_check_url.json', $url);
             $response = Http::get($url);
         } else {
             $url = 'https://vtubiz.com/run_normal/' . $client_reference . '/' . $reference;
             $response = Http::get($url);
         }
+        file_put_contents(__DIR__ . '/easywebhook_personal.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
+       
         return response()->json("OK", 200);
     }
 
@@ -271,8 +271,8 @@ class FundingController extends Controller
         $tranx->admin_after = $company->balance;
         $tranx->redo = 1;
         $tranx->save();
-        // $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
-        // $duplicate->delete();
+        $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
+        $duplicate->delete();
     }
     public function run_normal($client_reference, $reference)
     {
@@ -280,8 +280,8 @@ class FundingController extends Controller
         $tranx->reference = $reference;
         $tranx->status = 0;
         $tranx->save();
-        // $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
-        // $duplicate->delete();
+        $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
+        $duplicate->delete();
     }
     public static function computeSHA512TransactionHash($stringifiedData, $clientSecret)
     {

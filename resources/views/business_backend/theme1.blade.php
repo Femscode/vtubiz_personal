@@ -335,7 +335,7 @@
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
-                            <div class="position-absolute end-0 top-0 mt-n80" data-img-height
+                                        <div class="position-absolute end-0 top-0 mt-n80" data-img-height
                                 style="--img-height: 100%; width: 230px;"><img class="rounded-4" loading="lazy"
                                     src="{{ asset('theme4/assets/img/about-us-4-900x990.jpg')}}" alt=""></div>
                             <div class="me-100" data-img-height style="--img-height: 70%;" data-show="{{ $user->brand_name }}"><a
