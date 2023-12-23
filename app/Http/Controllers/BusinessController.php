@@ -42,8 +42,15 @@ class BusinessController extends Controller
         if($subdomain == 'www') {
             $subdomain = $parts[1];
         }
+        //afuwwu website 
+        if ($subdomain == 'phuzvtu') {
+            $data['user'] = $user = User::where('user_id', '888')->first();
+        } 
         // dd($subdomain);
-        $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+        else {
+            $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+
+        }
         if ($user) {
             $id = $user->selected_theme;
 
