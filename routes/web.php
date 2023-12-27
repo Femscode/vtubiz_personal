@@ -13,6 +13,7 @@ use App\Http\Controllers\LoginWithGoogleController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 Route::get('/', [BusinessController::class, 'index'])->name('homepage');
+Route::view('/phuz', 'business_backend.theme7');
 
 Route::any('update_account_data', function () {
     $themes = Data::where('user_id', 0)->get();
