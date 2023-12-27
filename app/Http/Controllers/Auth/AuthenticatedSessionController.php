@@ -21,8 +21,13 @@ class AuthenticatedSessionController extends Controller
         $host = $request->getHost();
         $parts = explode('.', $host);
         $subdomain = $parts[0];
+        if ($subdomain == 'phuzvtu') {
+            $data['user'] = $user = User::where('id', '888')->first();
+        } else {
+            $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+        }  
       
-        $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+        // $data['user'] = $user = User::where('brand_name', $subdomain)->first();
         $data['company_id'] = $user->id;
        
         return view('auth.login',$data);
