@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <title>VTUBIZ | Registration</title>
+    <title>{{ $user->brand_name }} | Registration</title>
     <meta charset="utf-8" />
     <meta name="description" content="Payment Portal For CT_Taste" />
     <meta name="keywords" content="Quick pay with CT_Taste" />

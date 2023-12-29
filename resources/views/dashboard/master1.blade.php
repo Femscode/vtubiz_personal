@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <title>VTUBIZ | CT_Taste</title>
+    <title>{{ $user->brand_name }} | Dashboard</title>
     <meta charset="utf-8" />
     <meta name="description" content="Top Up, Pay Bills, Stay Connected." />
     <meta name="keywords" content="A Top Notch VTU Platform!" />
@@ -116,10 +116,16 @@
 
                     <!--begin::Logo-->
                     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-18">
-                        <a href="https://vtubiz.com">
-                            <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}" class="h-25px d-sm-none" />
+                        <a href="#">
+                            @if($user->logo !== null)
+                            <img class="rounded-circle header-profile-user"
+                                src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                            @else
+                            <h1>{{ $user->brand_name }}<span>.</span></h1>
+                            @endif
+                            {{-- <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}" class="h-25px d-sm-none" />
                             <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}"
-                                class="h-25px d-none d-sm-block" />
+                                class="h-25px d-none d-sm-block" /> --}}
                         </a>
                     </div>
                     <!--end::Logo-->
@@ -661,7 +667,7 @@
 
                                     <!--begin::Item-->
                                     <li class="breadcrumb-item text-white  lh-1">
-                                        <a href="https://vtubiz.com" class="text-white">
+                                        <a href="/" class="text-white">
                                             <i class="fonticon-home text-gray-700  fs-3"></i>
                                         </a>
                                     </li>
@@ -684,8 +690,8 @@
 
 
                                     <!--begin::Item-->
-                                    <a href='https://vtubiz.com' class="breadcrumb-item text-white  lh-1">
-                                        vtubiz.com</a>
+                                    <a href='/' class="breadcrumb-item text-white  lh-1">
+                                        {{ $user->brand_name }}</a>
                                     <!--end::Item-->
 
 
@@ -807,16 +813,16 @@
 
                         <!--begin::Menu-->
                         <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                            <li class="menu-item"><a href="https://keenthemes.com/" target="_blank"
+                            <li class="menu-item"><a href="/" target="_blank"
                                     class="menu-link px-2">About</a>
                             </li>
 
-                            <li class="menu-item"><a href="https://devs.keenthemes.com/" target="_blank"
+                            <li class="menu-item"><a href="/" target="_blank"
                                     class="menu-link px-2">Support</a></li>
 
-                            <li class="menu-item"><a
+                            {{-- <li class="menu-item"><a
                                     href="https://wa.me/2349058744473?text='Hi,%20I%20will%20like%20to%20invest%20in%20CT_Taste"
-                                    target="_blank" class="menu-link px-2">Invest</a></li>
+                                    target="_blank" class="menu-link px-2">Invest</a></li> --}}
                         </ul>
                         <!--end::Menu-->
                     </div>
@@ -925,8 +931,5 @@ Swal.fire(
     @yield('script')
 
 </body>
-<!--end::Body-->
-
-<!-- Mirrored from preview.keenthemes.com/metronic8/demo34/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 06 Feb 2023 08:02:15 GMT -->
 
 </html>

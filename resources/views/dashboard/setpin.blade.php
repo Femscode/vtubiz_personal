@@ -3,10 +3,10 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <title>Setpin | CT_Taste</title>
+    <title>{{ $user>brand_name }} | SetIn</title>
     <meta charset="utf-8" />
-    <meta name="description" content="Payment Portal For CT_Taste" />
-    <meta name="keywords" content="Quick pay with CT_Taste" />
+    <meta name="description" content="Top Up, Pay Bills, Stay Connected!" />
+    <meta name="keywords" content="Stay Connected!" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
@@ -106,7 +106,13 @@
                                             <!--begin:Logo-->
                                             <div style="margin-bottom: 10px">
                                                 <a rel="noopener" target="_blank">
-                                                    <img src="{{ asset('assets/img/logo/vtulogo.png') }}" srcset="{{ asset('assets/img/logo/vtulogo.png') }}" width='140px' height='35px' alt="">
+                                                    @if($user->logo !== null)
+                                                    <img class="rounded-circle header-profile-user"
+                                                        src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                                                    @else
+                                                    <h1>{{ $user->brand_name }}<span>.</span></h1>
+                                                    @endif
+                                                    {{-- <img src="{{ asset('assets/img/logo/vtulogo.png') }}" srcset="{{ asset('assets/img/logo/vtulogo.png') }}" width='140px' height='35px' alt=""> --}}
           
                                                 </a>
                                             </div>
@@ -127,7 +133,7 @@
                                 <tr>
                                     <td align="center" valign="center"
                                         style="font-size: 13px; padding:0 15px; text-align:center; font-weight: 500; color: #A1A5B7;font-family:Arial,Helvetica,sans-serif">
-                                        <p> &copy Copyright VTUBIZ.
+                                        <p> &copy Copyright {{ $user->brand_name }}.
                                            
                                         </p>
                                     </td>

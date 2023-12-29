@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <title>VTUBIZ | CT_Taste</title>
+    <title>{{ $user->brand_name }} | Login</title>
     <meta charset="utf-8" />
     <meta name="description" content="Top Up, Pay Bills Stay Connected!" />
     <meta name="keywords" content="A Top Notch VTU Platform!" />
@@ -12,8 +12,8 @@
     <meta property="og:type" content="article" />
     <meta property="og:title" content="VTUBIZ" />
     <meta property="og:url" content="https://cttaste.com" />
-    <meta property="og:site_name" content="CT_Taste" />
-    <link rel="shortcut icon" href="assets/media/logos/fav_01.png" />
+    <meta property="og:site_name" content="{{ $user->brand_name }}" />
+    {{-- <link rel="shortcut icon" href="assets/media/logos/fav_01.png" /> --}}
 
     @laravelPWA
     <!--begin::Fonts(mandatory for all pages)-->
