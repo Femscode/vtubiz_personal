@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <title>{{ $user->brand_name }} | Dashboard</title>
+    <title>{{ $company->brand_name }} | Dashboard</title>
     <meta charset="utf-8" />
     <meta name="description" content="Top Up, Pay Bills, Stay Connected." />
     <meta name="keywords" content="A Top Notch VTU Platform!" />
@@ -117,11 +117,11 @@
                     <!--begin::Logo-->
                     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-18">
                         <a href="#">
-                            @if($user->logo !== null)
+                            @if($company->logo !== null)
                             <img class="rounded-circle header-profile-user"
-                                src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                                src="https://vtubiz.com/public/brand_images/{{ $company->logo}}" style='width:50px;height:50px' />
                             @else
-                            <h1>{{ $user->brand_name }}<span>.</span></h1>
+                            <h1>{{ $company->brand_name }}<span>.</span></h1>
                             @endif
                             {{-- <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}" class="h-25px d-sm-none" />
                             <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}"
@@ -691,7 +691,7 @@
 
                                     <!--begin::Item-->
                                     <a href='/' class="breadcrumb-item text-white  lh-1">
-                                        {{ $user->brand_name }}</a>
+                                        {{ $company->brand_name }}</a>
                                     <!--end::Item-->
 
 
