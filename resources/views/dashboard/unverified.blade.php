@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 
 <head>
-    <title>VTUBIZ | Verify Email</title>
+    <title>{{ $company->brand_name }} | Verify Email</title>
     <meta charset="utf-8" />
     <meta name="description" content="Top Up, Pay Bills, Stay Connected" />
     <meta name="keywords" content="Quick pay with CT_Taste" />
@@ -106,7 +106,13 @@
                                             <!--begin:Logo-->
                                             <div style="margin-bottom: 10px">
                                                 <a rel="noopener" target="_blank">
-                                                    <img src="{{ asset('assets/img/logo/vtulogo.png') }}" srcset="{{ asset('assets/img/logo/vtulogo.png') }}" width='140px' height='35px' alt="">
+                                                    @if($company->logo !== null)
+                                                    <img class="rounded-circle header-profile-user"
+                                                        src="https://vtubiz.com/public/brand_images/{{ $company->logo}}" style='width:50px;height:50px' />
+                                                    @else
+                                                    <h1>{{ $company->brand_name }}<span>.</span></h1>
+                                                    @endif
+                                                    {{-- <img src="{{ asset('assets/img/logo/vtulogo.png') }}" srcset="{{ asset('assets/img/logo/vtulogo.png') }}" width='140px' height='35px' alt=""> --}}
           
                                                 </a>
                                             </div>
@@ -128,8 +134,8 @@
                                                 style="font-size: 14px; font-weight: 500; margin-bottom: 27px; font-family:Arial,Helvetica,sans-serif;">
                                                 <p
                                                     style="margin-bottom:9px; color:#181C32; font-size: 22px; font-weight:700">
-                                                    Hey {{ $user->name }}, thank you for using VTUBIZ!</p>
-                                                <p style="margin-bottom:2px; color:#7E8299">Your account has been currently blocked due to some reasons. kindly reach out to the admin to continue using our product.</p>
+                                                    Hey {{ $user->name }}, thank you for using {{ $company->brand_name }}!</p>
+                                                <p style="margin-bottom:2px; color:#7E8299">Your account has been temporarily blocked due to some reasons. kindly reach out to the admin to continue using our service.</p>
                                                
                                             </div>
                                             <!--end:Text-->
@@ -166,7 +172,7 @@
                                         style="font-size: 13px; padding:0 15px; text-align:center; font-weight: 500; color: #A1A5B7;font-family:Arial,Helvetica,sans-serif">
                                         <p> &copy Copyright
                                             <a href="#" rel="noopener" target="_blank"
-                                                style="font-weight: 600;font-family:Arial,Helvetica,sans-serif">VTUBIZ.</a>&nbsp;
+                                                style="font-weight: 600;font-family:Arial,Helvetica,sans-serif">{{ $company->brand_name }}.</a>&nbsp;
                                             
                                         </p>
                                     </td>
