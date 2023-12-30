@@ -167,7 +167,8 @@ class HomeController extends Controller
     }
     public function profile()
     {
-        $data['user'] = Auth::user();
+        $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'profile';
         return view('dashboard.profile', $data);
     }
@@ -198,6 +199,7 @@ class HomeController extends Controller
     {
 
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'fundwallet';
         $notification = Notification::where('user_id', $user->company_id)->where('type', 'Payment Notification')->first();
 
@@ -211,6 +213,7 @@ class HomeController extends Controller
     {
 
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'fundwallet';
 
 
@@ -392,6 +395,7 @@ class HomeController extends Controller
     public function transactions()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'transaction';
         $data['transactions'] = Transaction::where('user_id', $user->id)->latest()->get();
 
@@ -401,6 +405,7 @@ class HomeController extends Controller
     public function bulksms_transactions()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'transaction';
         $data['transactions'] = BulkSMSTransaction::where('user_id', $user->id)->latest()->get();
 
