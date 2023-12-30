@@ -117,7 +117,7 @@
 
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="200">
                         <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
+                            <div class="icon"><i class="bi bi-broadcast icon"></i></div>
                             <h4><a href="" class="stretched-link">Affordable Data Plans</a></h4>
                             <p>
                                 Enjoy the internet with our cheap data plans.
@@ -139,7 +139,7 @@
 
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
                         <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-broadcast icon"></i></div>
+                            <div class="icon"><i class="bi bi-lightbulb icon"></i></div>
                             <h4><a href="" class="stretched-link">Pay Light Bills</a></h4>
                             <p>
                                 Light Up Your Building with Effortless Bill Payments.
@@ -148,7 +148,7 @@
                     </div><!-- End Service Item -->
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
                         <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-broadcast icon"></i></div>
+                            <div class="icon"><i class="bi bi-book icon"></i></div>
                             <h4><a href="" class="stretched-link"> Exam Result Checkers</a></h4>
                             <p>
                                 Easily Access Your Exam Results at a giveaway prices.
@@ -158,7 +158,7 @@
                     </div><!-- End Service Item -->
                     <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
                         <div class="service-item position-relative">
-                            <div class="icon"><i class="bi bi-broadcast icon"></i></div>
+                            <div class="icon"><i class="bi bi-box-seam-fill icon"></i></div>
                             <h4><a href="" class="stretched-link">Bulk SMS</a></h4>
                             <p>
                                 Reach Your Audience Seamlessly with our Bulk SMS packages.
@@ -1067,8 +1067,10 @@
 
             <div class="map">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621"
-                    frameborder="0" allowfullscreen></iframe>
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3309.092319743308!2d3.3792069!3d6.5243793!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b81dbcc6a88d7%3A0x2e3a6e5c12b56ae8!2sLagos%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1640585401002"
+                frameborder="0" allowfullscreen
+            ></iframe>
+            
             </div><!-- End Google Maps -->
 
             <div class="container">
