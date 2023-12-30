@@ -118,7 +118,7 @@
                     <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-18">
                         <a href="#">
                             @if($company->logo !== null)
-                            <img class="rounded-circle header-profile-user"
+                            <img class="header-profile-user"
                                 src="https://vtubiz.com/public/brand_images/{{ $company->logo}}" style='width:150px' />
                             @else
                             <h1>{{ $company->brand_name }}<span>.</span></h1>
