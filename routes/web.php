@@ -16,9 +16,9 @@ Route::get('/', [BusinessController::class, 'index'])->name('homepage');
 Route::view('/phuz', 'business_backend.theme7');
 
 Route::any('update_account_data', function () {
-    $themes = Data::where('user_id', 0)->get();
+    $themes = Data::where('user_id', 888)->get();
     foreach ($themes as $theme) {
-        $theme->account_price = intval(0.05 * $theme->data_price) + intval($theme->data_price);
+        $theme->data_price = (int)(0.95 * $theme->account_price);
         $theme->save();
     }
 });
