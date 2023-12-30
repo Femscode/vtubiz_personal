@@ -51,8 +51,8 @@
             <a href="#" class="logo d-flex align-items-center scrollto me-auto me-lg-0">
 
                 @if($user->logo !== null)
-                <img class="rounded-circle header-profile-user"
-                    src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                <img class="header-profile-user"
+                    src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" />
                 @else
                 <h1>{{ $user->brand_name }}<span>.</span></h1>
                 @endif
