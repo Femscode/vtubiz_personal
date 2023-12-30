@@ -22,6 +22,7 @@ class UserController extends Controller
     public function print_transaction_receipt($id) {
         $data['transaction'] = $transaction = Transaction::find($id);
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id',$user->company_id)->first();
         $data['active'] = 'transactions';
         if($user->id == $transaction->user_id) {
             return view('dashboard.receipt',$data);
@@ -75,7 +76,8 @@ class UserController extends Controller
     }
     public function changepassword(Request $request)
     {
-        $data['user'] = Auth::user();
+        $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id',$user->company_id)->first();
         $data['active'] = 'change_password';
         return view('dashboard.changepassword', $data);
     }
@@ -131,7 +133,8 @@ class UserController extends Controller
     }
     public function changepin(Request $request)
     {
-        $data['user'] = Auth::user();
+        $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id',$user->company_id)->first();
         $data['active'] = 'change_pin';
        
         return view('dashboard.changepin', $data);
@@ -139,6 +142,7 @@ class UserController extends Controller
     public function admin_changepin(Request $request)
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id',$user->company_id)->first();
         if($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/user-change-pin');
         }
@@ -160,7 +164,8 @@ class UserController extends Controller
     }
     public function resetPinWithToken()
     {
-        $data['user'] = Auth::user();
+        $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id',$user->company_id)->first();
         return view('dashboard.resetpintoken', $data);
     }
 }
