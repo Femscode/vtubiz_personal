@@ -92,8 +92,8 @@
             <h2>Welcome to <span>{{ $user->brand_name }}</span></h2>
             <p>{{ $user->heading_1 ?? "Top-Up, Pay Bills, Stay Connected"}}.</p>
             <div class="d-flex">
-                <a href="/register" class="btn-get-started scrollto">Get Started</a>
-                <a href="/login" class="btn-watch-video d-flex align-items-center"><span>Login</span></a>
+                <a href="/login" class="btn-get-started scrollto">Login</a>
+                <a href="/login" class="btn-watch-video d-flex align-items-center"><span>Get Started</span></a>
             </div>
         </div>
     </section>
@@ -345,7 +345,7 @@
                         <p> {{ $user->about_us ?? " We provide a comprehensive platform for all your data, airtime,
                             electricity, and cable subscription needs. Our mission is to empower your digital lifestyle
                             through affordability, automation, and lightning-fast transactions."}}.</p>
-                        <a class="cta-btn align-self-start" href="/register">Get Started</a>
+                        <a class="cta-btn align-self-start" style='background:black' href="/register">Get Started</a>
                     </div>
 
                     <div class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
