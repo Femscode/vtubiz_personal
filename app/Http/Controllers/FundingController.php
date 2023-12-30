@@ -42,6 +42,7 @@ class FundingController extends Controller
         ]);
 
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id',$user->company_id)->first();
         $data['amount'] = $amount = $request->amount;
         $data['active'] = 'fundwallet';
         if ($request->type == 'card') {
@@ -104,6 +105,7 @@ class FundingController extends Controller
         ]);
         $data['user'] = $user = Auth::user();
         $data['amount'] = $amount = $request->amount;
+        $data['company'] = User::where('id',$user->company_id)->first();
         $data['active'] = 'fundwallet';
         if($request->type == 'card') {
             $data['public_key'] = env('FLW_PUBLIC_KEY');
@@ -292,6 +294,7 @@ class FundingController extends Controller
     public function transfer()
     {
         $data['user'] =  $user = Auth::user();
+        
         $data['active'] = 'transfer';
         $data['company'] = User::where('id',$user->company_id)->first();
         return view('dashboard.transfer', $data);
