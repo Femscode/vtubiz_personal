@@ -33,6 +33,7 @@ class SubscriptionController extends Controller
     public function data()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $datas = Data::where('user_id', 0)->get();
         $check_data = Data::where('user_id', $user->company_id)->first();
         // Data::where('user_id', $user->id)->delete();
@@ -85,6 +86,7 @@ class SubscriptionController extends Controller
     {
 
         $data['user'] = $user = Auth::user();
+        
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-data');
         }
@@ -1411,6 +1413,7 @@ class SubscriptionController extends Controller
     public function airtime()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $airtime = Airtime::where('user_id', $user->company_id)->first();
         if (!$airtime) {
             Airtime::create([
@@ -1451,6 +1454,7 @@ class SubscriptionController extends Controller
     public function bulksms()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'airtime';
         $data['contacts'] = ContactGroup::where('user_id', $user->id)->latest()->get();
         $notification = Notification::where('user_id', $user->company_id)->where('type', 'Bulksms Notification')->first();
@@ -1466,6 +1470,7 @@ class SubscriptionController extends Controller
     {
         // return the contact group page
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'bulksms';
         $data['contacts'] = ContactGroup::where('user_id', $user->id)->latest()->get();
         return view('subscription.contact_group', $data);
@@ -1478,6 +1483,7 @@ class SubscriptionController extends Controller
     public function admin_airtime()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
 
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-airtime');
@@ -1496,6 +1502,7 @@ class SubscriptionController extends Controller
     public function electricity()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'electricity';
         $electricity = Electricity::where('user_id', $user->id)->first();
         if (!$electricity) {
@@ -1515,6 +1522,7 @@ class SubscriptionController extends Controller
     public function admin_electricity()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-electricity');
         }
@@ -1529,6 +1537,7 @@ class SubscriptionController extends Controller
     public function examination()
     {
         $data['user'] = $user = Auth::user();
+        
         $data['active'] = 'examination';
         $examination = Examination::where('user_id', $user->company_id)->first();
         if (!$examination) {
@@ -1591,6 +1600,7 @@ class SubscriptionController extends Controller
     public function cable()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'cable';
         $cables = Cable::where('user_id', 0)->get();
         $check_cable = Cable::where('user_id', $user->company_id)->first();
@@ -1618,6 +1628,7 @@ class SubscriptionController extends Controller
     public function admin_cable()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-cable');
         }
@@ -1633,6 +1644,7 @@ class SubscriptionController extends Controller
     public function admin_bulksms()
     {
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-bulksms');
         }
@@ -1771,6 +1783,7 @@ class SubscriptionController extends Controller
     {
         $data['ref'] = $ref;
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-verify_purchase');
         }
@@ -1780,6 +1793,7 @@ class SubscriptionController extends Controller
     {
         $data['ref'] = $ref;
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-verify_payment');
         }
@@ -1789,6 +1803,7 @@ class SubscriptionController extends Controller
     {
         $data['ref'] = $ref;
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'self_service';
         return view('dashboard.verify_purchase', $data);
     }
@@ -1796,6 +1811,7 @@ class SubscriptionController extends Controller
     {
         $data['ref'] = $ref;
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'self_service';
         return view('dashboard.verify_payment', $data);
     }
@@ -1829,6 +1845,7 @@ class SubscriptionController extends Controller
         $data['response'] = $response_json = json_decode($response, true);
         // return $response_json;
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'self_service';
         return view('dashboard.verify_purchase', $data);
     }
@@ -1855,6 +1872,7 @@ class SubscriptionController extends Controller
         $data['response'] =  $response_json['data'];
         $data['active'] = 'self_service';
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         return view('dashboard.verify_payment', $data);
     }
     public function admin_check_verify_purchase(Request $request)
@@ -1887,6 +1905,7 @@ class SubscriptionController extends Controller
         $data['response'] = $response_json = json_decode($response, true);
         // return $response_json;
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-verify_purchase');
         }
@@ -1915,6 +1934,7 @@ class SubscriptionController extends Controller
         $data['response'] =  $response_json['data'];
 
         $data['user'] = $user = Auth::user();
+        $data['company'] = User::where('id', $user->company_id)->first();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-verify_payment');
         }
