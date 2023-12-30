@@ -52,7 +52,7 @@
 
                 @if($user->logo !== null)
                 <img class="header-profile-user"
-                    src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" />
+                    src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:150px' />
                 @else
                 <h1>{{ $user->brand_name }}<span>.</span></h1>
                 @endif
@@ -1154,7 +1154,13 @@
 
                     <div class="col-lg-3 col-md-6">
                         <div class="footer-info">
-                            <h3>{{ $user->brand_name }}</h3>
+                            @if($user->logo !== null)
+                            <img class="header-profile-user"
+                                src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:150px' />
+                            @else
+                            <h3>{{ $user->brand_name }}<span>.</span></h3>
+                            @endif
+                          
                             <p>
                                 Lagos State
                                 <br><br>
