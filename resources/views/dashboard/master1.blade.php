@@ -10,9 +10,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="VTUBIZ" />
-    <meta property="og:url" content="https://vtubiz.com" />
-    <meta property="og:site_name" content="VTUBIZ" />
+    <meta property="og:title" content="{{ $company->brand_name }}" />
+    {{-- <meta property="og:url" content="https://vtubiz.com" /> --}}
+    <meta property="og:site_name" content="{{ $company->brand_name }}" />
     <link rel="shortcut icon" href="assets/media/logos/fav_01.png" />
 
     @laravelPWA

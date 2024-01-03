@@ -5,14 +5,14 @@
 <head>
     <title>{{ $user->brand_name }} | Registration</title>
     <meta charset="utf-8" />
-    <meta name="description" content="Payment Portal For CT_Taste" />
-    <meta name="keywords" content="Quick pay with CT_Taste" />
+    <meta name="description" content="Top Up, Pay Bills, Stay Connected!" />
+    <meta name="keywords" content="Top Up, Pay Bills, Stay Connected!" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="CT_Taste" />
-    <meta property="og:url" content="https://cttaste.com" />
-    <meta property="og:site_name" content="CT_Taste" />
+    <meta property="og:title" content="{{ $user->brand_name }}" />
+    {{-- <meta property="og:url" content="https://cttaste.com" /> --}}
+    <meta property="og:site_name" content="{{ $user->brand_name }}" />
     <link rel="shortcut icon" href="assets/media/logos/fav_01.png" />
 
     @laravelPWA

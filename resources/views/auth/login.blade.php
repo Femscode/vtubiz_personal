@@ -10,8 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
-    <meta property="og:title" content="VTUBIZ" />
-    <meta property="og:url" content="https://cttaste.com" />
+    <meta property="og:title" content="{{ $user->brand_name }}" />
+    <meta property="og:url" content="" />
     <meta property="og:site_name" content="{{ $user->brand_name }}" />
     {{-- <link rel="shortcut icon" href="assets/media/logos/fav_01.png" /> --}}
 
