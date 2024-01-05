@@ -34,7 +34,8 @@ class RegisteredUserController extends Controller
         $host = $request->getHost();
         $parts = explode('.', $host);
         $subdomain = $parts[0];
-        if ($subdomain == 'phuzvtu') {
+       
+        if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['user'] = $user = User::where('id', '888')->first();
         } else {
             $data['user'] = $user = User::where('brand_name', $subdomain)->first();
