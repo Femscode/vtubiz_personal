@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>{{ $user->brand_name }} | Home </title>
+    <title>{{ $user->brand_name }} | {{ $user->description }} </title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
