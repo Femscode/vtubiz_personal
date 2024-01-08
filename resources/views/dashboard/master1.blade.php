@@ -11,7 +11,8 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="article" />
     <meta property="og:title" content="{{ $company->brand_name }}" />
-    {{-- <meta property="og:url" content="https://vtubiz.com" /> --}}
+    {{--
+    <meta property="og:url" content="https://vtubiz.com" /> --}}
     <meta property="og:site_name" content="{{ $company->brand_name }}" />
     <link rel="shortcut icon" href="assets/media/logos/fav_01.png" />
 
@@ -123,7 +124,8 @@
                             @else
                             <h1>{{ $company->brand_name }}<span>.</span></h1>
                             @endif
-                            {{-- <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}" class="h-25px d-sm-none" />
+                            {{-- <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}"
+                                class="h-25px d-sm-none" />
                             <img alt="Logo" src="{{ asset('assets/img/logo/vtulogo.png')}}"
                                 class="h-25px d-none d-sm-block" /> --}}
                         </a>
@@ -266,45 +268,45 @@
                                     <!--end:Menu sub-->
                                 </div>
                                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
-                                data-kt-menu-placement="bottom-start"
-                                class="menu-item  @if($active == 'self_service') here show menu-here-bg @endif menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
-                                <!--begin:Menu link--><span class="menu-link"><span class="menu-title">Bulk
-                                        SMS</span><span class="menu-arrow "></span></span>
-                                <!--end:Menu link-->
-                                <!--begin:Menu sub-->
-                                <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px"
-                                    style="">
-                                    <!--begin:Menu item-->
-                                    <div class="menu-item">
-                                        <!--begin:Menu link--><a class="menu-link" href="/bulksms"
-                                            data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
-                                            data-bs-placement="right" data-kt-initialized="1"><span
-                                                class="menu-title">Send Bulk
-                                                SMS</span></a>
-                                        <!--end:Menu link-->
-                                    </div>
-                                    <!--end:Menu item-->
-                                    <!--begin:Menu item-->
-                                    <div class="menu-item">
-                                        <!--begin:Menu link--><a class="menu-link" href="/contact_group"
-                                            data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
-                                            data-bs-placement="right" data-kt-initialized="1"><span
-                                                class="menu-title">Bulk SMS Contact
-                                                Groups</span></a>
-                                        <!--end:Menu link-->
-                                    </div>
-                                    <div class="menu-item">
-                                        <!--begin:Menu link--><a class="menu-link" href="/bulksms_transactions"
-                                            data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
-                                            data-bs-placement="right" data-kt-initialized="1"><span
-                                                class="menu-title">Bulk SMS
-                                                Records</span></a>
-                                        <!--end:Menu link-->
-                                    </div>
+                                    data-kt-menu-placement="bottom-start"
+                                    class="menu-item  @if($active == 'self_service') here show menu-here-bg @endif menu-lg-down-accordion menu-sub-lg-down-indention me-0 me-lg-2">
+                                    <!--begin:Menu link--><span class="menu-link"><span class="menu-title">Bulk
+                                            SMS</span><span class="menu-arrow "></span></span>
+                                    <!--end:Menu link-->
+                                    <!--begin:Menu sub-->
+                                    <div class="menu-sub menu-sub-lg-down-accordion menu-sub-lg-dropdown px-lg-2 py-lg-4 w-lg-200px"
+                                        style="">
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link" href="/bulksms"
+                                                data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
+                                                data-bs-placement="right" data-kt-initialized="1"><span
+                                                    class="menu-title">Send Bulk
+                                                    SMS</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <!--end:Menu item-->
+                                        <!--begin:Menu item-->
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link" href="/contact_group"
+                                                data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
+                                                data-bs-placement="right" data-kt-initialized="1"><span
+                                                    class="menu-title">Bulk SMS Contact
+                                                    Groups</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
+                                        <div class="menu-item">
+                                            <!--begin:Menu link--><a class="menu-link" href="/bulksms_transactions"
+                                                data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-dismiss="click"
+                                                data-bs-placement="right" data-kt-initialized="1"><span
+                                                    class="menu-title">Bulk SMS
+                                                    Records</span></a>
+                                            <!--end:Menu link-->
+                                        </div>
 
+                                    </div>
+                                    <!--end:Menu sub-->
                                 </div>
-                                <!--end:Menu sub-->
-                            </div>
 
 
                                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
@@ -339,7 +341,7 @@
                                     </div>
                                     <!--end:Menu sub-->
                                 </div>
-                            
+
 
 
                             </div>
@@ -414,7 +416,7 @@
                                     <div class="menu-item px-5">
                                         <a href="/transactions" class="menu-link px-5">
                                             <span class="menu-text">Pending Transactions</span>
-                                            
+
                                         </a>
                                     </div>
                                     <div class="menu-item px-5">
@@ -651,7 +653,7 @@
             <div class="app-wrapper  flex-column flex-row-fluid " id="kt_app_wrapper">
 
                 <!--begin::Toolbar-->
-                <div style='background:url({{ asset('/assets/media/auth/bg3.jpg') }});background-size:cover;width:100%'
+                <div style='background:url({{ asset(' /assets/media/auth/bg3.jpg') }});background-size:cover;width:100%'
                     {{-- <div style='background:url({{ asset(' assets/media/logos/fastpay_bg2.jpg')
                     }});background-size:cover' --}} id="kt_app_toolbar" class="app-toolbar  py-6 ">
 
@@ -710,7 +712,12 @@
 
                                     <h1 style=" 'Lato', sans-serif;"
                                         class="page-heading d-flex text-white fw-bold fs-2 flex-column justify-content-center my-0 mb-2">
+                                        @if($user->created_at->isToday())
+                                        Thanks for joining us, {{ $user->name }}.
+                                        @else
                                         Welcome back, {{ $user->name }}.
+                                        @endif
+
                                         <!--begin::Description-->
                                         <div class="card-title d-flex flex-column mt-4">
                                             <!--begin::Info-->
@@ -790,8 +797,8 @@
                         <!--begin::Main-->
                         @yield('content')
                         <!--end:::Main-->
-                        <a href="https://wa.me/{{ $company->phone }}"><img src="{{asset('assets/media/logos/whatsapp.png')}}"
-                                alt='whatsapp' id="fixedbutton"></a>
+                        <a href="https://wa.me/{{ $company->phone }}"><img
+                                src="{{asset('assets/media/logos/whatsapp.png')}}" alt='whatsapp' id="fixedbutton"></a>
 
                     </div>
                     <div id="kt_app_footer"
@@ -813,12 +820,10 @@
 
                         <!--begin::Menu-->
                         <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
-                            <li class="menu-item"><a href="/" target="_blank"
-                                    class="menu-link px-2">About</a>
+                            <li class="menu-item"><a href="/" target="_blank" class="menu-link px-2">About</a>
                             </li>
 
-                            <li class="menu-item"><a href="/" target="_blank"
-                                    class="menu-link px-2">Support</a></li>
+                            <li class="menu-item"><a href="/" target="_blank" class="menu-link px-2">Support</a></li>
 
                             {{-- <li class="menu-item"><a
                                     href="https://wa.me/2349058744473?text='Hi,%20I%20will%20like%20to%20invest%20in%20CT_Taste"

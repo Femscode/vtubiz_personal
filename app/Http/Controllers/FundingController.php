@@ -217,6 +217,7 @@ class FundingController extends Controller
             $charges = 100;
             $amountpaid -= $charges;
         }
+       
         $details_paid = $amountpaid + $charges;
 
         $user = User::where('email', $email)->firstOrFail();
