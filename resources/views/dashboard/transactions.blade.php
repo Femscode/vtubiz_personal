@@ -85,22 +85,37 @@
                 @elseif($tranx->status == 3)
                              
                 <tr class='alert alert-warning'>
-                    <td>{{ $tranx->user->name }}<br>
-                        <a href='https://wa.me/234{{ substr($tranx->user->phone,1) }}'>{{
-                            $tranx->user->phone }}</a>
-                    </td>
-                    <td>{{ $tranx->title }}</td>
-                    <td>{{ $tranx->reference }}</td>
-                    <td>₦{{ number_format($tranx->amount,2) }}</td>
-                    <td>{{ $tranx->description }}</td>
-                    <td>₦{{ number_format($tranx->admin_before) }} / ₦{{
-                        number_format($tranx->admin_after) }}</td>
-                    <td>
-                      
-                        <span class='btn-sm btn btn-warning'>Pending</span>
-                       
-                    </td>
-                    <td><a  href='/verify_purchase/{{ $tranx->reference }}' class='btn btn-success'>Verify</td>
+                  <td>{{ $tranx->title }}<br>
+                    @if($tranx->title == "Data Purchase" && $tranx->status == 1 && $tranx->redo == 1 || $tranx->title ==
+                    "Airtime Purchase" && $tranx->status == 1 && $tranx->redo == 1 || $tranx->title == "Electricity
+                    Payment" && $tranx->status == 1 && $tranx->redo == 1 )
+                    {{-- @if($tranx->title == "Data Purchase" && $tranx->status == 1 || $tranx->title == "Airtime
+                    Purchase" && $tranx->status == 1 || $tranx->title =='Electricity Payment' && $tranx->status == 1 ||
+                    $tranx->title == 'Cable Subscription' && $tranx->status == 1 ) --}}
+                    <a data-transaction_id="{{ $tranx->id }}" data-title="{{ $tranx->title }}"
+                      data-amount="{{ $tranx->amount }}" data-description='{{ $tranx->description }}'
+                      data-id='{{ $tranx->id }}' class='redo btn btn-secondary btn-sm'>Redo</a>
+                    @endif
+                  </td>
+                  <td>{{ $tranx->reference }}</td>
+                  <td>{{ $tranx->description }}</td>
+                  <td>₦{{ number_format($tranx->amount,2) }}</td>
+                  <td>₦{{ number_format($tranx->before,2) }}</td>
+                  <td>₦{{ number_format($tranx->after,2) }}</td>
+                  <td>{{ $tranx->type }}</td>
+                  <td>@if($tranx->status == 1)
+                    <span class='badge badge-light-success'>Success</span>
+                    @else
+                    <span class='badge badge-light-danger'>Failed</span>
+                    @endif
+
+                  </td>
+                  <td>
+                    <a href='/premium-verify_purchase/{{ $tranx->reference }}' class='btn btn-primary btn-sm'>Verify</a>
+
+                    <a href='/print_transaction_receipt/{{ $tranx->id }}' class='btn btn-success btn-sm'>Print</a>
+                  </td>
+               
                 </tr>
                 @elseif($tranx->status == 1)
                 <tr class='bg bg-light-success'>
