@@ -46,10 +46,11 @@ class FundingController extends Controller
         $data['amount'] = $amount = $request->amount;
         $data['active'] = 'fundwallet';
         if ($request->type == 'card') {
-            $env = User::where('email', 'fasanyafemi@gmail.com')->first()->twitter;
-
+            $env = env('FLW_PUBLIC_KEY');
             $data['public_key'] = $env;
-            $data['callback_url'] = 'https://vtubiz.com/payment/callback';
+            // $data['callback_url'] = 'https://vtubiz.com/payment/callback';
+            $data['callback_url'] = 'https://' . $_SERVER['HTTP_HOST'] . '/dashboard';
+
             if ($user->user_type == 'admin') {
                 return view('business_backend.pay_with_card', $data);
             }
