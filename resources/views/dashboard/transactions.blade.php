@@ -90,6 +90,7 @@
                             $tranx->user->phone }}</a>
                     </td>
                     <td>{{ $tranx->title }}</td>
+                    <td>{{ $tranx->reference }}</td>
                     <td>₦{{ number_format($tranx->amount,2) }}</td>
                     <td>{{ $tranx->description }}</td>
                     <td>₦{{ number_format($tranx->admin_before) }} / ₦{{
