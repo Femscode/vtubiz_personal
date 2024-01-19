@@ -260,24 +260,24 @@ class HomeController extends Controller
     }
     public function make_transfer(Request $request)
     {
-        // dd($request->all());
+     
         $this->validate($request, [
             'amount' => 'required'
         ]);
         $user = Auth::user();
-        $user_pin = $request->first . $request->second . $request->third . $request->fourth;
+        $user_pin = $request->pin;
 
         $hashed_pin = hash('sha256', $user_pin);
-        // if ($user->pin !== $hashed_pin) {
-        //     return "Incorrect pin";
-        //     $response = [
-        //         'success' => false,
-        //         'message' => 'Incorrect Pin',
+        if ($user->pin !== $hashed_pin) {
+            return "Incorrect pin";
+            $response = [
+                'success' => false,
+                'message' => 'Incorrect Pin',
 
-        //     ];
+            ];
 
-        //     return response()->json($response);
-        // }
+            return response()->json($response);
+        }
 
         if ($user->balance < $request->amount) {
             return "Insufficient Balance";
