@@ -117,9 +117,9 @@ class UserController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->with('error', 'Invalid parameters');
         }
-        if (!session()->has('resetpin')) {
-            return redirect()->back()->with('error', 'Token Expired');
-        }
+        // if (!session()->has('resetpin')) {
+        //     return redirect()->back()->with('error', 'Token Expired');
+        // }
         $user = Auth::user();
         // dd($request->all());
         // if ($request->new_pin == $request->confirm_pin && session()->get('resetpin') == $request->token) {
