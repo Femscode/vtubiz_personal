@@ -18,7 +18,7 @@
                                         Hi, <strong>{{$user->name}}</strong> below is your token to reset your pin, it expires in 5 minutes.</p>
 										
 										
-										<a style="display:inline-block;text-align:center;padding:0.75575rem 1.3rem;font-size:0.925rem;line-height:1.5;border:0px;margin-right:0.75rem!important;font-weight:600!important;outline:none!important;vertical-align:middle" href='/'>{{ $token }} </a>
+										<p style="display:inline-block;text-align:center;padding:0.75575rem 1.3rem;font-size:0.925rem;line-height:1.5;border:0px;margin-right:0.75rem!important;font-weight:600!important;outline:none!important;vertical-align:middle">{{ $token }} </p>
 										
 										   </div>
 										

@@ -122,7 +122,8 @@ class UserController extends Controller
         }
         $user = Auth::user();
         // dd($request->all());
-        if ($request->new_pin == $request->confirm_pin && session()->get('resetpin') == $request->token) {
+        // if ($request->new_pin == $request->confirm_pin && session()->get('resetpin') == $request->token) {
+        if ($request->new_pin == $request->confirm_pin) {
             $user->pin =  hash('sha256', $request->new_pin);
             $user->save();
             session()->remove('resetpin');
