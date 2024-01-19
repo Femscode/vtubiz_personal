@@ -288,7 +288,10 @@ if (result.isConfirmed) {
        processData: false,
        success: function(data) {
           console.log(data)
-          location.href = 'https://vtubiz.com/reset-pin-with-token';
+          var currentUrl = window.location.href;
+          var newUrl = currentUrl.replace("/user-change-pin", "/reset-pin-with-token");
+          window.location.href = newUrl;
+        //   location.href = 'https://vtubiz.com/reset-pin-with-token';
        },
        error: function(data) {
            console.log(data)
