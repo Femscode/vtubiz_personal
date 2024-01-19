@@ -28,6 +28,10 @@ class AuthenticatedSessionController extends Controller
         }  
       
         // $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+        //for testing purpuse 
+        // $data['user'] = $user = User::first();
+        //end testing purpuse
+
         $data['company_id'] = $user->id;
        
         return view('auth.login',$data);

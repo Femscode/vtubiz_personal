@@ -260,6 +260,7 @@ class HomeController extends Controller
     }
     public function make_transfer(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
             'amount' => 'required'
         ]);
@@ -267,17 +268,19 @@ class HomeController extends Controller
         $user_pin = $request->first . $request->second . $request->third . $request->fourth;
 
         $hashed_pin = hash('sha256', $user_pin);
-        if ($user->pin !== $hashed_pin) {
-            $response = [
-                'success' => false,
-                'message' => 'Incorrect Pin',
+        // if ($user->pin !== $hashed_pin) {
+        //     return "Incorrect pin";
+        //     $response = [
+        //         'success' => false,
+        //         'message' => 'Incorrect Pin',
 
-            ];
+        //     ];
 
-            return response()->json($response);
-        }
+        //     return response()->json($response);
+        // }
 
         if ($user->balance < $request->amount) {
+            return "Insufficient Balance";
             $response = [
                 'success' => false,
                 'message' => 'Insufficient Balance',
@@ -288,18 +291,25 @@ class HomeController extends Controller
         }
 
 
-        $reference = 'fund_withdraw_' . Str::random(7);
-        $details = "Withdraw of NGN " . $request->amount . " to " . $request->account_no. ' ('. $request->account_name.') Bank Name:' .$request->bank_name;
-        $tranx =  $this->create_transaction('Funds Withdraw', $reference, $details, 'debit', $request->amount, $user->id, 2);
-        $data = array('username' => $user->name, 'tranx_id' => $tranx->id,  'amount' => $request->amount);
+        $reference = 'fund_transfer_' . Str::random(7);
+        $recipient = User::where('phone',$request->account_id)->first();
+        
+        $details = "Fund Transfer of NGN " . $request->amount . " to " . $recipient->name. ' ('. $recipient->phone.')';
+        
+        $tranx =  $this->create_transaction('Fund Transfer', $reference, $details, 'debit', $request->amount, $user->id, 2);
+        
+        $reference = 'payment_received_' . Str::random(7);
+        $details = "Payment of NGN " . $request->amount . " received from " . $user->name. ' ('. $user->phone.')';
+        $tranx =  $this->create_transaction('Payment Received', $reference, $details, 'debit', $request->amount, $recipient->id, 2);
+        // $data = array('username' => $user->name, 'tranx_id' => $tranx->id,  'amount' => $request->amount);
         // dd($data);
-        $amount = $request->amount;
+        // $amount = $request->amount;
 
         // Mail::send('mail.withdraw_request', $data, function ($message) use($amount){
         //     $message->to('fasanyafemi@gmail.com')->subject("Withdrawal request of NGN". $amount);
         //     $message->from('support@vtubiz.com', 'VTUBIZ');
         // });
-
+        return true;
 
         $response = [
             'success' => true,

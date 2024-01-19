@@ -131,6 +131,21 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/saveRecipient', [App\Http\Controllers\GroupController::class, 'admin_saveRecipient'])->name('admin_saveRecipient');
     Route::get('/delete_recipient/{id}', [App\Http\Controllers\GroupController::class, 'admin_deleteRecipient'])->name('admin_deleteRecipient');
 
+    //Fun GiveAway
+
+    Route::get('/create-giveaway', [App\Http\Controllers\FunGiveAwayController::class, 'fun_giveaway_data'])->name('fun_giveaway_data');
+    Route::get('/my-giveaway', [App\Http\Controllers\FunGiveAwayController::class, 'my_giveaway'])->name('my_giveaway');
+    Route::get('/giveaway_participant/{id}', [App\Http\Controllers\FunGiveAwayController::class, 'giveaway_participants'])->name('giveaway_participants');
+    Route::get('/giveaway_transactions/{id}', [App\Http\Controllers\FunGiveAwayController::class, 'giveaway_transactions'])->name('giveaway_transactions');
+    Route::get('/add_question/{slug}', [App\Http\Controllers\FunGiveAwayController::class, 'addQuestion'])->name('addQuestion');
+    Route::get('/delete_question/{slug}', [App\Http\Controllers\FunGiveAwayController::class, 'delete_question'])->name('delete_question');
+    Route::get('/delete_giveaway/{slug}', [App\Http\Controllers\FunGiveAwayController::class, 'delete_giveaway'])->name('delete_giveaway');
+    Route::post('/createDataGiveaway', [App\Http\Controllers\FunGiveAwayController::class, 'createDataGiveaway'])->name('createDataGiveaway');
+    Route::post('/storequestion', [App\Http\Controllers\FunGiveAwayController::class, 'storequestion'])->name('storequestion');
+
+
+    //End Fun Giveaway
+
 
 
     //airtime_groups
