@@ -78,6 +78,26 @@
                         </div>
 
                         @else
+
+                        
+                        <div class='alert alert-success'>
+                            <h2>Get yourself a permanent virtual account!</h2>
+                            <ol>
+                                <li>Send any amount at anytime</li>
+                                <li>Enjoy less charges</li>
+                                <li>Enjoy fast funding transaction speed</li>
+                            </ol>
+                            <a id='showBvn' style='color:red;cursor:pointer'>Click here to generate your permanent virtual account→</a><br>
+                            <div style='display:none' id='bvnfield'>
+                            <form method='post' action='/generatePermanentAccount' style='display: inline-block;'>@csrf 
+                                <input type='number' name='bvn' placeholder='Enter Your BVN number' class='form-control' style='display: inline-block; width: auto;'/>
+                                <input type='submit' class='btn btn-success' style='display: inline-block; width: auto;'/>
+                            </form>
+                            </div>
+                            
+                        </div>
+                        @endif
+
                         <div class="py-2">
                             <form method="POST" action="{{ route('checkout',['subdomain']) }}" accept-charset="UTF-8"
                                 class="form-horizontal" role="form">@csrf
@@ -119,7 +139,7 @@
                                 </div>
                             </form>
                         </div>
-                        @endif
+                     
 
                     </div>
 
