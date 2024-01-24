@@ -7,6 +7,7 @@ use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BulkSMSController;
+use App\Http\Controllers\FundingController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\LoginWithGoogleController;
@@ -87,7 +88,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('my-profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
     Route::get('user-fundwallet', [App\Http\Controllers\HomeController::class, 'fundwallet'])->name('fundwallet');
 
-
+    Route::post('generatePermanentAccount', [FundingController::class, 'generatePermanentAccount'])->name('generatePermanentAccount');
+    
     Route::post('/checkout/{checkout?}', [App\Http\Controllers\FundingController::class, 'checkout'])->name('checkout');
     // Route::get('withdraw', [App\Http\Controllers\HomeController::class, 'withdraw'])->name('withdraw');
     // Route::any('confirm_account', [HomeController::class, 'confirm_account'])->name('confirm_account');

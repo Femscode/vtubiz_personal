@@ -1,6 +1,24 @@
 @extends('dashboard.master1')
 
 @section('header')
+<style>
+    .credit-card {
+        
+ background: linear-gradient(to right, #fb9129, #155724);
+ border-radius: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ overflow: hidden;
+ width: 300px;
+ margin: 20px;
+ color: black;
+}
+
+.card {
+ border: none;
+ 
+ color:black;
+}
+</style>
 @endsection
 
 @section('content')
@@ -26,6 +44,40 @@
                         <div class="text-center my-8">
                             <span class=" text-gray-500 fw-bold fs-4">-- FUND WALLET --</span>
                         </div>
+                        @if($user->account_no !== null)
+
+                        <div class="credit-card justify-content-center">
+                            <div class="card card-dashed bg-gradient-primary flex-row flex-stack flex-wrap p-6 text-black m-2">
+                                <!--begin::Info-->
+                                <h4>Transfer to your virtual account</h4>
+                                <div class="d-flex flex-column p-2 m-2">
+                        
+                                    <div class="d-flex align-items-center">
+                        
+                                        <div>
+                                            <div class="fs-6 fw-semibold">
+                                                Acct. No :
+                                            </div>
+                                            <div class="fs-4 fw-bold"><strong>{{ $user->account_no ?? "No account generated yet!" }}</strong></div>
+                                            <div class="fs-6 fw-semibold">
+                                                Bank Name :
+                                            </div>
+                                            <div class="fs-6 fw-bold"><strong>{{ $user->bank_name ?? "No account generated yet!" }}</strong></div>
+                                            <div class="fs-6 fw-semibold">
+                                                Account Name :
+                                            </div>
+                                            <div class="fs-4 fw-bold"><strong>{{ $user->account_name }}</strong></div>
+                        
+                                        </div>
+                                        <!--end::Details-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                </div>
+                        
+                            </div>
+                        </div>
+
+                        @else
                         <div class="py-2">
                             <form method="POST" action="{{ route('checkout',['subdomain']) }}" accept-charset="UTF-8"
                                 class="form-horizontal" role="form">@csrf
@@ -95,6 +147,9 @@
         @if (session('message'))
         Swal.fire('Success!',"{{ session('message') }}",'success');
     @endif
+    $("#showBvn").on('click', function() {
+        $("#bvnfield").show()
+    })
 
     $("#u_amount").on('input', function() {
         price = $("#u_amount").val()

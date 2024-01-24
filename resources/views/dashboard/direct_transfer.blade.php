@@ -1,6 +1,24 @@
 @extends('dashboard.master1')
 
 @section('header')
+
+<style>
+    .credit-card {
+        
+ background: linear-gradient(to right, #fb9129, #155724);
+ border-radius: 10px;
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+ overflow: hidden;
+ width: 300px;
+ margin: 20px;
+ color: black;
+}
+
+.card {
+ border: none;
+ color:black;
+}
+</style>
 @endsection
 
 @section('content')
@@ -51,9 +69,10 @@
 
 
                         </div>
-                        <div class="card card-dashed bg-light-secondary flex-row flex-stack flex-wrap p-6">
+                        <div class="credit-card justify-content-center">
+                        <div class="card card-dashed bg-light-secondary flex-row flex-stack flex-wrap p-6 m-2">
                             <!--begin::Info-->
-                            <div class="d-flex flex-column py-2">
+                            <div class="d-flex flex-column p-2 m-2">
                                 <!--begin::Owner-->
                                
                                 <!--end::Owner-->
@@ -89,6 +108,7 @@
 
 
 
+                        </div>
                         </div>
 
                     </div>
