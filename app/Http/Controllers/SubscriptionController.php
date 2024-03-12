@@ -21,6 +21,7 @@ use Illuminate\Http\Request;
 use App\Models\DataRecipient;
 use Flutterwave\Transactions;
 use App\Models\AirtimeRecipient;
+use App\Models\SchedulePurchase;
 use App\Traits\TransactionTrait;
 use App\Models\DuplicateTransaction;
 use Illuminate\Support\Facades\Auth;
@@ -299,9 +300,10 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
 
-        $phone_number = $request->phone_number;
-        if (strlen($request->phone_number) == 10) {
-            $phone_number = "0" . $request->phone_number;
+      
+        $phone_number = str_replace(' ', '', $request->phone_number);
+        if (strlen($phone_number) == 10) {
+            $phone_number = "0" . $phone_number;
         }
         $hashed_pin = hash('sha256', $request->pin);
         if ($user->pin !== $hashed_pin) {
@@ -319,13 +321,13 @@ class SubscriptionController extends Controller
             $data = Data::where('user_id', $user->company_id)->where('plan_id', $request->plan)->where('network', $request->network)->first();
             $data_price =  $data->admin_price;
 
-            $details = "Data Purchase of " . $data->data_price . " on " . $request->phone_number;
+            $details = "Data Purchase of " . $data->data_price . " on " . $phone_number;
             $schedule_transaction = $this->create_schedule_transaction(
                 'Data Purchase',
                 $reference,
                 $details,
                 $user->id,
-                $request->phone_number,
+                $phone_number,
                 $request->network,
                 $request->plan,
                 $data_price,
@@ -336,7 +338,7 @@ class SubscriptionController extends Controller
                 $reference,
                 $details,
                 $user->id,
-                $request->phone_number,
+                $phone_number,
                 $request->network,
                 $request->plan,
                 $data_price,
@@ -383,7 +385,7 @@ class SubscriptionController extends Controller
         } else {
             $network = "9Mobile";
         }
-        $details = $network . "Data Purchase of " . $data->plan_name . " on " . $request->phone_number;
+        $details = $network . "Data Purchase of " . $data->plan_name . " on " . $phone_number;
         $client_reference =  'buy_data_' . Str::random(7);
         $check = $this->check_duplicate('check', $user->id, $data_price, "Data Purchase", $details, $client_reference);
 
@@ -439,9 +441,10 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
 
-        $phone_number = $phone;
-        if (strlen($phone) == 10) {
-            $phone_number = "0" . $phone;
+       
+        $phone_number = str_replace(' ', '', $phone);
+        if (strlen($phone_number) == 10) {
+            $phone_number = "0" . $phone_number;
         }
 
         $data = Data::where('user_id', $user->company_id)->where('plan_id', $plan_id)->where('network', $network)->first();
@@ -687,9 +690,10 @@ class SubscriptionController extends Controller
         // dd($request->all());
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
-        $phone_number = $request->phone_number;
-        if (strlen($request->phone_number) == 10) {
-            $phone_number = "0" . $request->phone_number;
+       
+        $phone_number = str_replace(' ', '', $request->phone_number);
+        if (strlen($phone_number) == 10) {
+            $phone_number = "0" . $phone_number;
         }
         $hashed_pin = hash('sha256', $request->pin);
         if ($user->pin !== $hashed_pin) {
@@ -704,13 +708,13 @@ class SubscriptionController extends Controller
 
         if ($request->has('selectedDate')) {
             $reference = "schedule_purchase_airtime_" . Str::random(5);
-            $details = " Airtime Purchase of NGN" . $request->amount . " on " . $request->phone_number;
+            $details = " Airtime Purchase of NGN" . $request->amount . " on " . $phone_number;
             $schedule_transaction = $this->create_schedule_transaction(
                 'Airtime Purchase',
                 $reference,
                 $details,
                 $user->id,
-                $request->phone_number,
+                $phone_number,
                 $request->network,
                 $request->discounted_amount,
                 $request->amount,
@@ -721,7 +725,7 @@ class SubscriptionController extends Controller
                 $reference,
                 $details,
                 $user->id,
-                $request->phone_number,
+                $phone_number,
                 $request->network,
                 $request->discounted_amount,
                 $request->amount,
@@ -750,7 +754,7 @@ class SubscriptionController extends Controller
 
         //check duplicate
 
-        $details =  "Airtime Purchase of " . $request->amount . " on " . $request->phone_number;
+        $details =  "Airtime Purchase of " . $request->amount . " on " . $phone_number;
         $client_reference =  'buy_airtime_' . Str::random(7);
 
         $check = $this->check_duplicate('check', $user->id, $request->amount, "Airtime Purchase", $details, $client_reference);
@@ -800,9 +804,10 @@ class SubscriptionController extends Controller
     {
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
-        $phone_number = $phone;
-        if (strlen($phone) == 10) {
-            $phone_number = "0" . $phone;
+     
+        $phone_number = str_replace(' ', '', $phone);
+        if (strlen($phone_number) == 10) {
+            $phone_number = "0" . $phone_number;
         }
 
         // dd($request->all());
@@ -822,7 +827,7 @@ class SubscriptionController extends Controller
 
         //check duplicate
 
-        $details =  "Airtime Purchase of " . $amount . " on " . $phone;
+        $details =  "Airtime Purchase of " . $amount . " on " . $phone_number;
         $client_reference =  'buy_airtime_' . Str::random(7);
         $check = $this->check_duplicate('check', $user->id, $amount, "Airtime Purchase", $details, $client_reference);
 
