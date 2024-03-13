@@ -284,26 +284,38 @@ class FundingController extends Controller
         $client_reference = $data['client_reference'];
         $reference = $data['reference'];
         $status =  $data['status'];
+        $message = $data['message'];
 
         if ($status == 'success' || $status == 'successful') {
 
-            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference;
+            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference.'/'.$message;
             $response = Http::get($url);
-        } else {
-            $url = 'https://vtubiz.com/run_normal/' . $client_reference . '/' . $reference;
+        } 
+        elseif($status == 'pending') {
+            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference.'/'.$message;
+            // file_put_contents(__DIR__ . '/easy_success.json', $url);
             $response = Http::get($url);
         }
-        file_put_contents(__DIR__ . '/easywebhook_personal.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
+        elseif($status == 'failed') {
+            $url = 'https://vtubiz.com/run_failed/' . $client_reference . '/' . $reference.'/'.$message;
+            $response = Http::get($url);
+        }
+        else {
+            $url = 'https://vtubiz.com/run_failed/' . $client_reference . '/' . $reference.'/'.$message;
+            $response = Http::get($url);
+        }
+        file_put_contents(__DIR__ . '/neweasywebhook_personal.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
        
         return response()->json("OK", 200);
     }
 
-    public function run_debit($client_reference, $reference)
+    public function run_debit($client_reference, $reference,$message)
     {
         $tranx = Transaction::where('reference', $client_reference)
             ->orderByDesc('created_at')
             ->first();
         $tranx->reference = $reference;
+        $tranx->description = $message;
         $user = User::find($tranx->user_id);
         $user->balance -= $tranx->amount;
         $user->total_spent += $tranx->amount;
@@ -320,10 +332,11 @@ class FundingController extends Controller
         $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
         $duplicate->delete();
     }
-    public function run_normal($client_reference, $reference)
+    public function run_failed($client_reference, $reference,$message)
     {
         $tranx = Transaction::where('reference', $client_reference)->latest()->first();
         $tranx->reference = $reference;
+        $tranx->description = $message;
         $tranx->status = 0;
         $tranx->save();
         $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
