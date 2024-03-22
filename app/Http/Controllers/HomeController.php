@@ -226,6 +226,8 @@ class HomeController extends Controller
 
         $data['user'] = $user = Auth::user();
         $data['company'] = User::where('id', $user->company_id)->first();
+        $data['earnings'] = User::where('referred_by', $user->brand_name)->sum('earnings');
+
         $data['active'] = 'fundwallet';
         $notification = Notification::where('user_id', $user->company_id)->where('type', 'Payment Notification')->first();
 
@@ -433,6 +435,8 @@ class HomeController extends Controller
         $data['user'] = $user = Auth::user();
         $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'transaction';
+        $data['earnings'] = User::where('referred_by', $user->brand_name)->sum('earnings');
+
         $data['transactions'] = Transaction::where('user_id', $user->id)->latest()->get();
 
 

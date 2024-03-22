@@ -745,7 +745,7 @@
                                                     </svg>
                                                     Referral Earnings:
                                                     <!--end::Svg Icon-->
-                                                    ₦{{ number_format($earnings) }}
+                                                    ₦{{ number_format($earnings ?? 0) }}
                                                 </a>
                                                 <!--end::Badge-->
                                             </div>
