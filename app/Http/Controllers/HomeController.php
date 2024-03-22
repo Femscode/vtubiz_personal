@@ -134,6 +134,7 @@ class HomeController extends Controller
       
         $data['user'] = $user = Auth::user();
         $data['company'] = User::where('id', $user->company_id)->first();
+        $data['earnings'] = User::where('referred_by', $user->brand_name)->sum('earnings');
 
         // dd($user);
         $data['active'] = 'dashboard';
@@ -171,6 +172,31 @@ class HomeController extends Controller
         $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'profile';
         return view('dashboard.profile', $data);
+    }
+
+    public function referral()
+    {
+        $data['user'] = $user = Auth::user();
+        $data['active'] = 'profile';
+        $data['users'] = User::where('referred_by', $user->brand_name)->latest()->get();
+        return view('dashboard.referral', $data);
+    }
+
+    public function remitearning() {
+        $user = Auth::user();
+        $earnings = User::where('referred_by', $user->brand_name)->sum('earnings');
+        if($earnings == 0) {
+            return redirect()->back()->with('error','You do not have any amount to remit!');
+    
+        }
+        // dd($earnings);
+       
+        $client_reference = "RefEarn_".Str::random(5);
+        $details = "Referral Earning (NGN".$earnings.") added to balance";
+        $trans_id = $this->create_transaction('Remit Earning', $client_reference, $details, 'credit', $earnings, $user->id, 1);
+
+        $data['users'] = User::where('referred_by', $user->brand_name)->update(['earnings' => 0]);
+        return redirect()->back()->with('message','Referral Earnings remitted successfully!');
     }
     public function process_order(Request $request)
     {

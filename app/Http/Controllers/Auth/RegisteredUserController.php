@@ -34,12 +34,15 @@ class RegisteredUserController extends Controller
         $host = $request->getHost();
         $parts = explode('.', $host);
         $subdomain = $parts[0];
+
+
        
         if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['user'] = $user = User::where('id', '888')->first();
         } else {
             $data['user'] = $user = User::where('brand_name', $subdomain)->first();
-        }      
+        }   
+        $data['referralId'] = isset($_GET['referral_code']) ? $_GET['referral_code'] : '';   
         $data['company_id'] = $user->id;
         return view('auth.register',$data);
     }
@@ -78,6 +81,7 @@ class RegisteredUserController extends Controller
             $user = User::create([
                 'name' => $data['name'],               
                 'company_id' => $data['company_id'],
+                'referred_by' => $data['referred_by'] ?? "VTUBIZ",
                 'email' => $data['email'],
                 'phone' => $data['phone'],
                 'uuid' => $uid,

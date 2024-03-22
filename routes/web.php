@@ -86,6 +86,9 @@ Route::middleware(['auth'])->group(function () {
     // Route::post('/updateprofile', [App\Http\Controllers\HomeController::class, 'updateprofile'])->name('updateprofile');
     Route::post('/setpin', [App\Http\Controllers\HomeController::class, 'setpin'])->name('setpin');
     Route::get('my-profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+    Route::get('my-referral', [App\Http\Controllers\HomeController::class, 'referral'])->name('referral');
+    Route::get('remitearning', [App\Http\Controllers\HomeController::class, 'remitearning'])->name('remitearning');
+    
     Route::get('user-fundwallet', [App\Http\Controllers\HomeController::class, 'fundwallet'])->name('fundwallet');
 
     Route::post('generatePermanentAccount', [FundingController::class, 'generatePermanentAccount'])->name('generatePermanentAccount');

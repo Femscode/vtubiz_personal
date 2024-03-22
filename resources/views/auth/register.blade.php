@@ -168,6 +168,27 @@
                                 
                                         <!--end::Email-->
                                       </div>
+                                      @if($referralId)
+
+                                      <div class="fv-row mb-3">
+                                        <!--begin::Email-->
+                                        <input
+                                          autocomplete=""
+                                          id="referred_by"
+                                          type="text"
+                                         
+                                          class="form-control"
+                                          readonly
+                                          placeholder="Reffered By"
+                                          value="{{ $referralId ?? "Admin
+                                          " }}"
+                                          name="referred_by"
+                                        />
+                                
+                                        <!--end::Email-->
+                                      </div>
+                                      @endif
+
                                       <div class="fv-row mb-3">
                                         <!--begin::Email-->
                                         <input

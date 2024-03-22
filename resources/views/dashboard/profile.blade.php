@@ -3,7 +3,9 @@
 <div class="d-flex flex-column flex-column-fluid">
 
 
-    <div class="flex-row-fluid ml-lg-8">
+   
+
+    <div  id="kt_app_content" class="app-content  flex-column-fluid ">
         <!--begin::Card-->
         <div class="card card-custom">
             <!--begin::Header-->
