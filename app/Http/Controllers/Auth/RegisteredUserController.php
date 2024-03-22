@@ -80,6 +80,7 @@ class RegisteredUserController extends Controller
 
             $user = User::create([
                 'name' => $data['name'],               
+                'brand_name' => Str::replace(" ", "", $data['name']),               
                 'company_id' => $data['company_id'],
                 'referred_by' => $data['referred_by'] ?? "VTUBIZ",
                 'email' => $data['email'],
