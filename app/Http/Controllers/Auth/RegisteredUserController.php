@@ -39,7 +39,11 @@ class RegisteredUserController extends Controller
        
         if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['user'] = $user = User::where('id', '888')->first();
-        } else {
+        } 
+        elseif ($subdomain == 'suresubz' || $parts[1] == 'suresubz') {
+            $data['user'] = $user = User::where('id', '1184')->first();
+        } 
+        else {
             $data['user'] = $user = User::where('brand_name', $subdomain)->first();
         }   
         $data['referralId'] = isset($_GET['referral_code']) ? $_GET['referral_code'] : '';   
