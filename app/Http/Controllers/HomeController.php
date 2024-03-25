@@ -178,6 +178,7 @@ class HomeController extends Controller
         $data['user'] = $user = Auth::user();
         $data['active'] = 'profile';
         $data['users'] = User::where('referred_by', $user->brand_name)->latest()->get();
+        $data['company'] = User::where('id', $user->company_id)->first();
 
         $data['earnings'] = User::where('referred_by', $user->brand_name)->sum('earnings');
         $host = $request->getHost();
