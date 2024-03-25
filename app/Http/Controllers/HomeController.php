@@ -107,7 +107,7 @@ class HomeController extends Controller
 
     public function index()
     {
-       
+
         return redirect('/dashboard');
     }
 
@@ -131,7 +131,7 @@ class HomeController extends Controller
     }
     public function dashboard()
     {
-      
+
         $data['user'] = $user = Auth::user();
         $data['company'] = User::where('id', $user->company_id)->first();
         $data['earnings'] = User::where('referred_by', $user->brand_name)->sum('earnings');
@@ -139,27 +139,26 @@ class HomeController extends Controller
         // dd($user);
         $data['active'] = 'dashboard';
         if ($user->block == 1) {
-           
+
             return response()->view('dashboard.unverified', $data);
         }
         // dd('here',$user);
         if ($user->pin == null) {
             return response()->view('dashboard.setpin', $data);
-        } else {          
-           
-                // $data['banks'] = Bank::all();
-                $notification = Notification::where('user_id', $user->company_id)->where('type', 'General Notification')->first();
+        } else {
 
-                if ($notification && $notification->title !== null) {
-                    $data['notification'] = $notification;
-                }
+            // $data['banks'] = Bank::all();
+            $notification = Notification::where('user_id', $user->company_id)->where('type', 'General Notification')->first();
+
+            if ($notification && $notification->title !== null) {
+                $data['notification'] = $notification;
+            }
             //    dd($data);
-                return response()->view('dashboard.index', $data);
-            
+            return response()->view('dashboard.index', $data);
         }
     }
 
-    
+
     public function delete_order(Request $request)
     {
         $session = MySession::find($request->id);
@@ -174,30 +173,45 @@ class HomeController extends Controller
         return view('dashboard.profile', $data);
     }
 
-    public function referral()
+    public function referral(Request $request)
     {
         $data['user'] = $user = Auth::user();
         $data['active'] = 'profile';
         $data['users'] = User::where('referred_by', $user->brand_name)->latest()->get();
+
+        $data['earnings'] = User::where('referred_by', $user->brand_name)->sum('earnings');
+        $host = $request->getHost();
+        $parts = explode('.', $host);
+        $subdomain = $parts[0];
+        if ($subdomain == 'www') {
+            $subdomain = $parts[1];
+        }
+        //afuwwu website 
+
+        if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
+            $data['brand'] = 'https://phuzvtu.com';
+        }
+        if ($subdomain == 'suresubz' || $parts[1] == 'suresubz') {
+            $data['brand'] = 'https://suresubz.com';
+        }
         return view('dashboard.referral', $data);
     }
 
-    public function remitearning() {
+    public function remitearning()
+    {
         $user = Auth::user();
         $earnings = User::where('referred_by', $user->brand_name)->sum('earnings');
-        if($earnings == 0) {
-            return redirect()->back()->with('error','You do not have any amount to remit!');
-    
+        if ($earnings == 0) {
+            return redirect()->back()->with('error', 'You do not have any amount to remit!');
         }
         // dd($earnings);
-       
-        $client_reference = "RefEarn_".Str::random(5);
-        $details = "Referral Earning (NGN".$earnings.") added to balance";
+
+        $client_reference = "RefEarn_" . Str::random(5);
+        $details = "Referral Earning (NGN" . $earnings . ") added to balance";
         $trans_id = $this->create_transaction('Remit Earning', $client_reference, $details, 'credit', $earnings, $user->id, 1);
 
         $data['users'] = User::where('referred_by', $user->brand_name)->update(['earnings' => 0]);
         return redirect()->route('dashboard')->with('message', 'Referral Earnings remitted successfully!');
-   
     }
     public function process_order(Request $request)
     {
@@ -289,7 +303,7 @@ class HomeController extends Controller
     }
     public function make_transfer(Request $request)
     {
-     
+
         $this->validate($request, [
             'amount' => 'required'
         ]);
@@ -321,14 +335,14 @@ class HomeController extends Controller
 
 
         $reference = 'fund_transfer_' . Str::random(7);
-        $recipient = User::where('phone',$request->account_id)->first();
-        
-        $details = "Fund Transfer of NGN " . $request->amount . " to " . $recipient->name. ' ('. $recipient->phone.')';
-        
+        $recipient = User::where('phone', $request->account_id)->first();
+
+        $details = "Fund Transfer of NGN " . $request->amount . " to " . $recipient->name . ' (' . $recipient->phone . ')';
+
         $tranx =  $this->create_transaction('Fund Transfer', $reference, $details, 'debit', $request->amount, $user->id, 2);
-        
+
         $reference = 'payment_received_' . Str::random(7);
-        $details = "Payment of NGN " . $request->amount . " received from " . $user->name. ' ('. $user->phone.')';
+        $details = "Payment of NGN " . $request->amount . " received from " . $user->name . ' (' . $user->phone . ')';
         $tranx =  $this->create_transaction('Payment Received', $reference, $details, 'debit', $request->amount, $recipient->id, 2);
         // $data = array('username' => $user->name, 'tranx_id' => $tranx->id,  'amount' => $request->amount);
         // dd($data);

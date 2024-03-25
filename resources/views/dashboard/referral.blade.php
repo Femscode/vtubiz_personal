@@ -35,7 +35,7 @@
                                     Copy & Share Your Referral Link :</div>
                                 <div class="fs-6 fw-light">
                                  
-                                    <i id='acctNo'>https://vtubiz.com/register?referral_code={{ $user->brand_name }}</i>
+                                    <i id='acctNo'>{{ $brand }}/register?referral_code={{ $user->brand_name }}</i>
                                     {{-- <input class='form-control' value='https://vtubiz.com/'/> --}}
 
                                     <a style='cursor:pointer' id='copyAcct'>
