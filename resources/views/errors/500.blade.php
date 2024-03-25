@@ -137,7 +137,7 @@ text-transform: uppercase;
             <h2>Internal Server Error.</h2>
             <p>Uh-oh! Service Unavailable, kindly try again later! </p>
             
-           <a style='background:#ebab21' href="https://vtubiz.com">Go To Homepage</a>
+           <a style='background:#ebab21' href="/">Go To Homepage</a>
 
         </div>
     </div>
