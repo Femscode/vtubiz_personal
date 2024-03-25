@@ -70,6 +70,14 @@
                             <path fill="currentColor"
                                 d="M7.004 3.692c-1.754 0-3.169 1.403-3.169 3.142 0 1.74 1.415 3.142 3.169 3.142 1.753 0 3.168-1.403 3.168-3.142 0-1.739-1.415-3.142-3.168-3.142Zm0 5.185a2.055 2.055 0 0 1-2.06-2.043c0-1.126.924-2.042 2.06-2.042 1.136 0 2.06.916 2.06 2.042a2.055 2.055 0 0 1-2.06 2.043Zm4.036-5.313c0 .407-.33.733-.739.733a.734.734 0 0 1-.739-.733c0-.405.331-.733.74-.733.407 0 .738.328.738.733Zm2.099.744c-.047-.982-.273-1.852-.998-2.568-.723-.716-1.6-.94-2.59-.99-1.02-.057-4.078-.057-5.098 0-.987.047-1.864.27-2.59.987-.724.717-.948 1.586-.997 2.568-.058 1.011-.058 4.044 0 5.056.047.981.273 1.85.998 2.567.725.717 1.6.94 2.589.99 1.02.058 4.078.058 5.098 0 .99-.046 1.867-.27 2.59-.99.722-.716.948-1.586.998-2.567.058-1.012.058-4.042 0-5.053Zm-1.318 6.138a2.077 2.077 0 0 1-1.175 1.165c-.813.32-2.744.246-3.642.246-.9 0-2.832.071-3.643-.246a2.076 2.076 0 0 1-1.175-1.165c-.322-.806-.248-2.72-.248-3.612 0-.891-.071-2.808.248-3.612a2.077 2.077 0 0 1 1.175-1.165c.814-.32 2.744-.246 3.643-.246.898 0 2.831-.071 3.642.246.54.213.957.626 1.175 1.165.322.807.248 2.72.248 3.612 0 .891.074 2.808-.248 3.612Z" />
                         </svg></a></li>
+                <li class="list-inline-item">
+                    <a href="{{ $user->whatsapp ?? 'https://instagram.com/vtubiz' }}"
+                        class="btn btn-xs btn-social btn-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                            height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+                            <path
+                                d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+                        </svg></a>
+                </li>
 
             </ul>
         </div>
@@ -79,12 +87,12 @@
         <!-- Navbar top-->
         <nav class="navbar navbar-expand-lg navbar-top  navbar-dark navbar-border-bottom navbar-opaque">
             <div class="container"><a class="navbar-brand" href="">
-                @if($user->logo !== null)
-            <img class="rounded-circle header-profile-user"
-            src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
-           @else
-            <h2>{{ $user->brand_name }}</h2>
-            @endif
+                    @if($user->logo !== null)
+                    <img class="rounded-circle header-profile-user"
+                        src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                    @else
+                    <h2>{{ $user->brand_name }}</h2>
+                    @endif
                 </a><a class="navbar-toggle order-4 popup-inline"
                     href="#navbar-mobile-style-1"><span></span><span></span><span></span></a>
                 <ul class="nav navbar-nav order-2 ms-auto nav-no-opacity">
@@ -107,8 +115,8 @@
         <div class="navbar navbar-mobile navbar-mobile-style-1 bg-white mfp-hide" id="navbar-mobile-style-1">
             <div class="navbar-wrapper">
                 <div class="navbar-head"><a class="navbar-brand d-block d-md-none" href="">
-                    <h2>{{ $user->brand_name }}</h2>           
-                </a><a class="navbar-toggle popup-modal-dismiss"
+                        <h2>{{ $user->brand_name }}</h2>
+                    </a><a class="navbar-toggle popup-modal-dismiss"
                         href="#"><span></span><span></span><span></span></a></div>
                 <div class="navbar-body">
                     <ul class="nav navbar-nav navbar-nav-collapse">
@@ -186,11 +194,10 @@
                                     <div class="col-lg-7 offset-lg-1">
                                         <h1 class="text-white mb-40">{{ $user->heading_1 ?? "Top-Up, Pay Bills, Stay
                                             Connected" }}</h1><!-- Button-->
-                                            <h4 class='text-white'>{{ $user->sub_heading_1?? "Explore a World of
-                                                Convenience" }}</h4>
-                                            
-                                            <a class="btn btn-accent-3" href="/register"
-                                            target="_self">Get Started
+                                        <h4 class='text-white'>{{ $user->sub_heading_1?? "Explore a World of
+                                            Convenience" }}</h4>
+
+                                        <a class="btn btn-accent-3" href="/register" target="_self">Get Started
 
                                         </a>
                                     </div>
@@ -200,8 +207,7 @@
                     </div>
 
                     <div class="swiper-slide h-auto">
-                        <div class="py-200 position-relative overflow-hidden h-100')}}"
-                            data-name="">
+                        <div class="py-200 position-relative overflow-hidden h-100')}}" data-name="">
                             <div class="background">
                                 <div class="background-image">
                                     @if($user->image_1 !== null )
@@ -224,11 +230,13 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-lg-7 offset-lg-1">
-                                        <h1 class="text-white mb-40">{{ $user->heading_2 ?? " Top Up Airtime, Data, Cable Subscriptions, and More, All at Your Convenience." }}</h1><!-- Button-->
-                                            <h4 class='text-white'>{{ $user->sub_heading_2?? "Simplify Your Digital Transactions" }}</h4>
-                                            
-                                            <a class="btn btn-accent-3" href="/register"
-                                            target="_self">Get Started
+                                        <h1 class="text-white mb-40">{{ $user->heading_2 ?? " Top Up Airtime, Data,
+                                            Cable Subscriptions, and More, All at Your Convenience." }}</h1>
+                                        <!-- Button-->
+                                        <h4 class='text-white'>{{ $user->sub_heading_2?? "Simplify Your Digital
+                                            Transactions" }}</h4>
+
+                                        <a class="btn btn-accent-3" href="/register" target="_self">Get Started
 
                                         </a>
                                     </div>
@@ -264,9 +272,11 @@
                                 do</span>
                             <h2 class="mb-45" data-show="startbox" data-show-delay="100"><span class="highlight">About
                                     Us</span></h2>
-                            <p class="mb-50" data-show="startbox" data-show-delay="300">{{ $user->about_us ?? "We absolutely
+                            <p class="mb-50" data-show="startbox" data-show-delay="300">{{ $user->about_us ?? "We
+                                absolutely
                                 provide a comprehensive platform for all your data, airtime, electricity, and cable
-                                subscription needs. Our mission is to empower your digital lifestyle through affordability,
+                                subscription needs. Our mission is to empower your digital lifestyle through
+                                affordability,
                                 automation, and lightning-fast transactions."}}.</p>
                             <div data-show="startbox" data-show-delay="400">
                                 <!-- Button--><a class="btn btn-accent-1 btn-link btn-clean" href="#"
@@ -318,17 +328,27 @@
                         <!-- Category-->
                         <div class="category ">
                             <div class="category-icon text-dark">
-                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Communication/Active-call.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M13.0799676,14.7839934 L15.2839934,12.5799676 C15.8927139,11.9712471 16.0436229,11.0413042 15.6586342,10.2713269 L15.5337539,10.0215663 C15.1487653,9.25158901 15.2996742,8.3216461 15.9083948,7.71292558 L18.6411989,4.98012149 C18.836461,4.78485934 19.1530435,4.78485934 19.3483056,4.98012149 C19.3863063,5.01812215 19.4179321,5.06200062 19.4419658,5.11006808 L20.5459415,7.31801948 C21.3904962,9.0071287 21.0594452,11.0471565 19.7240871,12.3825146 L13.7252616,18.3813401 C12.2717221,19.8348796 10.1217008,20.3424308 8.17157288,19.6923882 L5.75709327,18.8875616 C5.49512161,18.8002377 5.35354162,18.5170777 5.4408655,18.2551061 C5.46541191,18.1814669 5.50676633,18.114554 5.56165376,18.0596666 L8.21292558,15.4083948 C8.8216461,14.7996742 9.75158901,14.6487653 10.5215663,15.0337539 L10.7713269,15.1586342 C11.5413042,15.5436229 12.4712471,15.3927139 13.0799676,14.7839934 Z" fill="#000000"/>
-                                        <path d="M14.1480759,6.00715131 L13.9566988,7.99797396 C12.4781389,7.8558405 11.0097207,8.36895892 9.93933983,9.43933983 C8.8724631,10.5062166 8.35911588,11.9685602 8.49664195,13.4426352 L6.50528978,13.6284215 C6.31304559,11.5678496 7.03283934,9.51741319 8.52512627,8.02512627 C10.0223249,6.52792766 12.0812426,5.80846733 14.1480759,6.00715131 Z M14.4980938,2.02230302 L14.313049,4.01372424 C11.6618299,3.76737046 9.03000738,4.69181803 7.1109127,6.6109127 C5.19447112,8.52735429 4.26985715,11.1545872 4.51274152,13.802405 L2.52110319,13.985098 C2.22450978,10.7517681 3.35562581,7.53777247 5.69669914,5.19669914 C8.04101739,2.85238089 11.2606138,1.72147333 14.4980938,2.02230302 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-                                    </g>
-                                </svg><!--end::Svg Icon--></span>
+                                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Communication/Active-call.svg--><svg
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <path
+                                                d="M13.0799676,14.7839934 L15.2839934,12.5799676 C15.8927139,11.9712471 16.0436229,11.0413042 15.6586342,10.2713269 L15.5337539,10.0215663 C15.1487653,9.25158901 15.2996742,8.3216461 15.9083948,7.71292558 L18.6411989,4.98012149 C18.836461,4.78485934 19.1530435,4.78485934 19.3483056,4.98012149 C19.3863063,5.01812215 19.4179321,5.06200062 19.4419658,5.11006808 L20.5459415,7.31801948 C21.3904962,9.0071287 21.0594452,11.0471565 19.7240871,12.3825146 L13.7252616,18.3813401 C12.2717221,19.8348796 10.1217008,20.3424308 8.17157288,19.6923882 L5.75709327,18.8875616 C5.49512161,18.8002377 5.35354162,18.5170777 5.4408655,18.2551061 C5.46541191,18.1814669 5.50676633,18.114554 5.56165376,18.0596666 L8.21292558,15.4083948 C8.8216461,14.7996742 9.75158901,14.6487653 10.5215663,15.0337539 L10.7713269,15.1586342 C11.5413042,15.5436229 12.4712471,15.3927139 13.0799676,14.7839934 Z"
+                                                fill="#000000" />
+                                            <path
+                                                d="M14.1480759,6.00715131 L13.9566988,7.99797396 C12.4781389,7.8558405 11.0097207,8.36895892 9.93933983,9.43933983 C8.8724631,10.5062166 8.35911588,11.9685602 8.49664195,13.4426352 L6.50528978,13.6284215 C6.31304559,11.5678496 7.03283934,9.51741319 8.52512627,8.02512627 C10.0223249,6.52792766 12.0812426,5.80846733 14.1480759,6.00715131 Z M14.4980938,2.02230302 L14.313049,4.01372424 C11.6618299,3.76737046 9.03000738,4.69181803 7.1109127,6.6109127 C5.19447112,8.52735429 4.26985715,11.1545872 4.51274152,13.802405 L2.52110319,13.985098 C2.22450978,10.7517681 3.35562581,7.53777247 5.69669914,5.19669914 C8.04101739,2.85238089 11.2606138,1.72147333 14.4980938,2.02230302 Z"
+                                                fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
                             </div>
                             <div class="category-body ms-40">
                                 <h4 class="category-title mb-5">Airtime Top-Up</h4>
-                                <p class="category-text font-size-15 text-gray-dark m-0">Top Up your airtime at a discounted price and enjoy more call time.</p>
+                                <p class="category-text font-size-15 text-gray-dark m-0">Top Up your airtime at a
+                                    discounted price and enjoy more call time.</p>
                             </div>
                         </div>
                     </div>
@@ -336,17 +356,27 @@
                         <!-- Category-->
                         <div class="category ">
                             <div class="category-icon text-dark">
-                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Devices/LTE2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M16.4508979,17.4029496 L15.1784978,15.8599014 C16.324501,14.9149052 17,13.5137472 17,12 C17,10.4912085 16.3289582,9.09418404 15.1893841,8.14910121 L16.466112,6.60963188 C18.0590936,7.93073905 19,9.88958759 19,12 C19,14.1173586 18.0528606,16.0819686 16.4508979,17.4029496 Z M19.0211112,20.4681628 L17.7438102,18.929169 C19.7927036,17.2286725 21,14.7140097 21,12 C21,9.28974232 19.7960666,6.77820732 17.7520315,5.07766256 L19.031149,3.54017812 C21.5271817,5.61676443 23,8.68922234 23,12 C23,15.3153667 21.523074,18.3916375 19.0211112,20.4681628 Z M7.54910207,17.4029496 C5.94713944,16.0819686 5,14.1173586 5,12 C5,9.88958759 5.94090645,7.93073905 7.53388797,6.60963188 L8.81061588,8.14910121 C7.67104182,9.09418404 7,10.4912085 7,12 C7,13.5137472 7.67549895,14.9149052 8.82150222,15.8599014 L7.54910207,17.4029496 Z M4.9788888,20.4681628 C2.47692603,18.3916375 1,15.3153667 1,12 C1,8.68922234 2.47281829,5.61676443 4.96885102,3.54017812 L6.24796852,5.07766256 C4.20393339,6.77820732 3,9.28974232 3,12 C3,14.7140097 4.20729644,17.2286725 6.25618985,18.929169 L4.9788888,20.4681628 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
-                                        <path d="M11,14.2919782 C10.1170476,13.9061998 9.5,13.0251595 9.5,12 C9.5,10.6192881 10.6192881,9.5 12,9.5 C13.3807119,9.5 14.5,10.6192881 14.5,12 C14.5,13.0251595 13.8829524,13.9061998 13,14.2919782 L13,20 C13,20.5522847 12.5522847,21 12,21 C11.4477153,21 11,20.5522847 11,20 L11,14.2919782 Z" fill="#000000"/>
-                                    </g>
-                                </svg><!--end::Svg Icon--></span>
+                                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Devices/LTE2.svg--><svg
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <path
+                                                d="M16.4508979,17.4029496 L15.1784978,15.8599014 C16.324501,14.9149052 17,13.5137472 17,12 C17,10.4912085 16.3289582,9.09418404 15.1893841,8.14910121 L16.466112,6.60963188 C18.0590936,7.93073905 19,9.88958759 19,12 C19,14.1173586 18.0528606,16.0819686 16.4508979,17.4029496 Z M19.0211112,20.4681628 L17.7438102,18.929169 C19.7927036,17.2286725 21,14.7140097 21,12 C21,9.28974232 19.7960666,6.77820732 17.7520315,5.07766256 L19.031149,3.54017812 C21.5271817,5.61676443 23,8.68922234 23,12 C23,15.3153667 21.523074,18.3916375 19.0211112,20.4681628 Z M7.54910207,17.4029496 C5.94713944,16.0819686 5,14.1173586 5,12 C5,9.88958759 5.94090645,7.93073905 7.53388797,6.60963188 L8.81061588,8.14910121 C7.67104182,9.09418404 7,10.4912085 7,12 C7,13.5137472 7.67549895,14.9149052 8.82150222,15.8599014 L7.54910207,17.4029496 Z M4.9788888,20.4681628 C2.47692603,18.3916375 1,15.3153667 1,12 C1,8.68922234 2.47281829,5.61676443 4.96885102,3.54017812 L6.24796852,5.07766256 C4.20393339,6.77820732 3,9.28974232 3,12 C3,14.7140097 4.20729644,17.2286725 6.25618985,18.929169 L4.9788888,20.4681628 Z"
+                                                fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                            <path
+                                                d="M11,14.2919782 C10.1170476,13.9061998 9.5,13.0251595 9.5,12 C9.5,10.6192881 10.6192881,9.5 12,9.5 C13.3807119,9.5 14.5,10.6192881 14.5,12 C14.5,13.0251595 13.8829524,13.9061998 13,14.2919782 L13,20 C13,20.5522847 12.5522847,21 12,21 C11.4477153,21 11,20.5522847 11,20 L11,14.2919782 Z"
+                                                fill="#000000" />
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
                             </div>
                             <div class="category-body ms-40">
                                 <h4 class="category-title mb-5">Affordable Data Plans</h4>
-                                <p class="category-text font-size-15 text-gray-dark m-0">Enjoy the internet with our cheap data plans.</p>
+                                <p class="category-text font-size-15 text-gray-dark m-0">Enjoy the internet with our
+                                    cheap data plans.</p>
                             </div>
                         </div>
                     </div>
@@ -354,17 +384,26 @@
                         <!-- Category-->
                         <div class="category ">
                             <div class="category-icon text-dark">
-                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Devices/TV2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M3,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,17 C22,17.5522847 21.5522847,18 21,18 L3,18 C2.44771525,18 2,17.5522847 2,17 L2,6 C2,5.44771525 2.44771525,5 3,5 Z M9.632,10.066 L11.032,10.066 L11.032,9.044 L7.035,9.044 L7.035,10.066 L8.435,10.066 L8.435,14 L9.632,14 L9.632,10.066 Z M14.935,14 L16.846,9.044 L15.523,9.044 L14.382,12.558 L14.354,12.558 L13.206,9.044 L11.862,9.044 L13.738,14 L14.935,14 Z" fill="#000000"/>
-                                        <rect fill="#000000" opacity="0.3" x="3" y="19" width="18" height="1" rx="0.5"/>
-                                    </g>
-                                </svg><!--end::Svg Icon--></span>
+                                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Devices/TV2.svg--><svg
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <path
+                                                d="M3,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,17 C22,17.5522847 21.5522847,18 21,18 L3,18 C2.44771525,18 2,17.5522847 2,17 L2,6 C2,5.44771525 2.44771525,5 3,5 Z M9.632,10.066 L11.032,10.066 L11.032,9.044 L7.035,9.044 L7.035,10.066 L8.435,10.066 L8.435,14 L9.632,14 L9.632,10.066 Z M14.935,14 L16.846,9.044 L15.523,9.044 L14.382,12.558 L14.354,12.558 L13.206,9.044 L11.862,9.044 L13.738,14 L14.935,14 Z"
+                                                fill="#000000" />
+                                            <rect fill="#000000" opacity="0.3" x="3" y="19" width="18" height="1"
+                                                rx="0.5" />
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
                             </div>
                             <div class="category-body ms-40">
                                 <h4 class="category-title mb-5">Cable Subscription</h4>
-                                <p class="category-text font-size-15 text-gray-dark m-0">Streamline Your Entertainment with our Cable Subscription Plans</p>
+                                <p class="category-text font-size-15 text-gray-dark m-0">Streamline Your Entertainment
+                                    with our Cable Subscription Plans</p>
                             </div>
                         </div>
                     </div>
@@ -372,17 +411,27 @@
                         <!-- Category-->
                         <div class="category ">
                             <div class="category-icon text-dark">
-                                <span class="svg-icon svg-icon-primary svg-icon-4x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Communication/Group-chat.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M16,15.6315789 L16,12 C16,10.3431458 14.6568542,9 13,9 L6.16183229,9 L6.16183229,5.52631579 C6.16183229,4.13107011 7.29290239,3 8.68814808,3 L20.4776218,3 C21.8728674,3 23.0039375,4.13107011 23.0039375,5.52631579 L23.0039375,13.1052632 L23.0206157,17.786793 C23.0215995,18.0629336 22.7985408,18.2875874 22.5224001,18.2885711 C22.3891754,18.2890457 22.2612702,18.2363324 22.1670655,18.1421277 L19.6565168,15.6315789 L16,15.6315789 Z" fill="#000000"/>
-                                        <path d="M1.98505595,18 L1.98505595,13 C1.98505595,11.8954305 2.88048645,11 3.98505595,11 L11.9850559,11 C13.0896254,11 13.9850559,11.8954305 13.9850559,13 L13.9850559,18 C13.9850559,19.1045695 13.0896254,20 11.9850559,20 L4.10078614,20 L2.85693427,21.1905292 C2.65744295,21.3814685 2.34093638,21.3745358 2.14999706,21.1750444 C2.06092565,21.0819836 2.01120804,20.958136 2.01120804,20.8293182 L2.01120804,18.32426 C1.99400175,18.2187196 1.98505595,18.1104045 1.98505595,18 Z M6.5,14 C6.22385763,14 6,14.2238576 6,14.5 C6,14.7761424 6.22385763,15 6.5,15 L11.5,15 C11.7761424,15 12,14.7761424 12,14.5 C12,14.2238576 11.7761424,14 11.5,14 L6.5,14 Z M9.5,16 C9.22385763,16 9,16.2238576 9,16.5 C9,16.7761424 9.22385763,17 9.5,17 L11.5,17 C11.7761424,17 12,16.7761424 12,16.5 C12,16.2238576 11.7761424,16 11.5,16 L9.5,16 Z" fill="#000000" opacity="0.3"/>
-                                    </g>
-                                </svg><!--end::Svg Icon--></span>
+                                <span class="svg-icon svg-icon-primary svg-icon-4x">
+                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Communication/Group-chat.svg--><svg
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <path
+                                                d="M16,15.6315789 L16,12 C16,10.3431458 14.6568542,9 13,9 L6.16183229,9 L6.16183229,5.52631579 C6.16183229,4.13107011 7.29290239,3 8.68814808,3 L20.4776218,3 C21.8728674,3 23.0039375,4.13107011 23.0039375,5.52631579 L23.0039375,13.1052632 L23.0206157,17.786793 C23.0215995,18.0629336 22.7985408,18.2875874 22.5224001,18.2885711 C22.3891754,18.2890457 22.2612702,18.2363324 22.1670655,18.1421277 L19.6565168,15.6315789 L16,15.6315789 Z"
+                                                fill="#000000" />
+                                            <path
+                                                d="M1.98505595,18 L1.98505595,13 C1.98505595,11.8954305 2.88048645,11 3.98505595,11 L11.9850559,11 C13.0896254,11 13.9850559,11.8954305 13.9850559,13 L13.9850559,18 C13.9850559,19.1045695 13.0896254,20 11.9850559,20 L4.10078614,20 L2.85693427,21.1905292 C2.65744295,21.3814685 2.34093638,21.3745358 2.14999706,21.1750444 C2.06092565,21.0819836 2.01120804,20.958136 2.01120804,20.8293182 L2.01120804,18.32426 C1.99400175,18.2187196 1.98505595,18.1104045 1.98505595,18 Z M6.5,14 C6.22385763,14 6,14.2238576 6,14.5 C6,14.7761424 6.22385763,15 6.5,15 L11.5,15 C11.7761424,15 12,14.7761424 12,14.5 C12,14.2238576 11.7761424,14 11.5,14 L6.5,14 Z M9.5,16 C9.22385763,16 9,16.2238576 9,16.5 C9,16.7761424 9.22385763,17 9.5,17 L11.5,17 C11.7761424,17 12,16.7761424 12,16.5 C12,16.2238576 11.7761424,16 11.5,16 L9.5,16 Z"
+                                                fill="#000000" opacity="0.3" />
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
                             </div>
                             <div class="category-body ms-40">
                                 <h4 class="category-title mb-5">Bulk SMS</h4>
-                                <p class="category-text font-size-15 text-gray-dark m-0">Reach Your Audience Seamlessly with our Bulk SMS packages.</p>
+                                <p class="category-text font-size-15 text-gray-dark m-0">Reach Your Audience Seamlessly
+                                    with our Bulk SMS packages.</p>
                             </div>
                         </div>
                     </div>
@@ -390,17 +439,24 @@
                         <!-- Category-->
                         <div class="category ">
                             <div class="category-icon text-dark">
-                                <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Layout/Layout-top-panel-6.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <rect fill="#000000" x="2" y="5" width="19" height="4" rx="1"/>
-                                        <rect fill="#000000" opacity="0.3" x="2" y="11" width="19" height="10" rx="1"/>
-                                    </g>
-                                </svg><!--end::Svg Icon--></span>
+                                <span class="svg-icon svg-icon-primary svg-icon-2x">
+                                    <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo2/dist/../src/media/svg/icons/Layout/Layout-top-panel-6.svg--><svg
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <rect fill="#000000" x="2" y="5" width="19" height="4" rx="1" />
+                                            <rect fill="#000000" opacity="0.3" x="2" y="11" width="19" height="10"
+                                                rx="1" />
+                                        </g>
+                                    </svg>
+                                    <!--end::Svg Icon-->
+                                </span>
                             </div>
                             <div class="category-body ms-40">
                                 <h4 class="category-title mb-5">Exam Result Checkers</h4>
-                                <p class="category-text font-size-15 text-gray-dark m-0">Easily Access Your Exam Results at a giveaway prices</p>
+                                <p class="category-text font-size-15 text-gray-dark m-0">Easily Access Your Exam Results
+                                    at a giveaway prices</p>
                             </div>
                         </div>
                     </div>
@@ -415,7 +471,8 @@
                                 </svg></div>
                             <div class="category-body ms-40">
                                 <h4 class="category-title mb-5">Pay Light Bills</h4>
-                                <p class="category-text font-size-15 text-gray-dark m-0">Light Up Your Building with Effortless Bill Payments.</p>
+                                <p class="category-text font-size-15 text-gray-dark m-0">Light Up Your Building with
+                                    Effortless Bill Payments.</p>
                             </div>
                         </div>
                     </div>
@@ -445,7 +502,8 @@
                                         @foreach($mtn as $data)
                                         <tr>
                                             <td style='font-size:12px'>{{ $data->plan_name }}</td>
-                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b>
+                                            </td>
                                         </tr>
                                         @endforeach
 
@@ -475,7 +533,8 @@
                                         @foreach($glo as $data)
                                         <tr>
                                             <td style='font-size:12px'>{{ $data->plan_name }}</td>
-                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b>
+                                            </td>
                                         </tr>
                                         @endforeach
 
@@ -505,7 +564,8 @@
                                         @foreach($airtel as $data)
                                         <tr>
                                             <td style='font-size:12px'>{{ $data->plan_name }}</td>
-                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b>
+                                            </td>
                                         </tr>
                                         @endforeach
 
@@ -536,7 +596,8 @@
                                         @foreach($nmobile as $data)
                                         <tr>
                                             <td style='font-size:12px'>{{ $data->plan_name }}</td>
-                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td style='font-size:12px'><b>₦{{ number_format($data->data_price) }}</b>
+                                            </td>
                                         </tr>
                                         @endforeach
 
@@ -594,7 +655,8 @@
                             <div class="flex-grow-1 ms-40">
                                 <div class="h3 m-0 text-white">Transaction Redo</div>
                                 {{-- <div class="h6 mb-15">Years of exeperience</div> --}}
-                                <p class="font-size-15 m-0 text-white">Experience hassle-free transaction retries with our
+                                <p class="font-size-15 m-0 text-white">Experience hassle-free transaction retries with
+                                    our
                                     one-click Transaction Redo feature.</p>
                             </div>
                         </div>
@@ -612,7 +674,8 @@
                             <div class="flex-grow-1 ms-40">
                                 <div class="h3 m-0 text-white">Bulk Purchase</div>
                                 {{-- <div class="h6 mb-15">Years of exeperience</div> --}}
-                                <p class="font-size-15 m-0 text-white">Simplify bulk purchases with our streamlined process.</p>
+                                <p class="font-size-15 m-0 text-white">Simplify bulk purchases with our streamlined
+                                    process.</p>
                             </div>
                         </div>
                     </div>
@@ -629,7 +692,8 @@
                             <div class="flex-grow-1 ms-40">
                                 <div class="h3 m-0 text-white">Add Up Beneficiaries</div>
                                 {{-- <div class="h6 mb-15">Years of exeperience</div> --}}
-                                <p class="font-size-15 m-0 text-white">Simplify future purchases by saving contacts, decoder
+                                <p class="font-size-15 m-0 text-white">Simplify future purchases by saving contacts,
+                                    decoder
                                     numbers, and meter numbers with our 'Add Up Beneficiaries' feature.</p>
                             </div>
                         </div>
@@ -647,7 +711,8 @@
                             <div class="flex-grow-1 ms-40">
                                 <div class="h3 m-0 text-white">Schedule For Later Purchase</div>
                                 {{-- <div class="h6 mb-15">Years of exeperience</div> --}}
-                                <p class="font-size-15 m-0 text-white">Plan your purchases ahead with our 'Schedule for Later
+                                <p class="font-size-15 m-0 text-white">Plan your purchases ahead with our 'Schedule for
+                                    Later
                                     Purchase' feature.</p>
                             </div>
                         </div>
@@ -665,7 +730,8 @@
                             <div class="flex-grow-1 ms-40">
                                 <div class="h3 m-0 text-white">24/7 Support System</div>
                                 {{-- <div class="h6 mb-15">Years of exeperience</div> --}}
-                                <p class="font-size-15 m-0 text-white">Count on our 24/7 support system for assistance anytime you
+                                <p class="font-size-15 m-0 text-white">Count on our 24/7 support system for assistance
+                                    anytime you
                                     need it.</p>
                             </div>
                         </div>
@@ -725,12 +791,13 @@
         <div class="container">
             <div class="row gy-50">
                 <div class="col-12 col-lg-3"><a class="d-block mb-30" href="#">
-                    @if($user->logo !== null)
-                    <img class="rounded-circle header-profile-user"
-                    src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
-                   @else
-                    <h2 class='text-white'>{{ $user->brand_name }}</h2>
-                    @endif
+                        @if($user->logo !== null)
+                        <img class="rounded-circle header-profile-user"
+                            src="https://vtubiz.com/public/brand_images/{{ $user->logo}}"
+                            style='width:50px;height:50px' />
+                        @else
+                        <h2 class='text-white'>{{ $user->brand_name }}</h2>
+                        @endif
 
                     </a>
                     <ul class="nav text-white align-items-center mb-20 nav-gap-md nav-no-opacity">
@@ -765,7 +832,8 @@
                                 <li class="nav-item"><a class="nav-link" href="/cable">Cable Subscription</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/electricity">Pay Light Bills</a></li>
                                 <li class="nav-item"><a class="nav-link" href="/bulksms">Bulk SMS</a></li>
-                                <li class="nav-item"><a class="nav-link" href="/examination">Exam Result Checkers</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/examination">Exam Result Checkers</a>
+                                </li>
                             </ul>
                         </div>
                         <div class="col-6 col-md-4">
