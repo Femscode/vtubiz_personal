@@ -2,12 +2,14 @@
 
 namespace App\Traits;
 
+use Carbon\Carbon;
 use App\Models\Data;
 use App\Models\User;
+use App\Models\Airtime;
 use App\Models\Transaction;
 use Illuminate\Support\Str;
-use App\Models\DuplicateTransaction;
 use App\Models\SchedulePurchase;
+use App\Models\DuplicateTransaction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -211,13 +213,32 @@ trait TransactionTrait
             $tranx->save();
             return $tranx->id;
         } elseif ($title == 'Airtime Purchase') {
-            $company = User::where('id', $r_user->company_id)->first();
-            $tranx->discounted_amount = $real_dataprice;
-            $tranx->phone_number = $phone_number;
-            $tranx->network = $network;
-            $tranx->real_amount = $plan_id;
-            $tranx->save();
-            return $tranx->id;
+            if ($status == 1) {
+                $r_user->balance -= $amount;
+                $r_user->total_spent += $amount;
+                $r_user->save();
+                $profit = $amount - floatval($real_dataprice);
+                $company->balance += $profit;
+                $company->save();
+                $tranx->after = $r_user->balance;
+                $tranx->admin_after = $company->balance;
+                $tranx->save();
+            } else {
+                $tranx->description = "Failed Transaction : " . $tranx->description;
+                $tranx->after = $r_user->balance;
+                $tranx->admin_after = $company->balance;
+                $r_user->save();
+                $tranx->save();
+            }
+            
+            //this is for easyaccess
+            // $company = User::where('id', $r_user->company_id)->first();
+            // $tranx->discounted_amount = $real_dataprice;
+            // $tranx->phone_number = $phone_number;
+            // $tranx->network = $network;
+            // $tranx->real_amount = $plan_id;
+            // $tranx->save();
+            // return $tranx->id;
         } elseif ($title == 'Manual Funding') {
 
             $r_user->balance += $amount;
@@ -592,7 +613,7 @@ trait TransactionTrait
                     return false;
                 }
                 $details =  "Airtime Purchase of " . $tranx->amount . " on " . $tranx->phone_number;
-                $client_reference =  'buy_airtime_' . Str::random(7);
+                $client_reference =   date('YmdH') . 'BA_' . Str::random(7);
                 $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details, $client_reference);
 
                 if ($check[0] == true) {
@@ -602,38 +623,85 @@ trait TransactionTrait
                     $schedule->save();
                     return false;
                 }
+             
 
-                $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $tranx->network, $tranx->real_amount);
 
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => array(
-                        'network' => $tranx->network,
-                        'mobileno' => $phone_number,
-                        'amount' => $tranx->amount,
-                        'airtime_type' => 001,
-                        'client_reference' => $client_reference, //update this on your script to receive webhook notifications
-                    ),
-                    CURLOPT_HTTPHEADER => array(
-                        "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
-                        "cache-control: no-cache"
-                    ),
-                ));
-                $response = curl_exec($curl);
+
+                if ($tranx->network == 1 || $tranx->network == 'MTN') {
+                    $network = 'MTN';
+                } elseif ($tranx->network == 2 || $tranx->network == 'MTN') {
+                    $network = 'GLO';
+                } elseif ($tranx->network == 3 || $tranx->network == 'MTN') {
+                    $network = 'AIRTEL';
+                } else {
+                    $network = '9MOBILE';
+                }
+
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . env('TELNETINGTOKEN'),
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ])->post('https://telneting.com/api/airtime/buy', [
+                    'network' => $network,
+                    'phone' => $phone_number,
+                    'amount' => $tranx->amount,
+                    'reference' => $client_reference, //update this on your script to receive webhook notifications
+
+                ]);
+                $response_json = json_decode($response, true);
+
+
+
+
+                if ($response_json['status_code'] == 100) {
+                    file_put_contents(__DIR__ . '/telnetingairtime.txt', json_encode($response_json, JSON_PRETTY_PRINT), FILE_APPEND);
+
+                    $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $network, $tranx->amount);
+
+                    // Transaction was successful
+                    // Do something here
+                } else {
+                    $reference = 'failed_tv_' . Str::random(5);
+                    $details = "Failed Airitime Purchase, amount: " . $tranx->discounted_amount;
+                    $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 0, $real_airtimeprice, $phone_number, $network, $tranx->amount);
+                }
+                // $this->check_duplicate("Delete", $user->id);
+                $response_json['success'] = 'true';
+                // return $response_json;
+
+
+
+                //this is for easyaccess
+                // $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $tranx->network, $tranx->real_amount);
+                // $curl = curl_init();
+                // curl_setopt_array($curl, array(
+                //     CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+                //     CURLOPT_RETURNTRANSFER => true,
+                //     CURLOPT_ENCODING => "",
+                //     CURLOPT_MAXREDIRS => 10,
+                //     CURLOPT_TIMEOUT => 0,
+                //     CURLOPT_FOLLOWLOCATION => true,
+                //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                //     CURLOPT_CUSTOMREQUEST => "POST",
+                //     CURLOPT_POSTFIELDS => array(
+                //         'network' => $tranx->network,
+                //         'mobileno' => $phone_number,
+                //         'amount' => $tranx->amount,
+                //         'airtime_type' => 001,
+                //         'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                //     ),
+                //     CURLOPT_HTTPHEADER => array(
+                //         "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                //         "cache-control: no-cache"
+                //     ),
+                // ));
+                // $response = curl_exec($curl);
 
                 $schedule->status = 1;
                 $schedule->save();
                 $tranx->delete;
 
-                curl_close($curl);
+                // curl_close($curl);
                 return true;
             } else {
                 $tranx->status = 0;
@@ -645,4 +713,5 @@ trait TransactionTrait
             }
         }
     }
+
 }

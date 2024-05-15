@@ -89,7 +89,7 @@ class SubscriptionController extends Controller
     {
 
         $data['user'] = $user = Auth::user();
-        
+
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
             return redirect('/premium-data');
         }
@@ -129,7 +129,7 @@ class SubscriptionController extends Controller
         dd($duplicate);
     }
 
-   
+
 
 
     public function admin_rechargeGroup(Request $request)
@@ -280,7 +280,7 @@ class SubscriptionController extends Controller
             return redirect()->back()->with('message', 'Access Denied');
         }
     }
-  
+
 
     public function notify(Request $request)
     {
@@ -293,8 +293,8 @@ class SubscriptionController extends Controller
             return redirect()->back()->with('message', 'Email address included in the waiting list, thanks for your anticipation!');
         }
     }
-  
-   
+
+
     public function buydata(Request $request)
     {
 
@@ -302,7 +302,7 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
 
-      
+
         $phone_number = str_replace(' ', '', $request->phone_number);
         if (strlen($phone_number) == 10) {
             $phone_number = "0" . $phone_number;
@@ -404,7 +404,7 @@ class SubscriptionController extends Controller
         // dd($check);
         //purchase the data
         //just to replace env
-        
+
         $trans_id = $this->create_transaction('Data Purchase', $client_reference, $details, 'debit', $data_price, $user->id, 3, $real_dataprice, $phone_number, $request->network, $request->plan);
 
         $curl = curl_init();
@@ -437,14 +437,14 @@ class SubscriptionController extends Controller
         return $response;
     }
 
-    
+
     private function handle_buy_data($phone, $network, $plan_id, $group_id = null)
     {
         // dd($phone, $network, $plan_id);
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
 
-       
+
         $phone_number = str_replace(' ', '', $phone);
         if (strlen($phone_number) == 10) {
             $phone_number = "0" . $phone_number;
@@ -529,7 +529,6 @@ class SubscriptionController extends Controller
         curl_close($curl);
         return $response_json;
     }
-
     public function run_schedule_purchase()
     {
         // dd($request->all());
@@ -634,7 +633,7 @@ class SubscriptionController extends Controller
                     return false;
                 }
                 $details =  "Airtime Purchase of " . $tranx->amount . " on " . $tranx->phone_number;
-                $client_reference =  'buy_airtime_' . Str::random(7);
+                $client_reference =   date('YmdH') . 'BA_' . Str::random(7);
                 $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details, $client_reference);
 
                 if ($check[0] == true) {
@@ -644,37 +643,85 @@ class SubscriptionController extends Controller
                     $schedule->save();
                     return false;
                 }
+             
 
-                $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 2, $real_airtimeprice, $phone_number, $tranx->network, $tranx->real_amount);
 
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 0,
-                    CURLOPT_FOLLOWLOCATION => true,
-                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                    CURLOPT_CUSTOMREQUEST => "POST",
-                    CURLOPT_POSTFIELDS => array(
-                        'network' => $tranx->network,
-                        'mobileno' => $phone_number,
-                        'amount' => $tranx->amount,
-                        'airtime_type' => 001,
-                        'client_reference' => $client_reference, //update this on your script to receive webhook notifications
-                    ),
-                    CURLOPT_HTTPHEADER => array(
-                        "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
-                        "cache-control: no-cache"
-                    ),
-                ));
-                $response = curl_exec($curl);
+
+                if ($tranx->network == 1 || $tranx->network == 'MTN') {
+                    $network = 'MTN';
+                } elseif ($tranx->network == 2 || $tranx->network == 'MTN') {
+                    $network = 'GLO';
+                } elseif ($tranx->network == 3 || $tranx->network == 'MTN') {
+                    $network = 'AIRTEL';
+                } else {
+                    $network = '9MOBILE';
+                }
+
+                $response = Http::withHeaders([
+                    'Authorization' => 'Bearer ' . env('TELNETINGTOKEN'),
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ])->post('https://telneting.com/api/airtime/buy', [
+                    'network' => $network,
+                    'phone' => $phone_number,
+                    'amount' => $tranx->amount,
+                    'reference' => $client_reference, //update this on your script to receive webhook notifications
+
+                ]);
+                $response_json = json_decode($response, true);
+
+
+
+
+                if ($response_json['status_code'] == 100) {
+                    file_put_contents(__DIR__ . '/telnetingairtime.txt', json_encode($response_json, JSON_PRETTY_PRINT), FILE_APPEND);
+
+                    $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $network, $tranx->amount);
+
+                    // Transaction was successful
+                    // Do something here
+                } else {
+                    $reference = 'failed_tv_' . Str::random(5);
+                    $details = "Failed Airitime Purchase, amount: " . $tranx->discounted_amount;
+                    $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 0, $real_airtimeprice, $phone_number, $network, $tranx->amount);
+                }
+                // $this->check_duplicate("Delete", $user->id);
+                $response_json['success'] = 'true';
+                // return $response_json;
+
+
+
+                //this is for easyaccess
+                // $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $tranx->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $tranx->network, $tranx->real_amount);
+                // $curl = curl_init();
+                // curl_setopt_array($curl, array(
+                //     CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+                //     CURLOPT_RETURNTRANSFER => true,
+                //     CURLOPT_ENCODING => "",
+                //     CURLOPT_MAXREDIRS => 10,
+                //     CURLOPT_TIMEOUT => 0,
+                //     CURLOPT_FOLLOWLOCATION => true,
+                //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                //     CURLOPT_CUSTOMREQUEST => "POST",
+                //     CURLOPT_POSTFIELDS => array(
+                //         'network' => $tranx->network,
+                //         'mobileno' => $phone_number,
+                //         'amount' => $tranx->amount,
+                //         'airtime_type' => 001,
+                //         'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+                //     ),
+                //     CURLOPT_HTTPHEADER => array(
+                //         "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                //         "cache-control: no-cache"
+                //     ),
+                // ));
+                // $response = curl_exec($curl);
+
                 $schedule->status = 1;
                 $schedule->save();
                 $tranx->delete;
 
-                curl_close($curl);
+                // curl_close($curl);
                 return true;
             } else {
                 $tranx->status = 0;
@@ -687,13 +734,14 @@ class SubscriptionController extends Controller
         }
     }
 
+
     public function buyairtime(Request $request)
     {
         $this->validate($request, ['amount' => ['numeric', 'min:100']]);
         // dd($request->all());
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
-       
+
         $phone_number = str_replace(' ', '', $request->phone_number);
         if (strlen($phone_number) == 10) {
             $phone_number = "0" . $phone_number;
@@ -758,7 +806,7 @@ class SubscriptionController extends Controller
         //check duplicate
 
         $details =  "Airtime Purchase of " . $request->amount . " on " . $phone_number;
-        $client_reference =  'buy_airtime_' . Str::random(7);
+        $client_reference =   date('YmdH') . 'BA_' . Str::random(7);
 
         $check = $this->check_duplicate('check', $user->id, $request->amount, "Airtime Purchase", $details, $client_reference);
 
@@ -773,41 +821,84 @@ class SubscriptionController extends Controller
             return response()->json($response);
         }
 
-        //purchase the airtime
-        $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $request->discounted_amount, $user->id, 3, $real_airtimeprice, $phone_number, $request->network, $request->amount);
+        if ($request->network == 1 || $request->network == 'MTN') {
+            $network = 'MTN';
+        } elseif ($request->network == 2 || $request->network == 'GLO') {
+            $network = 'GLO';
+        } elseif ($request->network == 3 || $request->network == 'AIRTEL') {
+            $network = 'AIRTEL';
+        } else {
+            $network = '9MOBILE';
+        }
 
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => array(
-                'network' => $request->network,
-                'mobileno' => $phone_number,
-                'amount' => $request->amount,
-                'airtime_type' => 001,
-                'client_reference' => $client_reference, //update this on your script to receive webhook notifications
-            ),
-            CURLOPT_HTTPHEADER => array(
-                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
-                "cache-control: no-cache"
-            ),
-        ));
-        $response = curl_exec($curl);
-        curl_close($curl);
-        return $response;
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('TELNETINGTOKEN'),
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->post('https://telneting.com/api/airtime/buy', [
+            'network' => $network,
+            'phone' => $phone_number,
+            'amount' => $request->amount,
+            'reference' => $client_reference, //update this on your script to receive webhook notifications
+
+        ]);
+        $response_json = json_decode($response, true);
+
+
+
+
+        if ($response_json['status_code'] == 100) {
+            file_put_contents(__DIR__ . '/telnetingairtime.txt', json_encode($response_json, JSON_PRETTY_PRINT), FILE_APPEND);
+
+            $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $request->discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $request->network, $request->amount);
+            $response_json['success'] = 'true';
+            // Transaction was successful
+            // Do something here
+        } else {
+            $reference = 'failed_tv_' . Str::random(5);
+            $details = "Failed Airitime Purchase, amount: " . $request->discounted_amount;
+            $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $request->discounted_amount, $user->id, 0, $real_airtimeprice, $phone_number, $request->network, $request->amount);
+            $response_json['success'] = 'false';
+        }
+        $this->check_duplicate("Delete", $user->id);
+        return $response_json;
+
+
+        //this is for easy access
+        //purchase the airtime
+        // $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $request->discounted_amount, $user->id, 3, $real_airtimeprice, $phone_number, $request->network, $request->amount);
+        // $curl = curl_init();
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => "",
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => "POST",
+        //     CURLOPT_POSTFIELDS => array(
+        //         'network' => $request->network,
+        //         'mobileno' => $phone_number,
+        //         'amount' => $request->amount,
+        //         'airtime_type' => 001,
+        //         'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+        //     ),
+        //     CURLOPT_HTTPHEADER => array(
+        //         "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+        //         "cache-control: no-cache"
+        //     ),
+        // ));
+        // $response = curl_exec($curl);
+        // curl_close($curl);
+        // return $response;
     }
 
     public function handle_buy_airtime($phone, $network, $amount, $discounted_amount, $group_id = null)
     {
         $user = Auth::user();
         $company = User::where('id', $user->company_id)->first();
-     
+
         $phone_number = str_replace(' ', '', $phone);
         if (strlen($phone_number) == 10) {
             $phone_number = "0" . $phone_number;
@@ -831,7 +922,7 @@ class SubscriptionController extends Controller
         //check duplicate
 
         $details =  "Airtime Purchase of " . $amount . " on " . $phone_number;
-        $client_reference =  'buy_airtime_' . Str::random(7);
+        $client_reference =   date('YmdH') . 'BA_' . Str::random(7);
         $check = $this->check_duplicate('check', $user->id, $amount, "Airtime Purchase", $details, $client_reference);
 
         if ($check[0] == true) {
@@ -844,39 +935,85 @@ class SubscriptionController extends Controller
 
             return response()->json($response);
         }
-        //purchase the airtime
-        $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $discounted_amount, $user->id, 3, $real_airtimeprice, $phone, $network, $amount);
-        $transaction = Transaction::find($trans_id);
-        $transaction->group_id = $group_id;
-        $transaction->save();
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => array(
-                'network' => $network,
-                'mobileno' => $phone_number,
-                'amount' => $amount,
-                'airtime_type' => 001,
-                'client_reference' => $client_reference, //update this on your script to receive webhook notifications
-            ),
-            CURLOPT_HTTPHEADER => array(
-                // "AuthorizationToken: " . $env, //replace this with your authorization_token
-                "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
-                "cache-control: no-cache"
-            ),
-        ));
-        $response = curl_exec($curl);
+
+
+        if ($network == 1 || $network == 'MTN') {
+            $network = 'MTN';
+        } elseif ($network == 2 || $network == 'GLO') {
+            $network = 'GLO';
+        } elseif ($network == 3 || $network == 'AIRTEL') {
+            $network = 'AIRTEL';
+        } else {
+            $network = '9MOBILE';
+        }
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('TELNETINGTOKEN'),
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->post('https://telneting.com/api/airtime/buy', [
+            'network' => $network,
+            'phone' => $phone_number,
+            'amount' => $amount,
+            'reference' => $client_reference, //update this on your script to receive webhook notifications
+
+        ]);
         $response_json = json_decode($response, true);
 
-        curl_close($curl);
+
+
+
+        if ($response_json['status_code'] == 100) {
+            file_put_contents(__DIR__ . '/telnetingairtime.txt', json_encode($response_json, JSON_PRETTY_PRINT), FILE_APPEND);
+
+            $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $discounted_amount, $user->id, 1, $real_airtimeprice, $phone_number, $network, $amount);
+            $response_json['success'] = 'true';
+            // Transaction was successful
+            // Do something here
+        } else {
+            $reference = 'failed_tv_' . Str::random(5);
+            $details = "Failed Airitime Purchase, amount: " . $discounted_amount;
+            $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $discounted_amount, $user->id, 0, $real_airtimeprice, $phone_number, $network, $amount);
+            $response_json['success'] = 'false';
+        }
+        $this->check_duplicate("Delete", $user->id);
         return $response_json;
+
+
+        // this is for easyaccess
+        //purchase the airtime
+        // $trans_id = $this->create_transaction('Airtime Purchase', $client_reference, $details, 'debit', $discounted_amount, $user->id, 3, $real_airtimeprice, $phone, $network, $amount);
+        // $transaction = Transaction::find($trans_id);
+        // $transaction->group_id = $group_id;
+        // $transaction->save();
+        // $curl = curl_init();
+        // curl_setopt_array($curl, array(
+        //     CURLOPT_URL => "https://easyaccessapi.com.ng/api/airtime.php",
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => "",
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 0,
+        //     CURLOPT_FOLLOWLOCATION => true,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => "POST",
+        //     CURLOPT_POSTFIELDS => array(
+        //         'network' => $network,
+        //         'mobileno' => $phone_number,
+        //         'amount' => $amount,
+        //         'airtime_type' => 001,
+        //         'client_reference' => $client_reference, //update this on your script to receive webhook notifications
+        //     ),
+        //     CURLOPT_HTTPHEADER => array(
+        //         // "AuthorizationToken: " . $env, //replace this with your authorization_token
+        //         "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+        //         "cache-control: no-cache"
+        //     ),
+        // ));
+        // $response = curl_exec($curl);
+        // $response_json = json_decode($response, true);
+
+        // curl_close($curl);
+        // return $response_json;
     }
 
     public function buyCable(Request $request)
@@ -1267,8 +1404,7 @@ class SubscriptionController extends Controller
             //check duplicate
 
             $details =  "Airtime Purchase of NGN" . $tranx->real_amount . " on " . $tranx->phone_number;
-            $client_reference =  'buy_airtime_' . Str::random(7);
-
+            $client_reference =   date('YmdH') . 'BA_' . Str::random(7);
             $check = $this->check_duplicate('check', $user->id, $tranx->amount, "Airtime Purchase", $details, $client_reference);
 
             if ($check[0] == true) {
@@ -1417,7 +1553,7 @@ class SubscriptionController extends Controller
         }
     }
 
-   
+
     public function airtime()
     {
         $data['user'] = $user = Auth::user();
@@ -1547,7 +1683,7 @@ class SubscriptionController extends Controller
     public function examination()
     {
         $data['user'] = $user = Auth::user();
-        
+
         $data['active'] = 'examination';
         $examination = Examination::where('user_id', $user->company_id)->first();
         if (!$examination) {
@@ -1713,7 +1849,7 @@ class SubscriptionController extends Controller
         $user = Auth::user();
         // dd($user);
 
-        $data = Data::where('network', $network)->where('user_id', $user->company_id)->where('status',1)->orderBy('admin_price', 'ASC')->get();
+        $data = Data::where('network', $network)->where('user_id', $user->company_id)->where('status', 1)->orderBy('admin_price', 'ASC')->get();
         // dd($data);
 
         return $data;
