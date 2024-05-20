@@ -40,8 +40,8 @@ class RegisteredUserController extends Controller
         if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['user'] = $user = User::where('id', '888')->first();
         } 
-        elseif ($subdomain == 'suresubz' || $parts[1] == 'suresubz') {
-            $data['user'] = $user = User::where('id', '1184')->first();
+        elseif ($subdomain == 'subpro' || $parts[1] == 'subpro') {
+            $data['user'] = $user = User::where('id', '1222')->first();
         } 
         else {
             $data['user'] = $user = User::where('brand_name', $subdomain)->first();
