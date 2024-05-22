@@ -83,7 +83,7 @@
         <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative"
             data-aos="zoom-out">
             @if($user->image_1 !== null )
-            <img src="https://vtubiz.com/public/website_images/{{ $user->image_1 }}" alt="" style='border-radius:15px'
+            <img src="https://vtubiz.com/public/website_images/{{ $user->image_1 }}" alt="" style='border-radius:15px;width:'
                 class="img-fluid w-100">
             @else
             <img src="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg')}}" class="img-fluid animated">
@@ -93,7 +93,7 @@
             <p>{{ $user->heading_1 ?? "Top-Up, Pay Bills, Stay Connected"}}.</p>
             <div class="d-flex">
                 <a href="/login" class="btn-get-started scrollto">Login</a>
-                <a href="/login" class="btn-watch-video d-flex align-items-center"><span>Get Started</span></a>
+                <a href="/register" class="btn-watch-video d-flex align-items-center"><span>Get Started</span></a>
             </div>
         </div>
     </section>
@@ -821,7 +821,7 @@
                                         @foreach($mtn as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -852,7 +852,7 @@
                                         @foreach($glo as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -883,7 +883,7 @@
                                         @foreach($airtel as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
@@ -915,7 +915,7 @@
                                         @foreach($nmobile as $data)
                                         <tr>
                                             <td>{{ $data->plan_name }}</td>
-                                            <td><b>₦{{ number_format($data->data_price) }}</b></td>
+                                            <td><b>₦{{ number_format($data->admin_price) }}</b></td>
                                         </tr>
                                         @endforeach
 
