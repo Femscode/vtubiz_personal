@@ -819,7 +819,7 @@
                                 </svg></a></li>
 
                     </ul>
-                    <p class="font-size-13 text-muted m-0">© 2023 Powered by VTUBIZ.</p>
+                    <p class="font-size-13 text-muted m-0">© 2023 {{ $user->brand_name }}.</p>
                 </div>
                 <div class="col-2 d-none d-lg-block"></div>
                 <div class="col-12 col-lg-7">

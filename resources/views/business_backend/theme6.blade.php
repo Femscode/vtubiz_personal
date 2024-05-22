@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="Codescandy" name="author">
-    <title>{{ $user->brand_name }} | VTUBIZ </title>
+    <title>{{ $user->brand_name }}  </title>
 
     <link href="{{ asset('theme1/assets/libs/slick-carousel/slick/slick.css') }}" rel="stylesheet" />
     <link href="{{ asset('theme1/assets/libs/slick-carousel/slick/slick-theme.css') }}" rel="stylesheet" />
@@ -1235,7 +1235,8 @@
                                 <script>
                                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
                                 </script>
-                            </span> All rights reserved. Powered by <a href="https://vtubiz.com/">VTUBIZ</a>.</span>
+                            </span> All rights reserved. {{ $user->brand_name }}.</span>
+                            {{-- </span> All rights reserved. Powered by <a href="https://vtubiz.com/">VTUBIZ</a>.</span> --}}
                     </div>
                     <div class="col-md-6">
                         <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">

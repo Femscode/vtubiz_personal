@@ -9,7 +9,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta content="Codescandy" name="author">
-  <title>{{ $user->brand_name }} | VTUBIZ </title>
+  <title>{{ $user->brand_name }} </title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -697,7 +697,8 @@
                 <script>
                   document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
                 </script>
-              </span> All rights reserved. Powered by <a href="https://vtubiz.com/">VTUBIZ</a>.</span></div>
+              </span> All rights reserved. {{ $user->brand_name }}</div>
+              {{-- </span> All rights reserved. Powered by <a href="https://vtubiz.com/">VTUBIZ</a>.</span></div> --}}
           <div class="col-md-6">
             <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">
               <li class="list-inline-item text-muted">Follow us on</li>
