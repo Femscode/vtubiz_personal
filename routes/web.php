@@ -23,6 +23,11 @@ Route::any('update_account_data', function () {
         $theme->save();
     }
 });
+//anytime there is an additional website, the subdomain thing should be effected in
+//BusinessController@index
+//RegisterUserCOntroller
+//AuthenticatedSessionCOntroller
+//Homecontroller@referral
 
 
 

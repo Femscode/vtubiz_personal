@@ -192,8 +192,8 @@ class HomeController extends Controller
         if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['brand'] = 'https://phuzvtu.com';
         }
-        if ($subdomain == 'suresubz' || $parts[1] == 'suresubz') {
-            $data['brand'] = 'https://suresubz.com';
+        if ($subdomain == 'subpro' || $parts[1] == 'subpro') {
+            $data['brand'] = 'https://subpro.com';
         }
         return view('dashboard.referral', $data);
     }

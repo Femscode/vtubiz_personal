@@ -67,7 +67,7 @@
                     <li><a class="nav-link scrollto" href="#about">About Us</a></li>
                     <li><a class="nav-link scrollto" href="#services">Services</a></li>
                     <li><a class="nav-link scrollto" href="#pricing">Our Pricing</a></li>
-                    <li><a href="blog.html">Features</a></li>
+                    <li><a href="#features">Features</a></li>
 
                     <li><a class="nav-link scrollto" href="#contact">Contact Us</a></li>
                 </ul>
@@ -1053,14 +1053,12 @@
         </section><!-- End F.A.Q Section --> --}}
 
         <!-- ======= Contact Section ======= -->
-        <section id="contact" class="contact">
+        {{-- <section id="contact" class="contact">
             <div class="container">
 
                 <div class="section-header">
                     <h2>Contact Us</h2>
-                    {{-- <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut
-                        ad
-                        dolores adipisci aliquam.</p> --}}
+                   
                 </div>
 
             </div>
@@ -1081,9 +1079,7 @@
 
                         <div class="info">
                             <h3>Get in touch</h3>
-                            {{-- <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia
-                                commodi minus.</p> --}}
-
+                           
                             <div class="info-item d-flex">
                                 <i class="bi bi-geo-alt flex-shrink-0"></i>
                                 <div>
@@ -1143,7 +1139,7 @@
                 </div>
 
             </div>
-        </section><!-- End Contact Section -->
+        </section><!-- End Contact Section --> --}}
 
     </main><!-- End #main -->
 
@@ -1197,8 +1193,9 @@
                     <div class="col-lg-4 col-md-6 footer-newsletter">
                         <h4>Our Newsletter</h4>
                         <p>Subscribe to our newsletter today, to receive first hand information from us</p>
-                        <form action="" method="post">
-                            <input type="email" name="email"><input type="submit" value="Subscribe">
+                        <form action="#" method="post">
+                            <input type="email" name="email">
+                            <input type="button" value="Subscribe">
                         </form>
 
                     </div>
