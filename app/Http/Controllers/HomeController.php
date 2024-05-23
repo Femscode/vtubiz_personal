@@ -193,7 +193,7 @@ class HomeController extends Controller
             $data['brand'] = 'https://phuzvtu.com';
         }
         if ($subdomain == 'subpro' || $parts[1] == 'subpro') {
-            $data['brand'] = 'https://subpro.com';
+            $data['brand'] = 'https://subpro.com.ng';
         }
         return view('dashboard.referral', $data);
     }

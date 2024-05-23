@@ -1193,10 +1193,10 @@
                     <div class="col-lg-4 col-md-6 footer-newsletter">
                         <h4>Our Newsletter</h4>
                         <p>Subscribe to our newsletter today, to receive first hand information from us</p>
-                        <form action="#" method="post">
+                        {{-- <form action="#" method="post"> --}}
                             <input type="email" name="email">
-                            <input type="button" value="Subscribe">
-                        </form>
+                            <input type="submit" value="Subscribe">
+                        {{-- </form> --}}
 
                     </div>
 
