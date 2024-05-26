@@ -9,8 +9,11 @@
     <meta content="VTUBIZ|API-USER" name="description" />
     <meta content="VTUBIZ" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="https://VTUBIZ.com/assets/images/fav_01.png">
-
+    @if($user && $user->logo !== null)
+    <link rel="icon" type="image/png" href="{{ asset('brand_images/'.$user->logo) }}"><!-- Fonts-->
+    @else
+    <link rel="shortcut icon" href="https://cttaste.com/assets/images/fav_01.png">
+    @endif
     <!-- Bootstrap Css -->
     <link href="https://VTUBIZ.com/public/api_user/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet"
     type="text/css" />

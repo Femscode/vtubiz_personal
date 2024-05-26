@@ -95,8 +95,7 @@
           
 
 
-            @if($user->approve == 0)
-            {{-- <div style='background:hsl(210, 90%, 95%) !important;color:#001f3f' class="alert alert-danger border-0" role="alert"> --}}
+            {{-- @if($user->approve == 0)
             <div class="alert alert-danger border-0" role="alert">
 
                 Please note that for your website to go live <span style='color:#ebab21'>(SSL Secured)</span>, enjoy 5% data discounts, and other amazing features you have to upgrade your account
@@ -105,7 +104,7 @@
                     class='btn btn-danger border-0'>Upgrade</a>
 
             </div>
-            @endif
+            @endif --}}
 
         </div>
     </div>
