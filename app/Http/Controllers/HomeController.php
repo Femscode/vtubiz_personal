@@ -306,7 +306,7 @@ class HomeController extends Controller
     {
 
         $this->validate($request, [
-            'amount' => 'required'
+            'amount' => 'required|numeric|min:50',
         ]);
         $user = Auth::user();
         $user_pin = $request->pin;
