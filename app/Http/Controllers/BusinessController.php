@@ -47,8 +47,8 @@ class BusinessController extends Controller
         if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['user'] = $user = User::where('id', '888')->first();
         } 
-        if ($subdomain == 'subpro' || $parts[1] == 'subpro') {
-            $data['user'] = $user = User::where('id', '1222')->first();
+        if ($subdomain == 'gizmorechargehub' || $parts[1] == 'gizmorechargehub') {
+            $data['user'] = $user = User::where('id', '1972')->first();
         } 
         // dd($subdomain);
         else {
