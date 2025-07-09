@@ -120,7 +120,7 @@ class BusinessController extends Controller
         $user->save();
         return true;
     }
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $data['user'] = $user = Auth::user();
         if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
@@ -146,7 +146,41 @@ class BusinessController extends Controller
             ->latest()
             ->get();
 
+         $host = $request->getHost();
+        $parts = explode('.', $host);
+        $subdomain = $parts[0];
+        if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
+            $data['website_url'] = "https://phuzvtu.com";
+           
+        } 
+        elseif ($subdomain == 'gizmorechargehub' || $parts[1] == 'gizmorechargehub') {
+            $data['website_url'] = "https://gizmorechargehub.com";
+           
+        } else {
+            $data['website_url'] = 'https://vtubiz.com';
+        }
+
         return view('business_backend.index', $data);
+    }
+    public function set_prices(Request $request)
+    {
+        $data['user'] = $user = Auth::user();
+        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
+            return redirect('/my-dashboard');
+        }
+
+
+        if ($user->pin == null) {
+            return view('dashboard.setpin', $data);
+        }
+        $notification = Notification::where('user_id', $user->company_id)->where('type', 'General Notification')->first();
+
+        if ($notification && $notification->title !== null) {
+            $data['notification'] = $notification;
+        }
+       
+
+        return view('business_backend.set-prices', $data);
     }
 
     public function check_domain(Request $request)

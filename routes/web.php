@@ -222,6 +222,8 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/business', 'business_frontend.business');
     Route::get('home', [BusinessController::class, 'dashboard'])->name('admin_home')->name('dashboard');
     Route::get('dashboard', [BusinessController::class, 'dashboard'])->name('admin_dashboard');
+    Route::get('admin', [BusinessController::class, 'dashboard'])->name('admin_dashboard');
+    Route::get('product-prices', [BusinessController::class, 'set_prices'])->name('set_prices');
     Route::get('customized_domain', [BusinessController::class, 'customized_domain'])->name('customized_domain');
     Route::get('profile', [BusinessController::class, 'profile']);
     Route::get('data_prices', [BusinessController::class, 'data_prices']);

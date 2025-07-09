@@ -48,25 +48,7 @@
             <div class="navbar-header">
                 <div class="d-flex">
                     <!-- LOGO -->
-                    <div class="navbar-brand-box">
-                        <a href="/" class="logo logo-dark">
-                            <span class="logo-sm">
-                                <img src="{{ asset('api_user/assets/images/logo.svg')}}" alt="" height="22">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="{{asset('assets/images/logo-wh.png')}}" alt="" height="30">
-                            </span>
-                        </a>
-
-                        <a href="/" class="logo logo-light">
-                            <span class="logo-sm">
-                                <img src="{{ asset('api_user/assets/images/logo-light.svg')}}" alt="" height="22">
-                            </span>
-                            <span class="logo-lg">
-                                <img src="{{asset('assets/images/logo-wh.png')}}" alt="" height="30">
-                            </span>
-                        </a>
-                    </div>
+                
 
                     <button type="button" class="btn btn-sm px-3 font-size-16 header-item waves-effect"
                         id="vertical-menu-btn">
@@ -260,13 +242,7 @@
                             </a>
 
                         </li> 
-                        {{-- <li>
-                            <a href="/withdraw" class="">
-                                <i class="bx bx-money"></i>
-                                <span key="t-layouts">Withdraw Funds</span>
-                            </a>
-
-                        </li> --}}
+                       
                         <li class="">
                             <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                                 <i class="bx bx-food-menu"></i>
@@ -309,7 +285,7 @@
                         <li>
                             <a href="/mytheme" class="">
                                 <i class="bx bx-store-alt"></i>
-                                <span key="t-layouts">Theme</span>
+                                <span key="t-layouts">Theme & Design</span>
                             </a>
 
                         </li>
@@ -324,49 +300,17 @@
                              
                             </ul>
                         </li>
+                        
+                
+                       
                         <li>
-                            <a href="/data_prices" class="">
-                                <i class="bx bx-wifi"></i>
-                                <span key="t-layouts">Data Prices</span>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/airtime_prices" class="">
-                                <i class="bx bx-phone"></i>
-                                <span key="t-layouts">Airtime Prices</span>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/electricity_prices" class="">
-                                <i class="bx bx-bulb"></i>
-                                <span key="t-layouts">Electricity Prices</span>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/cable_prices" class="">
-                                <i class="bx bx-tv"></i>
-                                <span key="t-layouts">Tv(Cable) Prices</span>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/examination_prices" class="">
+                            <a href="/product-prices" class="">
                                 <i class="bx bx-book"></i>
-                                <span key="t-layouts">Examination Prices</span>
+                                <span key="t-layouts">Product Prices</span>
                             </a>
 
                         </li>
-                        <li>
-                            <a href="/bulksms_prices" class="">
-                                <i class="bx bx-message"></i>
-                                <span key="t-layouts">Bulk SMS Prices</span>
-                            </a>
-
-                        </li>
-                      
+                        
                         <li>
                             <a href="/users" class="">
                                 <i class="bx bx-user"></i>
@@ -389,21 +333,7 @@
                             </a>
 
                         </li>
-                       
-                        <li>
-                            <a href="/checkreviews" class="">
-                                <i class="bx bx-shocked"></i>
-                                <span key="t-layouts">Customer's Review</span>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a href="/customized_domain" class="">
-                                <i class="bx bx-zoom-in"></i>
-                                <span key="t-layouts">Customized Domain</span>
-                            </a>
-
-                        </li>
+               
                         <li>
                             <a href="/notifications" class="">
                                 <i class="bx bx-bell"></i>
@@ -418,25 +348,11 @@
                             </a>
                             <ul class="sub-menu mm-collapse" aria-expanded="false">
                                 <li><a href="/email_marketing" key="t-inbox">Email Marketing</a></li>
-                                <li><a href="https://wa.me/2349058744473?text='I%20am%20requesting%20for%20special%20promotions%20on%20your%20pages.%20Brand%20name%20{{ $user->brand_name }}'" key="t-read-email">Request For Special Promotions</a></li>
                              
                             </ul>
                         </li>
-                        <li>
-                            <a href="mailto:support@VTUBIZ.com" class="">
-                                <i class="bx bx-message"></i>
-                                <span key="t-layouts">Contact Us</span>
-                            </a>
-
-                        </li>
-                        <li>
-                            <a onclick='return confirmDowngrade()' href="/upgrade/{{ $user->id }}" class="">
-                                <i class="bx bx-sad"></i>
-                                <span key="t-layouts">Downgrade Account</span>
-                            </a>
-
-                        </li>
-                       
+                  
+                      
                         <li>
                             <a href="/logout" onclick='return confirm("Are you sure you want to log out?")'>
                                 <i class="bx bx-log-out-circle"></i>

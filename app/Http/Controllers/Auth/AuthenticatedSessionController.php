@@ -29,6 +29,10 @@ class AuthenticatedSessionController extends Controller
         } 
         else {
             $data['user'] = $user = User::where('brand_name', $subdomain)->first();
+            if($user == null) {
+                $data['user'] = $user = User::find(5);
+
+            }
         }  
       
         // $data['user'] = $user = User::where('brand_name', $subdomain)->first();
@@ -37,6 +41,7 @@ class AuthenticatedSessionController extends Controller
         //end testing purpuse
 
         $data['company_id'] = $user->id;
+
        
         return view('auth.login',$data);
     }
