@@ -1685,34 +1685,38 @@ class SubscriptionController extends Controller
         $data['active'] = 'examination';
         $examination = Examination::where('user_id', $user->company_id)->first();
         if (!$examination) {
+            $waec = Examination::where('user_id', 0)->where('exam_type','waec')->first();
+            $neco = Examination::where('user_id', 0)->where('exam_type','neco')->first();
+            $nbais = Examination::where('user_id', 0)->where('exam_type','nbais')->first();
+            $nabteb = Examination::where('user_id', 0)->where('exam_type','nabteb')->first();
 
             Examination::create([
                 'user_id' => $user->company_id,
                 'exam_type' => 'WAEC RESULT CHECKER',
                 'name' => 'WAEC RESULT CHECKER',
-                'actual_amount' => 3400,
-                'real_amount' => 3400
+                'actual_amount' => $waec->actual_amount,
+                'real_amount' => $waec->real_amount
             ]);
             Examination::create([
                 'user_id' => $user->id,
                 'exam_type' => 'NECO RESULT CHECKER',
                 'name' => 'NECO RESULT CHECKER',
-                'actual_amount' => 800,
-                'real_amount' => 800
+                'actual_amount' => $neco->actual_amount,
+                'real_amount' => $neco->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
                 'exam_type' => 'NBAIS RESULT CHECKER',
                 'name' => 'NBAIS RESULT CHECKER',
-                'actual_amount' => 500,
-                'real_amount' => 500
+                'actual_amount' => $nbais->actual_amount,
+                'real_amount' => $nbais->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
                 'exam_type' => 'NABTEB RESULT CHECKER',
                 'name' => 'NABTEB RESULT CHECKER',
-                'actual_amount' => 500,
-                'real_amount' => 500
+                'actual_amount' => $nabteb->actual_amount,
+                'real_amount' => $nabteb->real_amount,
             ]);
         }
         $data['company'] = User::where('id', $user->company_id)->first();

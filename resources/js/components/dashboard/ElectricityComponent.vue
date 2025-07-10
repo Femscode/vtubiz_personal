@@ -65,7 +65,6 @@
                 <!--begin::Icon-->
                 <span class="svg-icon svg-icon-info mr-5">
                   <span class="svg-icon svg-icon-lg">
-                    <!--begin::Svg Icon | path:/metronic/theme/html/demo2/dist/assets/media/svg/icons/General/Attachment2.svg-->
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       xmlns:xlink="http://www.w3.org/1999/xlink"

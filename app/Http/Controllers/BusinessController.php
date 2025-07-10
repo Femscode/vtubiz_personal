@@ -39,29 +39,28 @@ class BusinessController extends Controller
         $host = $request->getHost();
         $parts = explode('.', $host);
         $subdomain = $parts[0];
-        if($subdomain == 'www') {
+        if ($subdomain == 'www') {
             $subdomain = $parts[1];
         }
         //afuwwu website 
-       
+
         if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['user'] = $user = User::where('id', '888')->first();
-        } 
+        }
         if ($subdomain == 'gizmorechargehub' || $parts[1] == 'gizmorechargehub') {
             $data['user'] = $user = User::where('id', '1972')->first();
-        } 
+        }
         // dd($subdomain);
         else {
             $data['user'] = $user = User::where('brand_name', $subdomain)->first();
-
         }
         if ($user) {
             $id = $user->selected_theme;
 
-            $data['mtn'] = Data::where('network', 1)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
-            $data['glo'] = Data::where('network', 2)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
-            $data['airtel'] = Data::where('network', 3)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
-            $data['nmobile'] = Data::where('network', 4)->where('user_id',$user->company_id)->orderBy('data_price')->take(20)->get();
+            $data['mtn'] = Data::where('network', 1)->where('user_id', $user->company_id)->orderBy('data_price')->take(20)->get();
+            $data['glo'] = Data::where('network', 2)->where('user_id', $user->company_id)->orderBy('data_price')->take(20)->get();
+            $data['airtel'] = Data::where('network', 3)->where('user_id', $user->company_id)->orderBy('data_price')->take(20)->get();
+            $data['nmobile'] = Data::where('network', 4)->where('user_id', $user->company_id)->orderBy('data_price')->take(20)->get();
             $view = "business_backend.theme" . $id;
             return view($view, $data);
         } else {
@@ -73,9 +72,8 @@ class BusinessController extends Controller
         $data['user'] = $user = Auth::user();
         $data['active'] = 'transactions';
         $data['transactions'] = $transactions =  DuplicateTransaction::where('user_id', $user->id)->latest()->get();
-      
+
         return view('dashboard.pending_transactions', $data);
-        
     }
     public function upgrade($id)
     {
@@ -146,16 +144,13 @@ class BusinessController extends Controller
             ->latest()
             ->get();
 
-         $host = $request->getHost();
+        $host = $request->getHost();
         $parts = explode('.', $host);
         $subdomain = $parts[0];
         if ($subdomain == 'phuzvtu' || $parts[1] == 'phuzvtu') {
             $data['website_url'] = "https://phuzvtu.com";
-           
-        } 
-        elseif ($subdomain == 'gizmorechargehub' || $parts[1] == 'gizmorechargehub') {
+        } elseif ($subdomain == 'gizmorechargehub' || $parts[1] == 'gizmorechargehub') {
             $data['website_url'] = "https://gizmorechargehub.com";
-           
         } else {
             $data['website_url'] = 'https://vtubiz.com';
         }
@@ -178,7 +173,7 @@ class BusinessController extends Controller
         if ($notification && $notification->title !== null) {
             $data['notification'] = $notification;
         }
-       
+
 
         return view('business_backend.set-prices', $data);
     }
@@ -578,9 +573,8 @@ class BusinessController extends Controller
     }
     public function cable_prices()
     {
-
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
         $cables = Cable::where('user_id', 0)->get();
@@ -603,43 +597,49 @@ class BusinessController extends Controller
 
         return view('business_backend.cable_price', $data);
     }
+   
     public function examination_prices()
     {
         $data['user'] = $user = Auth::user();
-        if ($user->user_type == 'customer' || $user->user_type == 'client_customer') {
+        if ($user->user_type == 'customer') {
             return redirect('/my-dashboard');
         }
 
         $examination = Examination::where('user_id', $user->id)->first();
+        //   $examination = Examination::where('user_id', $user->company_id)->first();
         if (!$examination) {
+            $waec = Examination::where('user_id', 0)->where('exam_type','waec')->first();
+            $neco = Examination::where('user_id', 0)->where('exam_type','neco')->first();
+            $nbais = Examination::where('user_id', 0)->where('exam_type','nbais')->first();
+            $nabteb = Examination::where('user_id', 0)->where('exam_type','nabteb')->first();
 
             Examination::create([
-                'user_id' => $user->id,
+                'user_id' => $user->company_id,
                 'exam_type' => 'WAEC RESULT CHECKER',
                 'name' => 'WAEC RESULT CHECKER',
-                'actual_amount' => 3400,
-                'real_amount' => 3400
+                'actual_amount' => $waec->actual_amount,
+                'real_amount' => $waec->real_amount
             ]);
             Examination::create([
                 'user_id' => $user->id,
                 'exam_type' => 'NECO RESULT CHECKER',
                 'name' => 'NECO RESULT CHECKER',
-                'actual_amount' => 800,
-                'real_amount' => 800
+                'actual_amount' => $neco->actual_amount,
+                'real_amount' => $neco->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
                 'exam_type' => 'NBAIS RESULT CHECKER',
                 'name' => 'NBAIS RESULT CHECKER',
-                'actual_amount' => 500,
-                'real_amount' => 500
+                'actual_amount' => $nbais->actual_amount,
+                'real_amount' => $nbais->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
                 'exam_type' => 'NABTEB RESULT CHECKER',
                 'name' => 'NABTEB RESULT CHECKER',
-                'actual_amount' => 500,
-                'real_amount' => 500
+                'actual_amount' => $nabteb->actual_amount,
+                'real_amount' => $nabteb->real_amount,
             ]);
         }
 

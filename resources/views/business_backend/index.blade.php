@@ -168,30 +168,30 @@
                             </a>
                         </div>
                         <div class="quick-link-item">
-                            <a href='checkreviews' class="text-decoration-none text-dark d-flex align-items-center">
+                            <a href='/mytheme' class="text-decoration-none text-dark d-flex align-items-center">
                                 <i class="fas fa-palette text-primary me-3"></i>
-                                <span class="flex-grow-1">Design & Theme</span>
+                                <span class="flex-grow-1">Theme & Design</span>
                                 <i class="fas fa-chevron-right text-muted"></i>
                             </a>
                         </div>
                         <div class="quick-link-item">
-                            <a href='/records' class="text-decoration-none text-dark d-flex align-items-center">
+                            <a href='/product-prices' class="text-decoration-none text-dark d-flex align-items-center">
                                 <i class="fas fa-file-alt text-primary me-3"></i>
-                                <span class="flex-grow-1">Records</span>
+                                <span class="flex-grow-1">Product Pricing</span>
                                 <i class="fas fa-chevron-right text-muted"></i>
                             </a>
                         </div>
                         <div class="quick-link-item">
-                            <a href='/delivery_locations' class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="fas fa-exchange-alt text-primary me-3"></i>
-                                <span class="flex-grow-1">Customer Transactions</span>
+                            <a href='/users' class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="fas fa-users text-primary me-3"></i>
+                                <span class="flex-grow-1">Customer Management</span>
                                 <i class="fas fa-chevron-right text-muted"></i>
                             </a>
                         </div>
                         <div class="quick-link-item">
-                            <a href='/delivery_tracking' class="text-decoration-none text-dark d-flex align-items-center">
-                                <i class="fas fa-star text-primary me-3"></i>
-                                <span class="flex-grow-1">Reviews & Complaints</span>
+                            <a href='/purchase_transactions' class="text-decoration-none text-dark d-flex align-items-center">
+                                <i class="fas fa-table text-primary me-3"></i>
+                                <span class="flex-grow-1">Customer's Transactions</span>
                                 <span class="badge bg-danger rounded-pill me-2">New</span>
                                 <i class="fas fa-chevron-right text-muted"></i>
                             </a>

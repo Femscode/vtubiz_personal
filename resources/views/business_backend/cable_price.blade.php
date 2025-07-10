@@ -65,9 +65,9 @@
                                             class='form-control' value="{{ $cable->plan_name }}" /></td>
                                     <td><input readonly disabled name='cable_price[]'
                                           class='form-control'
-                                            value="{{ $cable->real_price }}" /></td>
+                                            value="{{ $cable->actual_price }}" /></td>
                                     <td><input name='admin_price[]'
-                                           class='form-control @if($cable->admin_price > $cable->real_price) text-success @else text-danger @endif'
+                                           class='form-control @if($cable->admin_price > $cable->actual_price) text-success @else text-danger @endif'
                                             value="{{ $cable->admin_price }}" /></td>
 
 
