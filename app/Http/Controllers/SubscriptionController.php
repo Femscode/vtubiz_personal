@@ -52,7 +52,7 @@ class SubscriptionController extends Controller
                         'actual_price' => $data->actual_price,
                         'data_price' => $data->account_price,
                         'account_price' => $data->account_price,
-                        'admin_price' => $data->account_price
+                        'admin_price' => $data->admin_price
                     ]);
                 }
             }
