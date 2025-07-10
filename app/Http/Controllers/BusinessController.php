@@ -331,7 +331,7 @@ class BusinessController extends Controller
         return view('business_backend.fundwallet', $data);
     }
 
-    public function saveBeneficiary(Request $request)
+   public function saveBeneficiary(Request $request)
     {
         // dd($request->all());
         try {
@@ -347,7 +347,8 @@ class BusinessController extends Controller
             Beneficiary::create([
                 'user_id' => $user->id,
                 'name' => $request->name,
-                'phone' => $request->phone
+                'phone' => $request->phone,
+                'type' => $request->type ?? 'data'
 
             ]);
 
@@ -366,7 +367,7 @@ class BusinessController extends Controller
             return $response;
         }
     }
-    public function removeBeneficiary(Request $request)
+     public function removeBeneficiary(Request $request)
     {
         // dd($request->all());
         try {
@@ -374,7 +375,7 @@ class BusinessController extends Controller
             $this->validate($request, [
                 'phone' => 'required',
             ]);
-            Beneficiary::where('phone', $request->phone)->delete();
+            Beneficiary::where('phone', $request->phone)->where('user_id', $user->id)->delete();
 
             $response = [
                 'success' => true,
@@ -559,7 +560,7 @@ class BusinessController extends Controller
 
         $data['user'] = $user = Auth::user();
         $data['electricities']  = Electricity::where('user_id', $user->id)->get();
-
+ 
         return view('business_backend.electricity_price', $data);
     }
     public function bulksms_prices()

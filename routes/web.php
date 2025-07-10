@@ -364,26 +364,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/payment/callback', [App\Http\Controllers\FundingController::class, 'handleGatewayCallback']);
     Route::get('/reserve_account', [App\Http\Controllers\FundingController::class, 'reserve_account']);
     Route::post('monnify/transaction_complete', [App\Http\Controllers\MonnifyController::class, 'monnifyTransactionComplete2']);
-
     //subscription routes
-
-    Route::group(['middleware' => 'auth'], function () {
-        Route::any('/superadmin', [App\Http\Controllers\SuperController::class, 'index'])->name('superadmin');
-        Route::any('/all_payment_transactions', [App\Http\Controllers\SuperController::class, 'payment_transactions'])->name('all_payment_transactions');
-        Route::any('/all_withdrawals', [App\Http\Controllers\SuperController::class, 'all_withdrawals'])->name('all_withdrawals');
-        Route::any('/approve_withdraw/{id}', [App\Http\Controllers\SuperController::class, 'approve_withdraw'])->name('approve_withdraw');
-        Route::any('/revert_withdraw/{id}', [App\Http\Controllers\SuperController::class, 'revert_withdraw'])->name('revert_withdraw');
-        Route::any('/user_management', [App\Http\Controllers\SuperController::class, 'user_management'])->name('user_management');
-        Route::any('/user_transaction/{id}', [App\Http\Controllers\SuperController::class, 'user_transaction'])->name('user_transaction');
-        Route::any('/data_price', [App\Http\Controllers\SuperController::class, 'data_price'])->name('data_price');
-        Route::any('/update_data', [App\Http\Controllers\SuperController::class, 'update_data'])->name('update_data');
-        Route::any('/cable_price', [App\Http\Controllers\SuperController::class, 'cable_price'])->name('cable_price');
-        Route::any('/update_cable', [App\Http\Controllers\SuperController::class, 'update_cable'])->name('update_cable');
-        Route::any('/block_user/{id}', [App\Http\Controllers\SuperController::class, 'block_user'])->name('block_user');
-        Route::any('/upgrade_user/{id}', [App\Http\Controllers\SuperController::class, 'upgrade_user'])->name('upgrade_user');
-        Route::any('/duplicate_transactions/', [App\Http\Controllers\SuperController::class, 'duplicate_transactions'])->name('duplicate_transactions');
-        Route::any('/admin_delete_duplicate/{type}/{id}', [App\Http\Controllers\SubscriptionController::class, 'admin_delete_duplicate'])->name('admin_delete_duplicate');
-    });
+  
 });
 
 //business domain end
