@@ -52,7 +52,7 @@
 
                 @if($user->logo !== null)
                 <img class="header-profile-user"
-                    src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:150px' />
+                    src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" style='width:150px' />
                 @else
                 <h1>{{ $user->brand_name }}<span>.</span></h1>
                 @endif
@@ -1154,7 +1154,7 @@
                         <div class="footer-info">
                             @if($user->logo !== null)
                             <img class="header-profile-user"
-                                src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:150px' />
+                                src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" style='width:150px' />
                             @else
                             <h3>{{ $user->brand_name }}<span>.</span></h3>
                             @endif

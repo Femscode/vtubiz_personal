@@ -411,7 +411,7 @@
                                     <h6>Your Website Link:
                                         <div class="input-group">
                                             <input name='link-to-copy' type="text" class="form-control"
-                                                value="https://cttaste.com/{{ $user->slug }}">
+                                                value="https://{{ $user->brand_name }}.com">
                                             <div class="input-group-append">
                                                 <button name='copy-link' style='background:#ebab21'
                                                     class="btn btn-primary" type="button"><i

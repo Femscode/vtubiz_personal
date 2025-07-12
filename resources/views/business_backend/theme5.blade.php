@@ -546,7 +546,7 @@
         <div class="container">
             <a class="navbar-brand-modern" href="#">
                 @if($user->logo !== null)
-                    <img src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" class="brand-logo">
+                    <img src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" class="brand-logo">
                 @endif
                 <span>{{ $user->brand_name }}</span>
             </a>
@@ -920,7 +920,7 @@
                 <div class="col-lg-4">
                     <div class="footer-brand">
                         @if($user->logo !== null)
-                            <img src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" class="footer-logo">
+                            <img src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" class="footer-logo">
                         @endif
                         <span class="footer-brand-name">{{ $user->brand_name }}</span>
                     </div>

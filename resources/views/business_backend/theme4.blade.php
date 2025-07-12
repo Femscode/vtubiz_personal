@@ -714,7 +714,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <a href="#" class="navbar-brand">
             @if($user->logo !== null)
-              <img src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" class="brand-logo" />
+              <img src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" class="brand-logo" />
             @endif
             <span>{{ $user->brand_name }}</span>
           </a>
@@ -1042,7 +1042,7 @@
       <div class="footer-content">
         <div class="footer-brand">
           @if($user->logo !== null)
-            <img src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" style="width: 50px; height: 50px; border-radius: 12px; margin-bottom: 16px;" />
+            <img src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" alt="{{ $user->brand_name }}" style="width: 50px; height: 50px; border-radius: 12px; margin-bottom: 16px;" />
           @endif
           <h3>{{ $user->brand_name }}</h3>
           <p>Your trusted partner for all digital transactions. Experience the future of digital payments with our comprehensive platform.</p>

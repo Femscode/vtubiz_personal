@@ -74,7 +74,7 @@
                                 <span class="me-1">
                                     @if($user->logo !== null)
                                     <img class="rounded-circle header-profile-user"
-                                        src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                                        src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
                                     @else
                                     <h2>{{ $user->brand_name }}</h2>
                                     @endif
@@ -1163,7 +1163,7 @@
                         <span class="me-1">
                             @if($user->logo !== null)
                             <img class="rounded-circle header-profile-user"
-                                src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                                src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
                             @else
                             <h2>{{ $user->brand_name }}</h2>
                             @endif

@@ -108,7 +108,7 @@
                                                 <a rel="noopener" target="_blank">
                                                     @if($company->logo !== null)
                                                     <img class="rounded-circle header-profile-user"
-                                                        src="https://vtubiz.com/public/brand_images/{{ $company->logo}}" style='width:50px;height:50px' />
+                                                        src="https://vtubiz.com/newpersonal/public/brand_images/{{ $company->logo}}" style='width:50px;height:50px' />
                                                     @else
                                                     <h1>{{ $company->brand_name }}<span>.</span></h1>
                                                     @endif

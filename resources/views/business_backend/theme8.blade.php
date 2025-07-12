@@ -413,7 +413,7 @@
         <div class="container">
             <a class="navbar-brand" href="#">
                 @if($user->logo !== null)
-                    <img src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" alt="Logo" style="height: 40px; object-fit: contain;">
+                    <img src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" alt="Logo" style="height: 40px; object-fit: contain;">
                 @else
                     {{ $user->brand_name }}
                 @endif

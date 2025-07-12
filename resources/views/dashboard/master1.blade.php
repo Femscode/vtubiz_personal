@@ -120,7 +120,7 @@
                         <a href="#">
                             @if($company->logo !== null)
                             <img class="header-profile-user"
-                                src="https://vtubiz.com/public/brand_images/{{ $company->logo}}" style='width:150px' />
+                                src="https://vtubiz.com/newpersonal/public/brand_images/{{ $company->logo}}" style='width:150px' />
                             @else
                             <h1>{{ $company->brand_name }}<span>.</span></h1>
                             @endif
