@@ -47,9 +47,7 @@
 
                                     <div class='row'>
                                         <img class="rounded-circle header-profile-user"
-                                            src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo) }}"  style='width:150px;height:150px'{{--
-                                            src="https://cttaste.com/cttaste_files/public/brand_images/{{ $user->image }}"
-                                            --}} alt="Profile Pic">
+                                            src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}"  style='width:150px;height:150px' alt="Profile Pic">
                                         @else
                                         <img src="assets/images/banner3.jpeg" alt=""
                                             class="rounded-circle header-profile-user">
