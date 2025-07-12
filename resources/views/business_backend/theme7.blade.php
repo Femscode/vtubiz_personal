@@ -6,19 +6,53 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>{{ $user->brand_name }} | {{ $user->description }} </title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+    
+    <!-- Enhanced Meta Tags for WhatsApp Sharing -->
+    <meta name="description" content="{{ $user->description ?? 'Top-Up, Pay Bills, Stay Connected with ' . $user->brand_name }}">
+    <meta name="keywords" content="airtime, data plans, bill payment, cable subscription, {{ $user->brand_name }}">
+    
+    <!-- Open Graph Meta Tags for WhatsApp -->
+    <meta property="og:title" content="{{ $user->brand_name }} | {{ $user->description ?? 'Top-Up, Pay Bills, Stay Connected' }}">
+    <meta property="og:description" content="{{ $user->about_us ?? 'Experience seamless airtime top-up, affordable data plans, cable subscriptions, and bill payments with ' . $user->brand_name }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    @if($user->logo)
+    <meta property="og:image" content="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}">
+    @elseif($user->image_1)
+    <meta property="og:image" content="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}">
+    @else
+    <meta property="og:image" content="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg') }}">
+    @endif
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="{{ $user->brand_name }}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $user->brand_name }} | {{ $user->description ?? 'Top-Up, Pay Bills, Stay Connected' }}">
+    <meta name="twitter:description" content="{{ $user->about_us ?? 'Experience seamless airtime top-up, affordable data plans, cable subscriptions, and bill payments with ' . $user->brand_name }}">
+    @if($user->logo)
+    <meta name="twitter:image" content="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}">
+    @elseif($user->image_1)
+    <meta name="twitter:image" content="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}">
+    @else
+    <meta name="twitter:image" content="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg') }}">
+    @endif
+    
+    <!-- WhatsApp Specific Meta Tags -->
+    <meta property="og:locale" content="en_US">
+    <meta name="theme-color" content="#25D366">
+    
+    <!-- Favicon -->
+    @if($user->logo)
+    <link rel="icon" type="image/png" href="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}">
+    @endif
 
-    <!-- Favicons -->
-    {{--
-    <link href="{{ asset('phuz_asset/assets/img/favicon.png')}}" rel="icon">
-    <link href="{{ asset('phuz_asset/assets/img/apple-touch-icon.png')}}" rel="apple-touch-icon"> --}}
-
+  
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
@@ -33,13 +67,7 @@
 
     <link href="{{ asset('phuz_asset/assets/css/main.css')}}" rel="stylesheet">
 
-    <!-- =======================================================
-  * Template Name: HeroBiz
-  * Updated: Sep 18 2023 with Bootstrap v5.3.2
-  * Template URL: https://bootstrapmade.com/herobiz-bootstrap-business-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  
 </head>
 
 <body>
