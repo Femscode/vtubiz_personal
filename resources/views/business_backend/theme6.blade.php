@@ -552,7 +552,7 @@
                             <!-- img -->
                             <div class="img-zoom">
                                 @if($user->image_1 !== null )
-                                <img src="{{ asset('website_images/'.$user->image_1) }}" alt=""
+                                <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt=""
                                     style='border-radius:15px' class="img-fluid w-100">
                                 @else
                                 <img src="{{ asset('assets/media/logos/fastpay_bg_2.jpg') }}" alt=""

@@ -171,7 +171,7 @@
                 <div class="row gy-70">
                     <div class="col-lg-6 offset-lg-1 order-lg-2">
                         @if($user->image_1 !== null )
-                        <img src="{{ asset('website_images/'.$user->image_1) }}" alt=""
+                        <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt=""
                             style='border-radius:15px' class="img-fluid w-100">
                         @else
                         <img
@@ -586,7 +586,7 @@
                                 href="theme4/assets/img/home-1-900x990.jpg" style="--img-height: 110%;"
                                 data-img-height>
                                 @if($user->image_1 !== null )
-                                <img src="{{ asset('website_images/'.$user->image_2) }}" alt=""
+                                <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_2 }}" alt=""
                                     style='border-radius:15px' class="img-fluid w-100">
                                 @else
                                 <img loading="lazy" src="{{ asset('theme4/assets/img/home-1-900x990.jpg')}}" alt="">

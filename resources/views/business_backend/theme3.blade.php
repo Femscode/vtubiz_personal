@@ -174,7 +174,7 @@
                             <div class="background">
                                 <div class="background-image">
                                     @if($user->image_1 !== null )
-                                    <img src="{{ asset('website_images/'.$user->image_1) }}" alt=""
+                                    <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt=""
                                         style='border-radius:15px' class="img-fluid w-100" data-swiper-parallax-x="20%">
                                     @else
 
@@ -211,7 +211,7 @@
                             <div class="background">
                                 <div class="background-image">
                                     @if($user->image_1 !== null )
-                                    <img src="{{ asset('website_images/'.$user->image_1) }}" alt=""
+                                    <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_2 }}" alt=""
                                         style='border-radius:15px' loading='lazy' class="img-fluid w-100"
                                         data-swiper-parallax-x="20%">
                                     @else

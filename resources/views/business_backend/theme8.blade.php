@@ -468,7 +468,7 @@
 
                         
                         @if($user->image_1 !== null)
-                            <img src="https://vtubiz.com/public/website_images/{{ $user->image_1 }}" alt="Hero Image" class="img-fluid" style="border-radius: 15px; max-height: 450px; object-fit: cover; width: 100%;">
+                            <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt="Hero Image" class="img-fluid" style="border-radius: 15px; max-height: 450px; object-fit: cover; width: 100%;">
                         @else
                             
                                 <img src="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg')}}" class="img-fluid animated">
@@ -556,7 +556,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1200">
                     @if($user->image_2 !== null)
-                        <img src="https://vtubiz.com/public/website_images/{{ $user->image_2 }}" alt="About Image" class="img-fluid" style="border-radius: 15px; object-fit: cover; width: 100%;">
+                        <img src="https://vtubiz.com/newpersonal/public/website_images/{{  $user->image_2 }}" alt="About Image" class="img-fluid" style="border-radius: 15px; object-fit: cover; width: 100%;">
                     @else
                         <div class="glass-card text-center">
                             <i class="bi bi-shield-check" style="font-size: 5rem; color: var(--glow-color);"></i>

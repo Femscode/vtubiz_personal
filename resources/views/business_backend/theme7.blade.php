@@ -83,7 +83,7 @@
         <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative"
             data-aos="zoom-out">
             @if($user->image_1 !== null )
-            <img src="https://vtubiz.com/public/website_images/{{ $user->image_1 }}" alt="" style='border-radius:15px;width:'
+            <img src="https://vtubiz.com/newpersonal/public/website_images/{{  $user->image_1 }}" alt="" style='border-radius:15px;width:'
                 class="img-fluid w-100">
             @else
             <img src="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg')}}" class="img-fluid animated">
@@ -351,7 +351,7 @@
                     <div class="col-lg-4 col-md-6 order-first order-md-last d-flex align-items-center">
                         <div class="img">
                             @if($user->image_2 !== null )
-                            <img src="https://vtubiz.com/public/website_images/{{ $user->image_2 }}" alt="" style='border-radius:15px'
+                            <img src="https://vtubiz.com/newpersonal/public/website_images/{{  $user->image_2 }}" alt="" style='border-radius:15px'
                                 class="img-fluid w-100">
                             @else
                             <img src="{{ asset('phuz_asset/assets/img/cta.jpg')}}" alt="" class="img-fluid">

@@ -864,7 +864,7 @@
           
           <div class="about-image" data-aos="fade-left">
             @if($user->image_1 !== null)
-              <img src="{{ asset('website_images/'.$user->image_1) }}" alt="About {{ $user->brand_name }}">
+              <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt="About {{ $user->brand_name }}">
             @else
               <img src="{{ asset('assets/media/logos/fastpay_bg_2.jpg') }}" alt="About {{ $user->brand_name }}">
             @endif
