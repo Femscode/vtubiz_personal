@@ -146,7 +146,7 @@
                     </div>
 
                     <div class="d-grid">
-                        <a href="{{ $website_url ?? 'http://'.$user->brand_name.'.com'}}.com" class="btn btn-light btn-modern">
+                        <a href="{{ $website_url ?? 'http://'.$user->brand_name.'.com'}}" class="btn btn-light btn-modern">
                             <i class="fas fa-external-link-alt me-2"></i>Preview Website
                         </a>
                     </div>
