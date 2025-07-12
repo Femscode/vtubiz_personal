@@ -182,7 +182,7 @@
 
 
                             <img class="rounded-circle header-profile-user"
-                                src="{{ asset('brand_images/'.$user->logo) }}"
+                                src="{https://vtubiz.com/newpersonal/public/brand_images/{{$user->logo }}"
                                 {{-- src="https://VTUBIZ.com/VTUBIZ_files/public/brand_images/{{ $user->image }}" --}}
                                 alt="Profile Pic">
                             @else
