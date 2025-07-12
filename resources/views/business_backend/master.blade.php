@@ -10,7 +10,7 @@
     <meta content="VTUBIZ" name="author" />
     <!-- App favicon -->
     @if($user && $user->logo !== null)
-    <link rel="icon" type="image/png" href="{{ asset('brand_images/'.$user->logo) }}"><!-- Fonts-->
+    <link rel="icon" type="image/png" href="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}"><!-- Fonts-->
     @else
     <link rel="shortcut icon" href="https://cttaste.com/assets/images/fav_01.png">
     @endif
