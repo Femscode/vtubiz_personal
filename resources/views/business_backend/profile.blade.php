@@ -47,7 +47,7 @@
 
                                     <div class='row'>
                                         <img class="rounded-circle header-profile-user"
-                                            src="{{ url('public/brand_images/'.$user->logo) }}"  style='width:150px;height:150px'{{--
+                                            src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo) }}"  style='width:150px;height:150px'{{--
                                             src="https://cttaste.com/cttaste_files/public/brand_images/{{ $user->image }}"
                                             --}} alt="Profile Pic">
                                         @else
