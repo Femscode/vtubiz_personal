@@ -412,6 +412,7 @@ class BusinessController extends Controller
     public function theme_preview($id)
     {
         $data['theme'] = $theme = Theme::where('uuid', $id)->first();
+       
         $data['user'] = Auth::user();
         $data['mtn'] = Data::where('network', 1)->orderBy('data_price')->take(20)->get();
         $data['glo'] = Data::where('network', 2)->orderBy('data_price')->take(20)->get();

@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta content="Codescandy" name="author">
-    <title>{{ $user->brand_name }}  </title>
+    <title>{{ $user->brand_name }} </title>
 
     <link href="{{ asset('theme1/assets/libs/slick-carousel/slick/slick.css') }}" rel="stylesheet" />
     <link href="{{ asset('theme1/assets/libs/slick-carousel/slick/slick-theme.css') }}" rel="stylesheet" />
@@ -31,10 +31,13 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-M8S4MT3EYG');
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-M8S4MT3EYG');
     </script>
 
 </head>
@@ -70,11 +73,12 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">
                                 <span class="me-1">
                                     @if($user->logo !== null)
-            <img class="rounded-circle header-profile-user"
-            src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
-           @else
-            <h2>{{ $user->brand_name }}</h2>
-            @endif     </span>
+                                    <img class="rounded-circle header-profile-user"
+                                        src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                                    @else
+                                    <h2>{{ $user->brand_name }}</h2>
+                                    @endif
+                                </span>
                             </button>
 
                         </div>
@@ -585,7 +589,7 @@
 
 
                 <div class="row d-flex align-items-center mb-8 p-4">
-                   
+
                     <!-- text -->
                     <div class="col-12 col-md-12 col-lg-4">
                         <div class="ps-lg-8 mt-8 mt-lg-0">
@@ -602,12 +606,12 @@
                         </div>
                     </div>
                     <div class="col-12 col-md-12 col-lg-8"><a href="#!">
-                        <!-- img -->
-                        <div class="img-zoom">
-                            <img src="../assets/images/blog/blog-large.jpg" alt="" class="img-fluid w-100">
-                        </div>
-                    </a>
-                </div>
+                            <!-- img -->
+                            <div class="img-zoom">
+                                <img src="../assets/images/blog/blog-large.jpg" alt="" class="img-fluid w-100">
+                            </div>
+                        </a>
+                    </div>
 
                 </div>
             </div>
@@ -1113,7 +1117,7 @@
                                 <h3 class="fs-5 mb-3">Add Up Beneficiaries</h3>
                                 <p class="mb-0">Simplify future purchases by saving contacts, decoder
                                     numbers, and meter numbers with our 'Add Up Beneficiaries' feature.</p>
-               
+
 
                                 </p>
                             </div>
@@ -1159,10 +1163,10 @@
                         <span class="me-1">
                             @if($user->logo !== null)
                             <img class="rounded-circle header-profile-user"
-                            src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
-                           @else
+                                src="https://vtubiz.com/public/brand_images/{{ $user->logo}}" style='width:50px;height:50px' />
+                            @else
                             <h2>{{ $user->brand_name }}</h2>
-                            @endif   
+                            @endif
                         </span>
                         <div class="col-6 col-sm-6 col-md-3">
                             <h6 class="mb-4">Get to know us</h6>
@@ -1236,7 +1240,7 @@
                                     document.getElementById('copyright').appendChild(document.createTextNode(new Date().getFullYear()))
                                 </script>
                             </span> All rights reserved. {{ $user->brand_name }}.</span>
-                            {{-- </span> All rights reserved. Powered by <a href="https://vtubiz.com/">VTUBIZ</a>.</span> --}}
+                        {{-- </span> All rights reserved. Powered by <a href="https://vtubiz.com/">VTUBIZ</a>.</span> --}}
                     </div>
                     <div class="col-md-6">
                         <ul class="list-inline text-md-end mb-0 small mt-3 mt-md-0">
@@ -1307,8 +1311,5 @@
 
 
 </body>
-
-
-<!-- Mirrored from freshcart.codescandy.com/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 13 Aug 2023 16:10:34 GMT -->
 
 </html>
