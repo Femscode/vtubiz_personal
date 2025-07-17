@@ -35,8 +35,9 @@ class FundingController extends Controller
         }
     }
 
-    
-    public function generatePermanentAccount(Request $request) {
+
+    public function generatePermanentAccount(Request $request)
+    {
         // dd($request->all(),env('FLW_SECRET_KEY'));
         $user = Auth::user();
         $str_name = explode(" ", $user->name);
@@ -55,7 +56,7 @@ class FundingController extends Controller
                 'is_permanent' => true,
                 'bvn' => $request->bvn,
                 'tx_ref' => $trx_ref,
-                'phonenumber' => $user->phone,               
+                'phonenumber' => $user->phone,
                 'firstname' => $first_name,
                 'lastname' => $last_name,
                 'narration' => 'VTUBIZ/' . $first_name . '-' . $last_name,
@@ -67,15 +68,15 @@ class FundingController extends Controller
 
         // You can also convert the JSON response to an array or object if needed:
         $responseData = $response->json(); // Converts JSON response to an array
-        
-      
+
+
         $user->bank_name = $responseData['data']['bank_name'];
         $user->account_no = $responseData['data']['account_number'];
-        $user->account_name = 'VTUBIZ/' . $first_name . '-' . $last_name ;
+        $user->account_name = 'VTUBIZ/' . $first_name . '-' . $last_name;
         $user->save();
-        return redirect('/fundwallet')->with('message','Permanent Account Created Successfully!');
+        return redirect('/fundwallet')->with('message', 'Permanent Account Created Successfully!');
     }
-    
+
     public function checkout(Request $request, $subdomain = null)
     {
         $this->validate($request, [
@@ -84,7 +85,7 @@ class FundingController extends Controller
         ]);
 
         $data['user'] = $user = Auth::user();
-        $data['company'] = User::where('id',$user->company_id)->first();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['amount'] = $amount = $request->amount;
         $data['active'] = 'fundwallet';
         if ($request->type == 'card') {
@@ -108,7 +109,7 @@ class FundingController extends Controller
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
                 // 'Authorization' => 'Bearer ' . $env, // Replace with your actual secret key
-                'Authorization' => 'Bearer '.env('FLW_SECRET_KEY'), // Replace with your actual secret key
+                'Authorization' => 'Bearer ' . env('FLW_SECRET_KEY'), // Replace with your actual secret key
             ])
                 ->post('https://api.flutterwave.com/v3/virtual-account-numbers/', [
                     'email' => $user->email,
@@ -141,63 +142,62 @@ class FundingController extends Controller
         // dd($request->all(), $request->amount/100);
 
     }
-    public function admin_checkout(Request $request) {
+    public function admin_checkout(Request $request)
+    {
         $this->validate($request, [
             'type' => 'required',
             'amount' => 'required',
         ]);
         $data['user'] = $user = Auth::user();
         $data['amount'] = $amount = $request->amount;
-        $data['company'] = User::where('id',$user->company_id)->first();
+        $data['company'] = User::where('id', $user->company_id)->first();
         $data['active'] = 'fundwallet';
-        if($request->type == 'card') {
+        if ($request->type == 'card') {
             $data['public_key'] = env('FLW_PUBLIC_KEY');
             $data['callback_url'] = 'https://vtubiz.com/payment/callback';
-            return view('business_backend.pay_with_card',$data);
-
-        }
-        else {
-            $str_name = explode(" ",$user->name);
+            return view('business_backend.pay_with_card', $data);
+        } else {
+            $str_name = explode(" ", $user->name);
             $first_name = $str_name[0];
             $last_name = end($str_name);
             // return view('dashboard.direct_transfer',$data);
 
-       
+
             $trx_ref = Str::random(7);
             $response = Http::withHeaders([
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer '.env('FLW_SECRET_KEY'), // Replace with your actual secret key
+                'Authorization' => 'Bearer ' . env('FLW_SECRET_KEY'), // Replace with your actual secret key
             ])
-            ->post('https://api.flutterwave.com/v3/virtual-account-numbers/', [
-                'email' => $user->email,
-                'is_permanent' => false,
-                // 'bvn' => 12345678901,
-                'tx_ref' => $trx_ref,
-                'phonenumber' => $user->phone,
-                'amount' => $amount,
-                'firstname' =>$first_name,
-                'lastname' => $last_name,
-                'narration' => 'Fastpay/'.$first_name .'-'. $last_name,
-            ]);
-            
+                ->post('https://api.flutterwave.com/v3/virtual-account-numbers/', [
+                    'email' => $user->email,
+                    'is_permanent' => false,
+                    // 'bvn' => 12345678901,
+                    'tx_ref' => $trx_ref,
+                    'phonenumber' => $user->phone,
+                    'amount' => $amount,
+                    'firstname' => $first_name,
+                    'lastname' => $last_name,
+                    'narration' => 'Fastpay/' . $first_name . '-' . $last_name,
+                ]);
+
             // You can then access the response body and status code like this:
             $responseBody = $response->body(); // Get the response body as a string
             $responseStatusCode = $response->status(); // Get the HTTP status code
-            
+
             // You can also convert the JSON response to an array or object if needed:
             $responseData = $response->json(); // Converts JSON response to an array
             // dd($responseData, 'here');
-            $data['bank_name'] = $responseData['data']['bank_name'] ;
+            $data['bank_name'] = $responseData['data']['bank_name'];
             $data['account_no'] = $responseData['data']['account_number'];
             $data['amount'] = $responseData['data']['amount'];
             $data['expiry_date'] = $responseData['data']['expiry_date'];
-            return view('business_backend.direct_transfer',$data);
-
+            return view('business_backend.direct_transfer', $data);
         }
         // dd($request->all(), $request->amount/100);
 
     }
-    public function handleFLWCallback() {
+    public function handleFLWCallback()
+    {
         return redirect('/dashboard');
     }
 
@@ -239,6 +239,11 @@ class FundingController extends Controller
         return response()->json("OK", 200);
     }
 
+    public function moniepoint_webhook(Request $request)
+    {
+        file_put_contents(__DIR__ . '/moniepoint.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
+        return response()->json("OK", 200);
+    }
     public function webhook_payment(Request $request)
     {
         file_put_contents(__DIR__ . '/flwlog.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
@@ -260,11 +265,11 @@ class FundingController extends Controller
             $charges = 100;
             $amountpaid -= $charges;
         }
-       
+
         $details_paid = $amountpaid + $charges;
 
         $user = User::where('email', $email)->firstOrFail();
-        $details = "Account credited with NGN" . $details_paid. " | Charges (NGN".$charges.")";
+        $details = "Account credited with NGN" . $details_paid . " | Charges (NGN" . $charges . ")";
         // file_put_contents(__DIR__ . '/gethere.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
         $this->create_transaction('Account Funding', $request->input('data.id'), $details, 'credit', $amountpaid, $user->id, 1);
         if ($user->first_time == 0) {
@@ -289,28 +294,25 @@ class FundingController extends Controller
 
         if ($status == 'success' || $status == 'successful') {
 
-            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference.'/'.$message;
+            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference . '/' . $message;
             $response = Http::get($url);
-        } 
-        elseif($status == 'pending') {
-            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference.'/'.$message;
+        } elseif ($status == 'pending') {
+            $url = 'https://vtubiz.com/run_debit/' . $client_reference . '/' . $reference . '/' . $message;
             // file_put_contents(__DIR__ . '/easy_success.json', $url);
             $response = Http::get($url);
-        }
-        elseif($status == 'failed') {
-            $url = 'https://vtubiz.com/run_failed/' . $client_reference . '/' . $reference.'/'.$message;
+        } elseif ($status == 'failed') {
+            $url = 'https://vtubiz.com/run_failed/' . $client_reference . '/' . $reference . '/' . $message;
             $response = Http::get($url);
-        }
-        else {
-            $url = 'https://vtubiz.com/run_failed/' . $client_reference . '/' . $reference.'/'.$message;
+        } else {
+            $url = 'https://vtubiz.com/run_failed/' . $client_reference . '/' . $reference . '/' . $message;
             $response = Http::get($url);
         }
         file_put_contents(__DIR__ . '/neweasywebhook_personal.txt', json_encode($request->all(), JSON_PRETTY_PRINT), FILE_APPEND);
-       
+
         return response()->json("OK", 200);
     }
 
-    public function run_debit($client_reference, $reference,$message)
+    public function run_debit($client_reference, $reference, $message)
     {
         $tranx = Transaction::where('reference', $client_reference)
             ->orderByDesc('created_at')
@@ -333,7 +335,7 @@ class FundingController extends Controller
         $duplicate = DuplicateTransaction::where('reference', $client_reference)->latest()->first();
         $duplicate->delete();
     }
-    public function run_failed($client_reference, $reference,$message)
+    public function run_failed($client_reference, $reference, $message)
     {
         $tranx = Transaction::where('reference', $client_reference)->latest()->first();
         $tranx->reference = $reference;
@@ -352,14 +354,14 @@ class FundingController extends Controller
     public function transfer()
     {
         $data['user'] =  $user = Auth::user();
-        
+
         $data['active'] = 'transfer';
-        $data['company'] = User::where('id',$user->company_id)->first();
+        $data['company'] = User::where('id', $user->company_id)->first();
         return view('dashboard.transfer', $data);
     }
 
- 
-  
+
+
     public function verify_id(Request $request)
     {
 
