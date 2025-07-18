@@ -443,12 +443,18 @@ class BusinessController extends Controller
     public function payment_transactions()
     {
         $data['user'] = $user = Auth::user();
-        $data['transactions'] = $transactions =  Transaction::where('company_id', $user->id)->where('title', 'Account Funded')->orWhere('title', 'Funds Withdraw')->orWhere('title', 'Manual Funding')
-            ->orWhere('title', 'Payment Recieved')
+    $data['transactions'] = Transaction::where('company_id', $user->id)
+    ->where(function ($query) {
+        $query->where('title', 'Account Funded')
+            ->orWhere('title', 'Funds Withdraw')
+            ->orWhere('title', 'Manual Funding')
+            ->orWhere('title', 'Payment Recieved') // Note: 'Recieved' seems to be a typo; should be 'Received'
             ->orWhere('title', 'Bonus Credited')
             ->orWhere('title', 'Account Funded Through Transfer')
-            ->orWhere('title', 'Pending Credit')
-            ->latest()->get();
+            ->orWhere('title', 'Pending Credit');
+    })
+    ->latest()
+    ->get();
         // dd('here');
         return view('business_backend.payment_transactions', $data);
     }

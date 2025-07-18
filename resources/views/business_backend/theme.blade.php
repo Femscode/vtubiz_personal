@@ -79,11 +79,11 @@
             </div>
             <!-- end row -->
 
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-12 m-0 text-center">
                   <a href='#' class='btn btn-primary'>Build Your Own Theme -></a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
