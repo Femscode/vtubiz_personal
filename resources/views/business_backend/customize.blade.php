@@ -305,6 +305,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Image 3</label>
+                                    <input type="file" class="form-control" name="image_3">
+                                </div>
+                            </div>
+                          
+                        </div>
                         <div class="mb-3">
                             <label for="heading" class="form-label">About Us</label>
                             <input type="text" class="form-control" name="about_us" value="{{ $user->about_us ?? " We

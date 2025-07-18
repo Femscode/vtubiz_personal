@@ -266,6 +266,7 @@ class BusinessController extends Controller
             $user->twitter = null;
             $user->image_1 = null;
             $user->image_2 = null;
+            $user->image_3 = null;
         } else {
 
 
@@ -306,6 +307,15 @@ class BusinessController extends Controller
                 $imageName = $image->hashName();
                 $image->move(public_path('website_images'), $imageName);
                 $user->image_2 = $imageName;
+            }
+            if ($request->image_3 !== null) {
+                if ($user->image_3 !== null && file_exists(public_path('website_images') . '/' . $user->image_3)) {
+                    unlink(public_path('website_images') . '/' . $user->image_3);
+                }
+                $image = $request->file('image_3');
+                $imageName = $image->hashName();
+                $image->move(public_path('website_images'), $imageName);
+                $user->image_3 = $imageName;
             }
         }
 
