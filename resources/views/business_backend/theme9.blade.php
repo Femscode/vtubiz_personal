@@ -119,6 +119,7 @@
             border: 1px solid var(--border-color);
             border-radius: 25px;
             padding: 3rem;
+            margin-top:20px;
             position: relative;
             overflow: hidden;
             transition: all 0.5s ease;
