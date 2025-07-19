@@ -792,7 +792,7 @@
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="pricing-card">
                         <div class="pricing-header">
-                            <img src="https://www.steadysub.com/frontend/img/mtn.png" alt="MTN" class="network-logo">
+                            <img src="https://www.vtubiz.com/frontend/img/mtn.png" alt="MTN" class="network-logo">
                             <div class="network-name">MTN DATA PLANS</div>
                         </div>
                         <table class="table pricing-table">
@@ -806,7 +806,7 @@
                             </tbody>
                         </table>
                         <div class="text-center mt-3">
-                            <a href="/data" class="btn btn-primary-modern w-100">
+                            <a href="/data" class="btn btn-primary-modern text-white w-100">
                                 <i class="bi bi-cart-plus me-2"></i>Purchase Now
                             </a>
                         </div>
@@ -817,7 +817,7 @@
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="pricing-card">
                         <div class="pricing-header">
-                            <img src="https://www.steadysub.com/frontend/img/glo.png" alt="GLO" class="network-logo">
+                            <img src="https://www.vtubiz.com/frontend/img/glo.png" alt="GLO" class="network-logo">
                             <div class="network-name">GLO DATA PLANS</div>
                         </div>
                         <table class="table pricing-table">
@@ -831,7 +831,7 @@
                             </tbody>
                         </table>
                         <div class="text-center mt-3">
-                            <a href="/data" class="btn btn-primary-modern w-100">
+                            <a href="/data" class="btn btn-primary-modern text-white w-100">
                                 <i class="bi bi-cart-plus me-2"></i>Purchase Now
                             </a>
                         </div>
@@ -842,7 +842,7 @@
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
                     <div class="pricing-card">
                         <div class="pricing-header">
-                            <img src="https://www.steadysub.com/frontend/img/airtel.png" alt="Airtel" class="network-logo">
+                            <img src="https://www.vtubiz.com/frontend/img/airtel.png" alt="Airtel" class="network-logo">
                             <div class="network-name">AIRTEL DATA PLANS</div>
                         </div>
                         <table class="table pricing-table">
@@ -856,7 +856,7 @@
                             </tbody>
                         </table>
                         <div class="text-center mt-3">
-                            <a href="/data" class="btn btn-primary-modern w-100">
+                            <a href="/data" class="btn btn-primary-modern text-white w-100">
                                 <i class="bi bi-cart-plus me-2"></i>Purchase Now
                             </a>
                         </div>
@@ -867,7 +867,7 @@
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
                     <div class="pricing-card">
                         <div class="pricing-header">
-                            <img src="https://www.steadysub.com/frontend/img/9mobile.png" alt="9Mobile" class="network-logo">
+                            <img src="https://www.vtubiz.com/frontend/img/9mobile.png" alt="9Mobile" class="network-logo">
                             <div class="network-name">9MOBILE DATA PLANS</div>
                         </div>
                         <table class="table pricing-table">
@@ -881,7 +881,7 @@
                             </tbody>
                         </table>
                         <div class="text-center mt-3">
-                            <a href="/data" class="btn btn-primary-modern w-100">
+                            <a href="/data" class="btn btn-primary-modern text-white w-100">
                                 <i class="bi bi-cart-plus me-2"></i>Purchase Now
                             </a>
                         </div>
@@ -964,18 +964,18 @@
                         @endif
                         <span class="footer-brand-name">{{ $user->brand_name }}</span>
                     </div>
-                    <p class="text-muted mb-4">Your trusted partner for all digital services. Fast, secure, and reliable transactions at your fingertips.</p>
+                    <p class="text-white mb-4">{{ $user->about_us ?? "Your trusted partner for all digital services. Fast, secure, and reliable transactions at your fingertips." }}</p>
                     <div class="social-links">
-                        <a href="{{ $user->facebook ?? 'https://facebook.com/vtubiz' }}" class="social-link">
+                        <a href="{{ $user->facebook ?? '#' }}" class="social-link">
                             <i class="bi bi-facebook"></i>
                         </a>
-                        <a href="{{ $user->twitter ?? 'https://twitter.com/vtubiz' }}" class="social-link">
+                        <a href="{{ $user->twitter ?? '#' }}" class="social-link">
                             <i class="bi bi-twitter"></i>
                         </a>
-                        <a href="{{ $user->instagram ?? 'https://instagram.com/vtubiz' }}" class="social-link">
+                        <a href="{{ $user->instagram ?? '#' }}" class="social-link">
                             <i class="bi bi-instagram"></i>
                         </a>
-                        <a href="{{ $user->whatsapp ?? 'https://wa.me/2348000000000' }}" class="social-link">
+                        <a href="{{ $user->whatsapp ?? '#' }}" class="social-link">
                             <i class="bi bi-whatsapp"></i>
                         </a>
                     </div>
@@ -1023,7 +1023,7 @@
             </div>
             
             <div class="footer-bottom">
-                <p class="mb-0">© <span id="currentYear"></span> {{ $user->brand_name }}. All rights reserved. Powered by innovation and excellence.</p>
+                <p class="mb-0">© <span id="currentYear"></span> {{ $user->brand_name }}. All rights reserved.</p>
             </div>
         </div>
     </footer>

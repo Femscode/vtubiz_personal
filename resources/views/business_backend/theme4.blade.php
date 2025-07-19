@@ -821,7 +821,6 @@
         <div class="section-header" data-aos="fade-up">
           <span class="section-badge">Our Services</span>
           <h2 class="section-title" style="color: {{ $user->brand_color ?? '#6366f1' }}">Comprehensive Digital Solutions</h2>
-          <p class="section-subtitle">Everything you need for your digital lifestyle, all in one powerful platform</p>
         </div>
         
         <div class="services-grid">
@@ -926,7 +925,7 @@
           <!-- MTN Data Plans -->
           <div class="pricing-card" data-aos="fade-up" data-aos-delay="100">
             <div class="pricing-header">
-              <img src="https://www.steadysub.com/frontend/img/mtn.png" alt="MTN" class="network-logo">
+              <img src="https://www.vtubiz.com/frontend/img/mtn.png" alt="MTN" class="network-logo">
               <div class="network-name">MTN Data Plans</div>
             </div>
             <table class="pricing-table">
@@ -948,7 +947,7 @@
           <!-- GLO Data Plans -->
           <div class="pricing-card" data-aos="fade-up" data-aos-delay="200">
             <div class="pricing-header">
-              <img src="https://www.steadysub.com/frontend/img/glo.png" alt="GLO" class="network-logo">
+              <img src="https://www.vtubiz.com/frontend/img/glo.png" alt="GLO" class="network-logo">
               <div class="network-name">GLO Data Plans</div>
             </div>
             <table class="pricing-table">
@@ -970,7 +969,7 @@
           <!-- Airtel Data Plans -->
           <div class="pricing-card" data-aos="fade-up" data-aos-delay="300">
             <div class="pricing-header">
-              <img src="https://www.steadysub.com/frontend/img/airtel.png" alt="Airtel" class="network-logo">
+              <img src="https://www.vtubiz.com/frontend/img/airtel.png" alt="Airtel" class="network-logo">
               <div class="network-name">Airtel Data Plans</div>
             </div>
             <table class="pricing-table">
@@ -992,7 +991,7 @@
           <!-- 9Mobile Data Plans -->
           <div class="pricing-card" data-aos="fade-up" data-aos-delay="400">
             <div class="pricing-header">
-              <img src="https://www.steadysub.com/frontend/img/9mobile.png" alt="9Mobile" class="network-logo">
+              <img src="https://www.vtubiz.com/frontend/img/9mobile.png" alt="9Mobile" class="network-logo">
               <div class="network-name">9Mobile Data Plans</div>
             </div>
             <table class="pricing-table">
@@ -1137,9 +1136,7 @@
         <div>
           <span>© {{ $user->brand_name }} <span id="copyright"></span> - All rights reserved.</span>
         </div>
-        <div>
-          <span>Powered by Innovation & Excellence</span>
-        </div>
+       
       </div>
     </div>
   </footer>

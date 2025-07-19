@@ -492,8 +492,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="1200">
                     <div class="hero-content">
-                        <h1>Welcome to {{ $user->brand_name }}</h1>
-                        <p>{{ $user->heading_1 ?? "Experience the future of digital transactions with our cutting-edge platform. Fast, secure, and reliable services at your fingertips." }}</p>
+                        <h1>{{ $user->heading_1 ?? "Welcome to ". $user->brand_name }}</h1>
+                        <p>{{ $user->sub_heading_1 ?? "Experience the future of digital transactions with our cutting-edge platform. Fast, secure, and reliable services at your fingertips." }}</p>
                         
                         <div class="d-flex gap-3 flex-wrap">
                             <a href="/register" class="btn-glow">Get Started Now</a>
@@ -699,7 +699,7 @@
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
                     <div class="glass-card text-center">
                         <div class="mb-3">
-                            <img src="https://www.steadysub.com/frontend/img/mtn.png" 
+                            <img src="https://www.vtubiz.com/frontend/img/mtn.png" 
                                  class="rounded mx-auto d-block" 
                                  style="height: 50px; width: 50px; padding: 5px; border: 2px solid var(--glow-color); border-radius: 10px; object-fit: contain;">
                             <h5 class="mt-2" style="color: var(--glow-color);">MTN DATA PLANS</h5>
@@ -725,7 +725,7 @@
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
                     <div class="glass-card text-center">
                         <div class="mb-3">
-                            <img src="https://www.steadysub.com/frontend/img/glo.png" 
+                            <img src="https://www.vtubiz.com/frontend/img/glo.png" 
                                  class="rounded mx-auto d-block" 
                                  style="height: 50px; width: 50px; padding: 5px; border: 2px solid var(--glow-color); border-radius: 10px; object-fit: contain;">
                             <h5 class="mt-2" style="color: var(--glow-color);">GLO DATA PLANS</h5>
@@ -751,7 +751,7 @@
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
                     <div class="glass-card text-center">
                         <div class="mb-3">
-                            <img src="https://www.steadysub.com/frontend/img/airtel.png" 
+                            <img src="https://www.vtubiz.com/frontend/img/airtel.png" 
                                  class="rounded mx-auto d-block" 
                                  style="height: 50px; width: 50px; padding: 5px; border: 2px solid var(--glow-color); border-radius: 10px; object-fit: contain;">
                             <h5 class="mt-2" style="color: var(--glow-color);">AIRTEL DATA PLANS</h5>
@@ -777,7 +777,7 @@
                 <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
                     <div class="glass-card text-center">
                         <div class="mb-3">
-                            <img src="https://www.steadysub.com/frontend/img/9mobile.png" 
+                            <img src="https://www.vtubiz.com/frontend/img/9mobile.png" 
                                  class="rounded mx-auto d-block" 
                                  style="height: 50px; width: 50px; padding: 5px; border: 2px solid var(--glow-color); border-radius: 10px; object-fit: contain;">
                             <h5 class="mt-2" style="color: var(--glow-color);">9MOBILE DATA PLANS</h5>

@@ -2,8 +2,6 @@
 <html class="no-js" lang="en">
 
 
-<!-- Mirrored from runwebrun.com/{{ $user->brand_name }}/home-01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Jul 2022 14:43:32 GMT -->
-<!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
 <head>
@@ -348,12 +346,18 @@
                                         clip-rule="evenodd" />
                                 </svg>
                             </div>
-                                        <div class="position-absolute end-0 top-0 mt-n80" data-img-height
-                                style="--img-height: 100%; width: 230px;"><img class="rounded-4" loading="lazy"
-                                    src="{{ asset('theme4/assets/img/about-us-4-900x990.jpg')}}" alt=""></div>
-                            <div class="me-100" data-img-height style="--img-height: 70%;" data-show="{{ $user->brand_name }}"><a
-                                    class="image-link" href="theme4/assets/img/about-us-3-900x630.jpg"><img
-                                        class="rounded-4" loading="lazy" src="{{asset('theme4/assets/img/about-us-3-900x630.jpg')}}"  alt=""></a></div>
+                               <div class="me-100" data-img-height style="--img-height: 100%;" data-show="{{ $user->brand_name }}"><a
+                                    class="image-link" href="theme4/assets/img/about-us-3-900x630.jpg">
+
+                                     @if($user->image_1 !== null )
+                                    <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt=""
+                                        style='border-radius:15px' class="img-fluid w-100" data-swiper-parallax-x="20%">
+                                    @else
+                                    <img class="rounded-4" loading="lazy" src="{{asset('theme4/assets/img/about-us-3-900x630.jpg')}}"  alt=""/>
+                                    @endif
+                                </a>
+                                </div>
+
                         </div>
                     </div>
                 </div>
@@ -453,7 +457,7 @@
                         <div class="block-pricing">
                             <div class="pricing-table">
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/mtn.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/mtn.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">MTN DATA PLANS</div>
@@ -481,7 +485,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/glo.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/glo.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">GLO DATA PLANS</div>
@@ -511,7 +515,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/airtel.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/airtel.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">AIRTEL DATA PLANS</div>
@@ -542,7 +546,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/9mobile.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/9mobile.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">9MOBILE DATA PLANS</div>
@@ -599,7 +603,7 @@
                     <div class="col-lg-6"><span class="badge bg-light text-dark mb-20"
                             data-show="{{ $user->brand_name }}">Clients</span>
                         <h3 class="mb-30" data-show="{{ $user->brand_name }}" data-show-delay="100"><span class="highlight">{{ $user->heading_2 ?? "Explore a World of Convenience" }}</span></h3>
-                        <p class="mb-45 me-lg-70" data-show="{{ $user->brand_name }}" data-show-delay="200">{{ $user->subheading_2 ?? "Simplify Your Digital Transactions" }}.</p>
+                        <p class="mb-45 me-lg-70" data-show="{{ $user->brand_name }}" data-show-delay="200">{{ $user->sub_heading_2 ?? "Simplify Your Digital Transactions" }}.</p>
                         <div data-show="{{ $user->brand_name }}" data-show-delay="300">
                             <!-- Button--><a class="btn btn-accent-1 btn-link btn-clean" href="#" target="_self">Learn
                                 more</a>
@@ -703,7 +707,7 @@
                                 </svg></a></li>
                      
                     </ul>
-                    <p class="font-size-13 text-muted m-0">© 2023 {{ $user->brand_name }}.</p>
+                    <p class="font-size-13 text-muted m-0">© <?= Date('Y');?> {{ $user->brand_name }}.</p>
                 </div>
                 <div class="col-2 d-none d-lg-block"></div>
                 <div class="col-12 col-lg-7">

@@ -6,11 +6,11 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>{{ $user->brand_name }} | {{ $user->description }} </title>
-    
+
     <!-- Enhanced Meta Tags for WhatsApp Sharing -->
     <meta name="description" content="{{ $user->description ?? 'Top-Up, Pay Bills, Stay Connected with ' . $user->brand_name }}">
     <meta name="keywords" content="airtime, data plans, bill payment, cable subscription, {{ $user->brand_name }}">
-    
+
     <!-- Open Graph Meta Tags for WhatsApp -->
     <meta property="og:title" content="{{ $user->brand_name }} | {{ $user->description ?? 'Top-Up, Pay Bills, Stay Connected' }}">
     <meta property="og:description" content="{{ $user->about_us ?? 'Experience seamless airtime top-up, affordable data plans, cable subscriptions, and bill payments with ' . $user->brand_name }}">
@@ -18,15 +18,13 @@
     <meta property="og:url" content="{{ url()->current() }}">
     @if($user->logo)
     <meta property="og:image" content="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}">
-    @elseif($user->image_1)
-    <meta property="og:image" content="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}">
     @else
     <meta property="og:image" content="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg') }}">
     @endif
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="{{ $user->brand_name }}">
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $user->brand_name }} | {{ $user->description ?? 'Top-Up, Pay Bills, Stay Connected' }}">
@@ -38,17 +36,17 @@
     @else
     <meta name="twitter:image" content="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg') }}">
     @endif
-    
+
     <!-- WhatsApp Specific Meta Tags -->
     <meta property="og:locale" content="en_US">
     <meta name="theme-color" content="#25D366">
-    
+
     <!-- Favicon -->
     @if($user->logo)
     <link rel="icon" type="image/png" href="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}">
     @endif
 
-  
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,7 +65,7 @@
 
     <link href="{{ asset('phuz_asset/assets/css/main.css')}}" rel="stylesheet">
 
-  
+
 </head>
 
 <body>
@@ -117,8 +115,8 @@
             <img src="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg')}}" class="img-fluid animated">
             @endif
 
-            <h2>Welcome to <span>{{ $user->brand_name }}</span></h2>
-            <p>{{ $user->heading_1 ?? "Top-Up, Pay Bills, Stay Connected"}}.</p>
+            <h2><span>{{ $user->heading_1 ?? "Welcome to ". $user->brand_name }}</span></h2>
+            <p>{{ $user->sub_heading_1 ?? "Top-Up, Pay Bills, Stay Connected"}}.</p>
             <div class="d-flex">
                 <a href="/login" class="btn-get-started scrollto">Login</a>
                 <a href="/register" class="btn-watch-video d-flex align-items-center"><span>Get Started</span></a>
@@ -214,123 +212,123 @@
                     <div class="col-lg-5">
                         <div class="about-img">
                             <img src="{{ asset('phuz_asset/assets/img/about.jpg')}}" class="img-fluid" alt="">
-                        </div>
+        </div>
+        </div>
+
+        <div class="col-lg-7">
+            <h3 class="pt-0 pt-lg-5">Neque officiis dolore maiores et exercitationem quae est seda lidera
+                pat claero</h3>
+
+            <!-- Tabs -->
+            <ul class="nav nav-pills mb-3">
+                <li><a class="nav-link active" data-bs-toggle="pill" href="#tab1">Saepe fuga</a></li>
+                <li><a class="nav-link" data-bs-toggle="pill" href="#tab2">Voluptates</a></li>
+                <li><a class="nav-link" data-bs-toggle="pill" href="#tab3">Corrupti</a></li>
+            </ul><!-- End Tabs -->
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+
+                <div class="tab-pane fade show active" id="tab1">
+
+                    <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
+                        doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
+                        suscipit voluptatem.</p>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
                     </div>
+                    <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
+                        dolorum non eveniet magni quaerat nemo et.</p>
 
-                    <div class="col-lg-7">
-                        <h3 class="pt-0 pt-lg-5">Neque officiis dolore maiores et exercitationem quae est seda lidera
-                            pat claero</h3>
-
-                        <!-- Tabs -->
-                        <ul class="nav nav-pills mb-3">
-                            <li><a class="nav-link active" data-bs-toggle="pill" href="#tab1">Saepe fuga</a></li>
-                            <li><a class="nav-link" data-bs-toggle="pill" href="#tab2">Voluptates</a></li>
-                            <li><a class="nav-link" data-bs-toggle="pill" href="#tab3">Corrupti</a></li>
-                        </ul><!-- End Tabs -->
-
-                        <!-- Tab Content -->
-                        <div class="tab-content">
-
-                            <div class="tab-pane fade show active" id="tab1">
-
-                                <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
-                                    doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
-                                    suscipit voluptatem.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
-                                </div>
-                                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
-                                    dolorum non eveniet magni quaerat nemo et.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Incidunt non veritatis illum ea ut nisi</h4>
-                                </div>
-                                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
-                                    tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
-                                    Dolorem quo tempora. Quia et perferendis.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
-                                </div>
-                                <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
-                                    officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
-                                    odit enim quaerat. Vero error error voluptatem eum.</p>
-
-                            </div><!-- End Tab 1 Content -->
-
-                            <div class="tab-pane fade show" id="tab2">
-
-                                <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
-                                    doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
-                                    suscipit voluptatem.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
-                                </div>
-                                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
-                                    dolorum non eveniet magni quaerat nemo et.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Incidunt non veritatis illum ea ut nisi</h4>
-                                </div>
-                                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
-                                    tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
-                                    Dolorem quo tempora. Quia et perferendis.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
-                                </div>
-                                <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
-                                    officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
-                                    odit enim quaerat. Vero error error voluptatem eum.</p>
-
-                            </div><!-- End Tab 2 Content -->
-
-                            <div class="tab-pane fade show" id="tab3">
-
-                                <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
-                                    doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
-                                    suscipit voluptatem.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
-                                </div>
-                                <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
-                                    dolorum non eveniet magni quaerat nemo et.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Incidunt non veritatis illum ea ut nisi</h4>
-                                </div>
-                                <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
-                                    tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
-                                    Dolorem quo tempora. Quia et perferendis.</p>
-
-                                <div class="d-flex align-items-center mt-4">
-                                    <i class="bi bi-check2"></i>
-                                    <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
-                                </div>
-                                <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
-                                    officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
-                                    odit enim quaerat. Vero error error voluptatem eum.</p>
-
-                            </div><!-- End Tab 3 Content -->
-
-                        </div>
-
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Incidunt non veritatis illum ea ut nisi</h4>
                     </div>
+                    <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
+                        tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
+                        Dolorem quo tempora. Quia et perferendis.</p>
 
-                </div>
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
+                    </div>
+                    <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
+                        officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
+                        odit enim quaerat. Vero error error voluptatem eum.</p>
+
+                </div><!-- End Tab 1 Content -->
+
+                <div class="tab-pane fade show" id="tab2">
+
+                    <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
+                        doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
+                        suscipit voluptatem.</p>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                    </div>
+                    <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
+                        dolorum non eveniet magni quaerat nemo et.</p>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                    </div>
+                    <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
+                        tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
+                        Dolorem quo tempora. Quia et perferendis.</p>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
+                    </div>
+                    <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
+                        officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
+                        odit enim quaerat. Vero error error voluptatem eum.</p>
+
+                </div><!-- End Tab 2 Content -->
+
+                <div class="tab-pane fade show" id="tab3">
+
+                    <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos
+                        doloribus expedita. Sapiente atque consequatur minima nihil quae aspernatur quo
+                        suscipit voluptatem.</p>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                    </div>
+                    <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi
+                        dolorum non eveniet magni quaerat nemo et.</p>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                    </div>
+                    <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta
+                        tenetur. Iure molestiae assumenda sunt qui inventore eligendi voluptates nisi at.
+                        Dolorem quo tempora. Quia et perferendis.</p>
+
+                    <div class="d-flex align-items-center mt-4">
+                        <i class="bi bi-check2"></i>
+                        <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
+                    </div>
+                    <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam
+                        officia aut ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam
+                        odit enim quaerat. Vero error error voluptatem eum.</p>
+
+                </div><!-- End Tab 3 Content -->
 
             </div>
+
+        </div>
+
+        </div>
+
+        </div>
         </section><!-- End About Section --> --}}
 
         <!-- ======= Clients Section ======= -->
@@ -340,25 +338,25 @@
                 <div class="clients-slider swiper">
                     <div class="swiper-wrapper align-items-center">
                         <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-1.png')}}"
-                                class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-2.png')}}"
-                                class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-3.png')}}"
-                                class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-4.png')}}"
-                                class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-5.png')}}"
-                                class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-6.png')}}"
-                                class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-7.png')}}"
-                                class="img-fluid" alt=""></div>
-                        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-8.png')}}"
-                                class="img-fluid" alt=""></div>
-                    </div>
-                </div>
+        class="img-fluid" alt=""></div>
+        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-2.png')}}"
+                class="img-fluid" alt=""></div>
+        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-3.png')}}"
+                class="img-fluid" alt=""></div>
+        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-4.png')}}"
+                class="img-fluid" alt=""></div>
+        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-5.png')}}"
+                class="img-fluid" alt=""></div>
+        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-6.png')}}"
+                class="img-fluid" alt=""></div>
+        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-7.png')}}"
+                class="img-fluid" alt=""></div>
+        <div class="swiper-slide"><img src="{{ asset('phuz_asset/assets/img/clients/client-8.png')}}"
+                class="img-fluid" alt=""></div>
+        </div>
+        </div>
 
-            </div>
+        </div>
         </section><!-- End Clients Section --> --}}
 
         <!-- ======= Call To Action Section ======= -->
@@ -398,8 +396,15 @@
             <div class="container-fluid p-0" data-aos="fade-up">
 
                 <div class="row g-0">
-                    <div class="col-lg-6 video-play position-relative">
-                        <a href="#" class="glightbox play-btn"></a>
+                    <div class="col-lg-6 position-relative">
+                        @if($user->image_3 !== null )
+                        
+                        <img src="https://vtubiz.com/newpersonal/public/website_images/{{  $user->image_3 }}" alt="" style='border-radius:15px;width:'
+                            class="img-fluid w-100">
+                        @else
+                       <img src="{{ asset('phuz_asset/assets/img/features-1.svg')}}" alt="" class="img-fluid">
+                        @endif
+
                     </div>
                     <div class="col-lg-6">
                         <div class="content d-flex flex-column justify-content-center h-100">
@@ -476,102 +481,7 @@
 
                 </ul>
 
-                <div class="tab-content">
-
-                    <div class="tab-pane active show" id="tab-1">
-                        <div class="row gy-4">
-                            <div class="col-lg-8 order-2 order-lg-1" data-aos="fade-up" data-aos-delay="100">
-
-                                <p>
-                                    Payment and Purchases fully Automated.
-                                </p>
-                            </div>
-                            <div class="col-lg-4 order-1 order-lg-2 text-center" data-aos="fade-up"
-                                data-aos-delay="200">
-                                <img src="{{ asset('phuz_asset/assets/img/features-1.svg')}}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div><!-- End Tab Content 1 -->
-
-                    <div class="tab-pane" id="tab-2">
-                        <div class="row gy-4">
-                            <div class="col-lg-8 order-2 order-lg-1">
-
-                                <p>
-                                    Experience hassle-free transaction retries with our one-click Transaction Redo
-                                    feature.
-                                </p>
-
-                            </div>
-                            <div class="col-lg-4 order-1 order-lg-2 text-center">
-                                <img src="{{ asset('phuz_asset/assets/img/features-6.svg')}}" alt="" class="img-fluid">
-                            </div>
-
-                        </div>
-                    </div><!-- End Tab Content 2 -->
-
-                    <div class="tab-pane" id="tab-3">
-                        <div class="row gy-4">
-                            <div class="col-lg-8 order-2 order-lg-1">
-
-                                <p>
-                                    Simplify bulk purchases with our streamlined process.
-                                </p>
-
-                            </div>
-                            <div class="col-lg-4 order-1 order-lg-2 text-center">
-                                <img src="{{ asset('phuz_asset/assets/img/features-3.svg')}}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div><!-- End Tab Content 3 -->
-
-                    <div class="tab-pane" id="tab-4">
-                        <div class="row gy-4">
-                            <div class="col-lg-8 order-2 order-lg-1">
-
-                                <p>
-                                    Simplify future purchases by saving contacts, decoder numbers, and meter numbers
-                                    with our 'Add Up Beneficiaries' feature.
-                                </p>
-
-                            </div>
-                            <div class="col-lg-4 order-1 order-lg-2 text-center">
-                                <img src="{{ asset('phuz_asset/assets/img/features-4.svg')}}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div><!-- End Tab Content 4 -->
-
-                    <div class="tab-pane" id="tab-5">
-                        <div class="row gy-4">
-                            <div class="col-lg-8 order-2 order-lg-1">
-
-                                <p>
-                                    Plan your purchases ahead with our 'Schedule for Later Purchase' feature.
-                                </p>
-
-                            </div>
-                            <div class="col-lg-4 order-1 order-lg-2 text-center">
-                                <img src="{{ asset('phuz_asset/assets/img/features-5.svg')}}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div><!-- End Tab Content 5 -->
-
-                    <div class="tab-pane" id="tab-6">
-                        <div class="row gy-4">
-                            <div class="col-lg-8 order-2 order-lg-1">
-                                <h3>Everything Automated</h3>
-                                <p>
-                                    Count on our 24/7 support system for assistance anytime you need it.
-                                </p>
-
-                            </div>
-                            <div class="col-lg-4 order-1 order-lg-2 text-center">
-                                <img src="{{ asset('phuz_asset/assets/img/features-6.svg')}}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div><!-- End Tab Content 6 -->
-
-                </div>
+               
 
             </div>
         </section><!-- End Features Section -->
@@ -592,116 +502,116 @@
                         <div class="service-item">
                             <div class="img">
                                 <img src="{{ asset('phuz_asset/assets/img/services-1.jpg')}}" class="img-fluid" alt="">
-                            </div>
-                            <div class="details position-relative">
-                                <div class="icon">
-                                    <i class="bi bi-activity"></i>
-                                </div>
-                                <a href="#" class="stretched-link">
-                                    <h3>Nesciunt Mete</h3>
-                                </a>
-                                <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus
-                                    dolores iure perferendis.</p>
-                            </div>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
-                        <div class="service-item">
-                            <div class="img">
-                                <img src="{{ asset('phuz_asset/assets/img/services-2.jpg')}}" class="img-fluid" alt="">
-                            </div>
-                            <div class="details position-relative">
-                                <div class="icon">
-                                    <i class="bi bi-broadcast"></i>
-                                </div>
-                                <a href="#" class="stretched-link">
-                                    <h3>Eosle Commodi</h3>
-                                </a>
-                                <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque
-                                    eum hic non ut nesciunt dolorem.</p>
-                            </div>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
-                        <div class="service-item">
-                            <div class="img">
-                                <img src="{{ asset('phuz_asset/assets/img/services-3.jpg')}}" class="img-fluid" alt="">
-                            </div>
-                            <div class="details position-relative">
-                                <div class="icon">
-                                    <i class="bi bi-easel"></i>
-                                </div>
-                                <a href="#" class="stretched-link">
-                                    <h3>Ledo Markt</h3>
-                                </a>
-                                <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id
-                                    voluptas adipisci eos earum corrupti.</p>
-                            </div>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="500">
-                        <div class="service-item">
-                            <div class="img">
-                                <img src="{{ asset('phuz_asset/assets/img/services-4.jpg')}}" class="img-fluid" alt="">
-                            </div>
-                            <div class="details position-relative">
-                                <div class="icon">
-                                    <i class="bi bi-bounding-box-circles"></i>
-                                </div>
-                                <a href="#" class="stretched-link">
-                                    <h3>Asperiores Commodit</h3>
-                                </a>
-                                <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea
-                                    fuga sit provident adipisci neque.</p>
-                                <a href="#" class="stretched-link"></a>
-                            </div>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="600">
-                        <div class="service-item">
-                            <div class="img">
-                                <img src="{{ asset('phuz_asset/assets/img/services-5.jpg')}}" class="img-fluid" alt="">
-                            </div>
-                            <div class="details position-relative">
-                                <div class="icon">
-                                    <i class="bi bi-calendar4-week"></i>
-                                </div>
-                                <a href="#" class="stretched-link">
-                                    <h3>Velit Doloremque</h3>
-                                </a>
-                                <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut.
-                                    Sed animi at autem alias eius labore.</p>
-                                <a href="#" class="stretched-link"></a>
-                            </div>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                    <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="700">
-                        <div class="service-item">
-                            <div class="img">
-                                <img src="{{ asset('phuz_asset/assets/img/services-6.jpg')}}" class="img-fluid" alt="">
-                            </div>
-                            <div class="details position-relative">
-                                <div class="icon">
-                                    <i class="bi bi-chat-square-text"></i>
-                                </div>
-                                <a href="#" class="stretched-link">
-                                    <h3>Dolori Architecto</h3>
-                                </a>
-                                <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure.
-                                    Corrupti recusandae ducimus enim.</p>
-                                <a href="#" class="stretched-link"></a>
-                            </div>
-                        </div>
-                    </div><!-- End Service Item -->
-
-                </div>
-
+        </div>
+        <div class="details position-relative">
+            <div class="icon">
+                <i class="bi bi-activity"></i>
             </div>
+            <a href="#" class="stretched-link">
+                <h3>Nesciunt Mete</h3>
+            </a>
+            <p>Provident nihil minus qui consequatur non omnis maiores. Eos accusantium minus
+                dolores iure perferendis.</p>
+        </div>
+        </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
+            <div class="service-item">
+                <div class="img">
+                    <img src="{{ asset('phuz_asset/assets/img/services-2.jpg')}}" class="img-fluid" alt="">
+                </div>
+                <div class="details position-relative">
+                    <div class="icon">
+                        <i class="bi bi-broadcast"></i>
+                    </div>
+                    <a href="#" class="stretched-link">
+                        <h3>Eosle Commodi</h3>
+                    </a>
+                    <p>Ut autem aut autem non a. Sint sint sit facilis nam iusto sint. Libero corrupti neque
+                        eum hic non ut nesciunt dolorem.</p>
+                </div>
+            </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
+            <div class="service-item">
+                <div class="img">
+                    <img src="{{ asset('phuz_asset/assets/img/services-3.jpg')}}" class="img-fluid" alt="">
+                </div>
+                <div class="details position-relative">
+                    <div class="icon">
+                        <i class="bi bi-easel"></i>
+                    </div>
+                    <a href="#" class="stretched-link">
+                        <h3>Ledo Markt</h3>
+                    </a>
+                    <p>Ut excepturi voluptatem nisi sed. Quidem fuga consequatur. Minus ea aut. Vel qui id
+                        voluptas adipisci eos earum corrupti.</p>
+                </div>
+            </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="500">
+            <div class="service-item">
+                <div class="img">
+                    <img src="{{ asset('phuz_asset/assets/img/services-4.jpg')}}" class="img-fluid" alt="">
+                </div>
+                <div class="details position-relative">
+                    <div class="icon">
+                        <i class="bi bi-bounding-box-circles"></i>
+                    </div>
+                    <a href="#" class="stretched-link">
+                        <h3>Asperiores Commodit</h3>
+                    </a>
+                    <p>Non et temporibus minus omnis sed dolor esse consequatur. Cupiditate sed error ea
+                        fuga sit provident adipisci neque.</p>
+                    <a href="#" class="stretched-link"></a>
+                </div>
+            </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="600">
+            <div class="service-item">
+                <div class="img">
+                    <img src="{{ asset('phuz_asset/assets/img/services-5.jpg')}}" class="img-fluid" alt="">
+                </div>
+                <div class="details position-relative">
+                    <div class="icon">
+                        <i class="bi bi-calendar4-week"></i>
+                    </div>
+                    <a href="#" class="stretched-link">
+                        <h3>Velit Doloremque</h3>
+                    </a>
+                    <p>Cumque et suscipit saepe. Est maiores autem enim facilis ut aut ipsam corporis aut.
+                        Sed animi at autem alias eius labore.</p>
+                    <a href="#" class="stretched-link"></a>
+                </div>
+            </div>
+        </div><!-- End Service Item -->
+
+        <div class="col-xl-4 col-md-6" data-aos="zoom-in" data-aos-delay="700">
+            <div class="service-item">
+                <div class="img">
+                    <img src="{{ asset('phuz_asset/assets/img/services-6.jpg')}}" class="img-fluid" alt="">
+                </div>
+                <div class="details position-relative">
+                    <div class="icon">
+                        <i class="bi bi-chat-square-text"></i>
+                    </div>
+                    <a href="#" class="stretched-link">
+                        <h3>Dolori Architecto</h3>
+                    </a>
+                    <p>Hic molestias ea quibusdam eos. Fugiat enim doloremque aut neque non et debitis iure.
+                        Corrupti recusandae ducimus enim.</p>
+                    <a href="#" class="stretched-link"></a>
+                </div>
+            </div>
+        </div><!-- End Service Item -->
+
+        </div>
+
+        </div>
         </section><!-- End Services Section --> --}}
 
         <!-- ======= Testimonials Section ======= -->
@@ -715,112 +625,112 @@
                             <div class="testimonial-item">
                                 <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-1.jpg"
                                     class="testimonial-img')}}" alt="">
-                                <h3>Saul Goodman</h3>
-                                <h4>Ceo &amp; Founder</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bi bi-quote quote-icon-left"></i>
-                                    Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
-                                    rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
-                                    risus at semper.
-                                    <i class="bi bi-quote quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
+        <h3>Saul Goodman</h3>
+        <h4>Ceo &amp; Founder</h4>
+        <div class="stars">
+            <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                class="bi bi-star-fill"></i>
+        </div>
+        <p>
+            <i class="bi bi-quote quote-icon-left"></i>
+            Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit
+            rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam,
+            risus at semper.
+            <i class="bi bi-quote quote-icon-right"></i>
+        </p>
+        </div>
+        </div><!-- End testimonial item -->
 
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-2.jpg"
+        <div class="swiper-slide">
+            <div class="testimonial-item">
+                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-2.jpg"
                                     class="testimonial-img')}}" alt="">
-                                <h3>Sara Wilsson</h3>
-                                <h4>Designer</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bi bi-quote quote-icon-left"></i>
-                                    Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid
-                                    cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet
-                                    legam anim culpa.
-                                    <i class="bi bi-quote quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
-
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-3.jpg"
-                                    class="testimonial-img')}}" alt="">
-                                <h3>Jena Karlis</h3>
-                                <h4>Store Owner</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bi bi-quote quote-icon-left"></i>
-                                    Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem
-                                    veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint
-                                    minim.
-                                    <i class="bi bi-quote quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
-
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-4.jpg"
-                                    class="testimonial-img')}}" alt="">
-                                <h3>Matt Brandon</h3>
-                                <h4>Freelancer</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bi bi-quote quote-icon-left"></i>
-                                    Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim
-                                    fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem
-                                    dolore labore illum veniam.
-                                    <i class="bi bi-quote quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
-
-                        <div class="swiper-slide">
-                            <div class="testimonial-item">
-                                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-5.jpg"
-                                    class="testimonial-img')}}" alt="">
-                                <h3>John Larson</h3>
-                                <h4>Entrepreneur</h4>
-                                <div class="stars">
-                                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
-                                        class="bi bi-star-fill"></i>
-                                </div>
-                                <p>
-                                    <i class="bi bi-quote quote-icon-left"></i>
-                                    Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster
-                                    veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam
-                                    culpa fore nisi cillum quid.
-                                    <i class="bi bi-quote quote-icon-right"></i>
-                                </p>
-                            </div>
-                        </div><!-- End testimonial item -->
-
-                    </div>
-                    <div class="swiper-pagination"></div>
+                <h3>Sara Wilsson</h3>
+                <h4>Designer</h4>
+                <div class="stars">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i>
                 </div>
-
+                <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid
+                    cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet
+                    legam anim culpa.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                </p>
             </div>
+        </div><!-- End testimonial item -->
+
+        <div class="swiper-slide">
+            <div class="testimonial-item">
+                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-3.jpg"
+                                    class="testimonial-img')}}" alt="">
+                <h3>Jena Karlis</h3>
+                <h4>Store Owner</h4>
+                <div class="stars">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem
+                    veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint
+                    minim.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+            </div>
+        </div><!-- End testimonial item -->
+
+        <div class="swiper-slide">
+            <div class="testimonial-item">
+                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-4.jpg"
+                                    class="testimonial-img')}}" alt="">
+                <h3>Matt Brandon</h3>
+                <h4>Freelancer</h4>
+                <div class="stars">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim
+                    fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem
+                    dolore labore illum veniam.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+            </div>
+        </div><!-- End testimonial item -->
+
+        <div class="swiper-slide">
+            <div class="testimonial-item">
+                <img src="{{ asset('phuz_asset/assets/img/testimonials/testimonials-5.jpg"
+                                    class="testimonial-img')}}" alt="">
+                <h3>John Larson</h3>
+                <h4>Entrepreneur</h4>
+                <div class="stars">
+                    <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i
+                        class="bi bi-star-fill"></i>
+                </div>
+                <p>
+                    <i class="bi bi-quote quote-icon-left"></i>
+                    Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster
+                    veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam
+                    culpa fore nisi cillum quid.
+                    <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+            </div>
+        </div><!-- End testimonial item -->
+
+        </div>
+        <div class="swiper-pagination"></div>
+        </div>
+
+        </div>
         </section> --}}
 
 
@@ -838,7 +748,7 @@
                         <div class="block-pricing">
                             <div class="pricing-table">
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/mtn.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/mtn.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">MTN DATA PLANS</div>
@@ -867,7 +777,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/glo.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/glo.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">GLO DATA PLANS</div>
@@ -898,7 +808,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/airtel.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/airtel.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">AIRTEL DATA PLANS</div>
@@ -930,7 +840,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/9mobile.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/9mobile.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">9MOBILE DATA PLANS</div>
@@ -1121,52 +1031,52 @@
                                 <div>
                                     <h4>Email:</h4>
                                     <p>{{ $user->email }}</p>
-                                </div>
-                            </div><!-- End Info Item -->
+        </div>
+        </div><!-- End Info Item -->
 
-                            <div class="info-item d-flex">
-                                <i class="bi bi-phone flex-shrink-0"></i>
-                                <div>
-                                    <h4>Call:</h4>
-                                    <p>+234 {{ $user->phone }}</p>
-                                </div>
-                            </div><!-- End Info Item -->
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-8">
-                        <form action="#" method="post" role="form" class="php-email-form">
-                            <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <input type="text" name="name" class="form-control" id="name"
-                                        placeholder="Your Name" required>
-                                </div>
-                                <div class="col-md-6 form-group mt-3 mt-md-0">
-                                    <input type="email" class="form-control" name="email" id="email"
-                                        placeholder="Your Email" required>
-                                </div>
-                            </div>
-                            <div class="form-group mt-3">
-                                <input type="text" class="form-control" name="subject" id="subject"
-                                    placeholder="Subject" required>
-                            </div>
-                            <div class="form-group mt-3">
-                                <textarea class="form-control" name="message" placeholder="Message" required></textarea>
-                            </div>
-                            <div class="my-3">
-                                <div class="loading">Loading</div>
-                                <div class="error-message"></div>
-                                <div class="sent-message">Your message has been sent. Thank you!</div>
-                            </div>
-                            <div class="text-center"><button type="submit">Send Message</button></div>
-                        </form>
-                    </div><!-- End Contact Form -->
-
-                </div>
-
+        <div class="info-item d-flex">
+            <i class="bi bi-phone flex-shrink-0"></i>
+            <div>
+                <h4>Call:</h4>
+                <p>+234 {{ $user->phone }}</p>
             </div>
+        </div><!-- End Info Item -->
+
+        </div>
+
+        </div>
+
+        <div class="col-lg-8">
+            <form action="#" method="post" role="form" class="php-email-form">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <input type="text" name="name" class="form-control" id="name"
+                            placeholder="Your Name" required>
+                    </div>
+                    <div class="col-md-6 form-group mt-3 mt-md-0">
+                        <input type="email" class="form-control" name="email" id="email"
+                            placeholder="Your Email" required>
+                    </div>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control" name="subject" id="subject"
+                        placeholder="Subject" required>
+                </div>
+                <div class="form-group mt-3">
+                    <textarea class="form-control" name="message" placeholder="Message" required></textarea>
+                </div>
+                <div class="my-3">
+                    <div class="loading">Loading</div>
+                    <div class="error-message"></div>
+                    <div class="sent-message">Your message has been sent. Thank you!</div>
+                </div>
+                <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+        </div><!-- End Contact Form -->
+
+        </div>
+
+        </div>
         </section><!-- End Contact Section --> --}}
 
     </main><!-- End #main -->
@@ -1186,12 +1096,13 @@
                             @else
                             <h3>{{ $user->brand_name }}<span>.</span></h3>
                             @endif
-                          
+
                             <p>
-                                Lagos State
+                                {{ $user->about_us }}
                                 <br><br>
                                 <strong>Phone:</strong> +234 {{ $user->phone }}<br>
                                 <strong>Email:</strong> {{ $user->email }}<br>
+                                <strong>Address:</strong> {{ $user->address }}<br>
                             </p>
                         </div>
                     </div>
@@ -1222,8 +1133,8 @@
                         <h4>Our Newsletter</h4>
                         <p>Subscribe to our newsletter today, to receive first hand information from us</p>
                         {{-- <form action="#" method="post"> --}}
-                            <input type="email" name="email">
-                            <input type="submit" value="Subscribe">
+                        <input type="email" name="email">
+                        <input type="submit" value="Subscribe">
                         {{-- </form> --}}
 
                     </div>

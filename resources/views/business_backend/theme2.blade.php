@@ -2,8 +2,6 @@
 <html class="no-js" lang="en">
 
 
-<!-- Mirrored from runwebrun.com/startbox/home-01.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Jul 2022 14:43:32 GMT -->
-<!-- Added by HTTrack -->
 <meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
 
 <head>
@@ -467,9 +465,17 @@
                 <div class="row">
                     <div class="col-lg-6 position-relative stretch-column to-left py-240">
                         <div class="background">
-                            <div class="background-image jarallax" data-jarallax data-speed="0.8"><img
+                            <div class="background-image jarallax" data-jarallax data-speed="0.8">
+
+                             @if($user->image_1 !== null )
+                                    <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt=""
+                                        style='border-radius:15px' class="img-fluid w-100" data-swiper-parallax-x="20%">
+                                    @else
+                                <img
                                     class="jarallax-img" loading="lazy"
-                                    src="{{ asset('theme4/assets/img/home-2-900x770.jpg')}}" alt=""></div>
+                                    src="{{ asset('theme4/assets/img/home-2-900x770.jpg')}}" alt="">
+                                @endif
+                                </div>
                         </div>
                     </div>
                     <div class="col-lg-6 position-relative pt-120 pb-130">
@@ -623,7 +629,7 @@
                         <div class="block-pricing">
                             <div class="pricing-table">
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/mtn.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/mtn.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">MTN DATA PLANS</div>
@@ -652,7 +658,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/glo.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/glo.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">GLO DATA PLANS</div>
@@ -683,7 +689,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/airtel.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/airtel.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">AIRTEL DATA PLANS</div>
@@ -715,7 +721,7 @@
                             <div class="pricing-table">
                                 <br>
                                 <div class="section-title">
-                                    <img src="https://www.steadysub.com/frontend/img/9mobile.png"
+                                    <img src="https://www.vtubiz.com/frontend/img/9mobile.png"
                                         class="rounded mx-auto d-block"
                                         style="height:50px;width:50px;padding:5px;border:2px solid #EC4D37;border-radius:2px">
                                     <div class="mx-auto d-block text-center">9MOBILE DATA PLANS</div>
@@ -792,7 +798,7 @@
                                 </svg></a></li>
 
                     </ul>
-                    <p class="font-size-13 text-muted m-0">© 2023 {{ $user->brand_name }}.</p>
+                    <p class="font-size-13 text-muted m-0">© <?= Date('Y');?> {{ $user->brand_name }}.</p>
                 </div>
                 <div class="col-2 d-none d-lg-block"></div>
                 <div class="col-12 col-lg-7">

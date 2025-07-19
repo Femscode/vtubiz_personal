@@ -200,7 +200,7 @@
         .btn-cosmic {
             background: var(--accent-gradient);
             border: none;
-            padding: 1rem 3rem;
+            padding: 1rem 2rem;
             border-radius: 100px;
             font-family: 'Montserrat', sans-serif;
             font-weight: 600;
@@ -296,7 +296,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border: 1px solid var(--border-color);
-            border-radius: 50%;
+            border-radius: 5%;
             width: 300px;
             height: 300px;
             display: flex;
@@ -461,8 +461,9 @@
             }
 
             .service-orb {
-                width: 180px;
-                height: 180px;
+                width: 280px;
+                height: 280px;
+                padding:20px;
             }
 
             .footer .d-flex {
@@ -536,11 +537,11 @@
             <div class="row align-items-center">
                 <div class="col-lg-7" data-aos="zoom-in" data-aos-duration="1500">
                     <div class="hero-content">
-                        <h1>Explore {{ $user->brand_name }}</h1>
-                        <p>{{ $user->heading_1 ?? "Embark on a journey of seamless digital transactions with our revolutionary platform, crafted for speed, security, and style." }}</p>
+                        <h1>  {{ $user->heading_1 ?? "Explore". $user->brand_name }}</h1>
+                        <p>{{ $user->sub_heading_1 ?? "Embark on a journey of seamless digital transactions with our revolutionary platform, crafted for speed, security, and style." }}</p>
                         
                         <div class="d-flex gap-4 flex-wrap">
-                            <a href="/register" class="btn-cosmic">Launch Now</a>
+                            <a href="/register" class="btn-cosmic">Register Now</a>
                             <a href="/login" class="btn-outline-cosmic">Sign In</a>
                         </div>
                     </div>
@@ -566,8 +567,8 @@
     <section id="services" class="py-5">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-down">
-                <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Cosmic Services</h2>
-                <p class="lead text-secondary">Orbit around our stellar digital solutions</p>
+                <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Services</h2>
+                <p class="lead text-secondary">{{ $user->heading_2 ?? "Orbit around our stellar digital solutions" }}</p>
             </div>
             
             <div class="d-flex flex-wrap justify-content-center gap-5">
@@ -629,8 +630,8 @@
                 
                 <div class="col-lg-6 order-lg-1" data-aos="fade-right" data-aos-duration="1500">
                     <div class="orbit-card">
-                        <h2 class="display-5 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">Our Mission</h2>
-                        <p class="lead">{{ $user->about_us ?? "We are your interstellar gateway to digital transactions, offering unmatched speed, security, and innovation for all your needs." }}</p>
+                        <h2 class="display-5 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">About Us</h2>
+                        <p class="lead">{{ $user->about_us ?? "We are your gateway to digital transactions, offering unmatched speed, security, and affordability for all your needs." }}</p>
                         <a href="/register" class="btn-cosmic mt-4">Join the Journey</a>
                     </div>
                 </div>
@@ -641,14 +642,14 @@
     <section id="pricing" class="py-5" style="background: linear-gradient(135deg, rgba(4,21,43,0.9), rgba(20,50,90,0.95));">
         <div class="container">
             <div class="text-center mb-5" data-aos="fade-down">
-                <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">Stellar Data Plans</h2>
-                <p class="lead text-secondary">Launch into our competitive pricing</p>
+                <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Data Plans</h2>
+                <!-- <p class="lead text-secondary">Launch into our competitive pricing</p> -->
             </div>
             
             <div class="row g-5">
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="100">
                     <div class="orbit-card text-center">
-                        <img src="https://www.steadysub.com/frontend/img/mtn.png" 
+                        <img src="https://www.vtubiz.com/frontend/img/mtn.png" 
                              class="rounded mx-auto d-block mb-4" 
                              style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">MTN DATA PLANS</h5>
@@ -664,13 +665,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/data" class="btn-cosmic mt-4">Purchase Now</a>
+                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
                     </div>
                 </div>
                 
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="200">
                     <div class="orbit-card text-center">
-                        <img src="https://www.steadysub.com/frontend/img/glo.png" 
+                        <img src="https://www.vtubiz.com/frontend/img/glo.png" 
                              class="rounded mx-auto d-block mb-4" 
                              style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">GLO DATA PLANS</h5>
@@ -686,13 +687,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/data" class="btn-cosmic mt-4">Purchase Now</a>
+                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
                     </div>
                 </div>
                 
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="300">
                     <div class="orbit-card text-center">
-                        <img src="https://www.steadysub.com/frontend/img/airtel.png" 
+                        <img src="https://www.vtubiz.com/frontend/img/airtel.png" 
                              class="rounded mx-auto d-block mb-4" 
                              style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">AIRTEL DATA PLANS</h5>
@@ -708,13 +709,13 @@
                                 </tbody>
                             </table>
                         </div>
-                        <确诊 href="/data" class="btn-cosmic mt-4">Purchase Now</a>
+                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
                     </div>
                 </div>
                 
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="400">
                     <div class="orbit-card text-center">
-                        <img src="https://www.steadysub.com/frontend/img/9mobile.png" 
+                        <img src="https://www.vtubiz.com/frontend/img/9mobile.png" 
                              class="rounded mx-auto d-block mb-4" 
                              style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">9MOBILE DATA PLANS</h5>
@@ -730,7 +731,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/data" class="btn-cosmic mt-4">Purchase Now</a>
+                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
                     </div>
                 </div>
             </div>
@@ -771,7 +772,7 @@
                         </div>
                         
                         <div class="social-links mt-5">
-                            <h6 class="mb-4">Follow Our Orbit</h6>
+                            <h6 class="mb-4">Follow Our Socials</h6>
                             <a href="{{ $user->facebook ?? '#' }}" class="me-4"><i class="bi bi-facebook"></i></a>
                             <a href="{{ $user->twitter ?? '#' }}" class="me-4"><i class="bi bi-twitter-x"></i></a>
                             <a href="{{ $user->instagram ?? '#' }}" class="me-4"><i class="bi bi-instagram"></i></a>
@@ -788,7 +789,7 @@
             <div class="row gy-5">
                 <div class="col-lg-4 col-md-6">
                     <h5 class="fw-bold mb-4" style="font-family: 'Playfair Display', serif;">{{ $user->brand_name }}</h5>
-                    <p class="text-secondary">Your interstellar hub for digital transactions, delivering speed, security, and innovation.</p>
+                    <p class="text-secondary">{{ $user->about_us ?? "Your hub for digital transactions, delivering speed, security, and affordability." }}</p>
                 </div>
                 
                 <div class="col-lg-2 col-md-6">
@@ -905,6 +906,6 @@
             });
         });
     </script>
- hãy
+ 
 </body>
 </html>
