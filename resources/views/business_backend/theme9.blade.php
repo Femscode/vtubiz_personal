@@ -149,8 +149,8 @@
         .navbar-cosmic {
             background: rgba(4, 21, 43, 0.9);
             backdrop-filter: blur(20px);
-            padding: 1.5rem 0;
-            position: fixed;
+            /* padding: 1.5rem 0; */
+            /* position: fixed; */
             width: 100%;
             z-index: 1000;
             transition: all 0.5s ease;
