@@ -506,7 +506,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" class="btn btn-success mx-auto d-block"><i
+                                <div class="table_btn"> <a href="/data" class="btn btn-success mx-auto d-block"><i
                                             class="bi bi-cart"></i>Purchase Now</a></div>
                             </div>
                         </div>
@@ -537,7 +537,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" class="btn btn-success mx-auto d-block"><i
+                                <div class="table_btn"> <a href="/data" class="btn btn-success mx-auto d-block"><i
                                             class="bi bi-cart"></i>Purchase Now</a></div>
                             </div>
                         </div>
@@ -568,7 +568,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" class="btn btn-success mx-auto d-block"><i
+                                <div class="table_btn"> <a href="/data" class="btn btn-success mx-auto d-block"><i
                                             class="bi bi-cart"></i>Purchase Now</a></div>
                             </div>
                         </div>
@@ -600,7 +600,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" class="btn btn-success mx-auto d-block"><i
+                                <div class="table_btn"> <a href="/data" class="btn btn-success mx-auto d-block"><i
                                             class="bi bi-cart"></i>Purchase Now</a></div>
                             </div>
                         </div>

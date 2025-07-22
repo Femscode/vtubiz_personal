@@ -647,7 +647,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" style='color:white;background:#F01F4B'
+                                <div class="table_btn"> <a href="/data" style='color:white;background:#F01F4B'
                                         class="btn btn-success mx-auto d-block"><i class="bi bi-cart"></i>Purchase
                                         Now</a></div>
                             </div>
@@ -678,7 +678,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" style='color:white;background:#F01F4B'
+                                <div class="table_btn"> <a href="/data" style='color:white;background:#F01F4B'
                                         class="btn btn-success mx-auto d-block"><i class="bi bi-cart"></i>Purchase
                                         Now</a></div>
                             </div>
@@ -709,7 +709,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" style='color:white;background:#F01F4B'
+                                <div class="table_btn"> <a href="/data" style='color:white;background:#F01F4B'
                                         class="btn btn-success mx-auto d-block"><i class="bi bi-cart"></i>Purchase
                                         Now</a></div>
                             </div>
@@ -741,7 +741,7 @@
 
                                     </tbody>
                                 </table>
-                                <div class="table_btn"> <a href="/buydata" style='color:white;background:#F01F4B'
+                                <div class="table_btn"> <a href="/data" style='color:white;background:#F01F4B'
                                         class="btn btn-success mx-auto d-block"><i class="bi bi-cart"></i>Purchase
                                         Now</a></div>
                             </div>

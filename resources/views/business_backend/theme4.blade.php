@@ -937,7 +937,7 @@
               @endforeach
             </table>
             <div style="margin-top: 20px;">
-              <a href="/buydata" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
+              <a href="/data" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
                 <i class="bi bi-cart-plus"></i>
                 Purchase Now
               </a>
@@ -959,7 +959,7 @@
               @endforeach
             </table>
             <div style="margin-top: 20px;">
-              <a href="/buydata" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
+              <a href="/data" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
                 <i class="bi bi-cart-plus"></i>
                 Purchase Now
               </a>
@@ -981,7 +981,7 @@
               @endforeach
             </table>
             <div style="margin-top: 20px;">
-              <a href="/buydata" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
+              <a href="/data" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
                 <i class="bi bi-cart-plus"></i>
                 Purchase Now
               </a>
@@ -1003,7 +1003,7 @@
               @endforeach
             </table>
             <div style="margin-top: 20px;">
-              <a href="/buydata" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
+              <a href="/data" class="btn-modern btn-primary" style="width: 100%; justify-content: center;">
                 <i class="bi bi-cart-plus"></i>
                 Purchase Now
               </a>

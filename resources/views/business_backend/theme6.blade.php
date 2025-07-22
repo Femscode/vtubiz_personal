@@ -318,7 +318,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <a href="/buydata" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
+                        <a href="/data" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
                     </div>
                     <div class="card p-6 bg-white rounded-lg shadow-lg">
                         <img src="https://www.vtubiz.com/frontend/img/glo.png" alt="GLO" class="mx-auto h-12 w-12 border-2 border-green-600 rounded">
@@ -333,7 +333,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <a href="/buydata" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
+                        <a href="/data" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
                     </div>
                     <div class="card p-6 bg-white rounded-lg shadow-lg">
                         <img src="https://www.vtubiz.com/frontend/img/airtel.png" alt="AIRTEL" class="mx-auto h-12 w-12 border-2 border-red-600 rounded">
@@ -348,7 +348,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <a href="/buydata" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
+                        <a href="/data" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
                     </div>
                     <div class="card p-6 bg-white rounded-lg shadow-lg">
                         <img src="https://www.vtubiz.com/frontend/img/9mobile.png" alt="9MOBILE" class="mx-auto h-12 w-12 border-2 border-green-600 rounded">
@@ -363,7 +363,7 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <a href="/buydata" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
+                        <a href="/data" class="btn btn-primary mt-4 block text-center">Purchase Now</a>
                     </div>
                 </div>
             </div>
