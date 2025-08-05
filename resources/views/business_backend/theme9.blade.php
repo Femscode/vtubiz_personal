@@ -818,7 +818,7 @@
                     <p class="text-secondary mb-4">Stay in our orbit with updates on new features and offers.</p>
                     <div class="d-flex flex-column flex-md-row gap-3">
                         <input type="email" class="form-control" placeholder="Your email" style="background: rgba(255,255,255,0.1); border: 1px solid var(--border-color); color: white; border-radius: 15px;">
-                        <button class="btn-cosmic">Subscribe</button>
+                        <button class="btn-primary">Subscribe</button>
                     </div>
                 </div>
             </div>
