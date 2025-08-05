@@ -130,6 +130,17 @@
             overflow: hidden;
             transition: all 0.5s ease;
         }
+        .orbit-card2 {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 1rem;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
 
         .orbit-card::before {
             content: '';
@@ -229,6 +240,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            text-decoration: none;
             font-weight: 500;
             transition: background-color 0.2s ease;
         }
@@ -563,7 +575,7 @@
 
                 <div class="d-flex gap-4 ms-4">
                     <a href="/login" class="btn-outline-cosmic">Login</a>
-                    <a href="/register" class="btn-cosmic">Get Started</a>
+                    <a href="/register" class="btn-cosmic">Register</a>
                 </div>
             </div>
         </div>
@@ -689,7 +701,7 @@
 
             <div class="row g-5">
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="100">
-                    <div class="orbit-card text-center">
+                    <div class="orbit-card2 text-center">
                         <img src="https://www.vtubiz.com/frontend/img/mtn.png"
                             class="rounded mx-auto d-block mb-4"
                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
@@ -711,7 +723,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="200">
-                    <div class="orbit-card text-center">
+                    <div class="orbit-card2 text-center">
                         <img src="https://www.vtubiz.com/frontend/img/glo.png"
                             class="rounded mx-auto d-block mb-4"
                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
@@ -733,7 +745,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="300">
-                    <div class="orbit-card text-center">
+                    <div class="orbit-card2 text-center">
                         <img src="https://www.vtubiz.com/frontend/img/airtel.png"
                             class="rounded mx-auto d-block mb-4"
                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
@@ -755,7 +767,7 @@
                 </div>
 
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="400">
-                    <div class="orbit-card text-center">
+                    <div class="orbit-card2 text-center">
                         <img src="https://www.vtubiz.com/frontend/img/9mobile.png"
                             class="rounded mx-auto d-block mb-4"
                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
