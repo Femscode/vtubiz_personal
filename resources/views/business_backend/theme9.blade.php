@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <title>{{ $user->brand_name }} | {{ $user->description }}</title>
-    
+
     <!-- Enhanced Meta Tags for Social Sharing -->
     <meta name="description" content="{{ $user->description ?? 'Revolutionary digital services with ' . $user->brand_name }}">
     <meta name="keywords" content="airtime, data plans, bill payment, cable subscription, {{ $user->brand_name }}">
-    
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="{{ $user->brand_name }} | {{ $user->description ?? 'Revolutionary Digital Services' }}">
     <meta property="og:description" content="{{ $user->about_us ?? 'Transform your digital experience with seamless airtime, data, and bill payment solutions at ' . $user->brand_name }}">
@@ -25,7 +26,7 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="{{ $user->brand_name }}">
-    
+
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $user->brand_name }} | {{ $user->description ?? 'Revolutionary Digital Services' }}">
@@ -37,11 +38,11 @@
     @else
     <meta name="twitter:image" content="{{ asset('phuz_asset/assets/img/hero-carousel/hero-carousel-3.svg') }}">
     @endif
-    
+
     <!-- WhatsApp Specific Meta Tags -->
     <meta property="og:locale" content="en_US">
     <meta name="theme-color" content="#053A66">
-    
+
     <!-- Favicon -->
     @if($user->logo)
     <link rel="icon" type="image/png" href="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo }}">
@@ -109,8 +110,13 @@
         }
 
         @keyframes cosmicDrift {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(-50%, -50%); }
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(-50%, -50%);
+            }
         }
 
         .orbit-card {
@@ -119,7 +125,7 @@
             border: 1px solid var(--border-color);
             border-radius: 25px;
             padding: 3rem;
-            margin-top:20px;
+            margin-top: 20px;
             position: relative;
             overflow: hidden;
             transition: all 0.5s ease;
@@ -178,7 +184,8 @@
             transition: all 0.3s ease;
         }
 
-        .nav-link:hover, .nav-link.active {
+        .nav-link:hover,
+        .nav-link.active {
             color: var(--glow-color) !important;
             text-shadow: 0 0 12px rgba(90, 184, 220, 0.6);
         }
@@ -194,7 +201,8 @@
             transition: width 0.4s ease;
         }
 
-        .nav-link:hover::after, .nav-link.active::after {
+        .nav-link:hover::after,
+        .nav-link.active::after {
             width: calc(100% - 3rem);
         }
 
@@ -211,6 +219,27 @@
             overflow: hidden;
             transition: all 0.5s ease;
             z-index: 1;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.3);
         }
 
         .btn-cosmic::before {
@@ -289,8 +318,17 @@
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.5; }
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
         }
 
         .service-orb {
@@ -456,7 +494,8 @@
                 font-size: 2.2rem;
             }
 
-            .btn-cosmic, .btn-outline-cosmic {
+            .btn-cosmic,
+            .btn-outline-cosmic {
                 padding: 0.8rem 2rem;
                 font-size: 0.9rem;
             }
@@ -464,7 +503,7 @@
             .service-orb {
                 width: 280px;
                 height: 280px;
-                padding:20px;
+                padding: 20px;
             }
 
             .footer .d-flex {
@@ -491,10 +530,11 @@
         }
 
         ::-webkit-scrollbar-thumb:hover {
-           (background: var(--glow-color);
-        }
+            (background: var(--glow-color);
+            }
     </style>
 </head>
+
 <body>
     <div class="cosmic-bg"></div>
 
@@ -502,16 +542,16 @@
         <div class="container">
             <a class="navbar-brand" href="#">
                 @if($user->logo !== null)
-                    <img src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" alt="Logo" style="height: 50px; object-fit: contain;">
+                <img src="https://vtubiz.com/newpersonal/public/brand_images/{{ $user->logo}}" alt="Logo" style="height: 50px; object-fit: contain;">
                 @else
-                    {{ $user->brand_name }}
+                {{ $user->brand_name }}
                 @endif
             </a>
-            
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="bi bi-list text-white fs-3"></i>
             </button>
-            
+
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto gap-4">
                     <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
@@ -520,7 +560,7 @@
                     <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
                 </ul>
-                
+
                 <div class="d-flex gap-4 ms-4">
                     <a href="/login" class="btn-outline-cosmic">Login</a>
                     <a href="/register" class="btn-cosmic">Get Started</a>
@@ -533,32 +573,32 @@
         <div class="cosmic-orb" style="width: 200px; height: 200px; top: 10%; left: 10%; animation-delay: 0s;"></div>
         <div class="cosmic-orb" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: 2s;"></div>
         <div class="cosmic-orb" style="width: 180px; height: 180px; top: 30%; left: 70%; animation-delay: 4s;"></div>
-        
+
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-7" data-aos="zoom-in" data-aos-duration="1500">
                     <div class="hero-content">
-                        <h1>  {{ $user->heading_1 ?? "Explore". $user->brand_name }}</h1>
+                        <h1> {{ $user->heading_1 ?? "Explore". $user->brand_name }}</h1>
                         <p>{{ $user->sub_heading_1 ?? "Embark on a journey of seamless digital transactions with our revolutionary platform, crafted for speed, security, and style." }}</p>
-                        
+
                         <div class="d-flex gap-4 flex-wrap">
                             <a href="/register" class="btn-cosmic">Register Now</a>
                             <a href="/login" class="btn-outline-cosmic">Sign In</a>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="col-lg-5" data-aos="zoom-in" data-aos-duration="1500" data-aos-delay="300">
                     @if($user->image_1 !== null)
-                        <div class="orbit-card">
-                            <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt="Hero Image" class="img-fluid" style="border-radius: 25px; object-fit: cover; width: 100%;">
-                        </div>
+                    <div class="orbit-card">
+                        <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_1 }}" alt="Hero Image" class="img-fluid" style="border-radius: 25px; object-fit: cover; width: 100%;">
+                    </div>
                     @else
-                        <div class="orbit-card text-center">
-                            <i class="bi bi-rocket-takeoff" style="font-size: 7rem; color: var(--glow-color);"></i>
-                            <h3>Launch Your Experience</h3>
-                            <p>Discover innovation</p>
-                        </div>
+                    <div class="orbit-card text-center">
+                        <i class="bi bi-rocket-takeoff" style="font-size: 7rem; color: var(--glow-color);"></i>
+                        <h3>Launch Your Experience</h3>
+                        <p>Discover innovation</p>
+                    </div>
                     @endif
                 </div>
             </div>
@@ -571,38 +611,38 @@
                 <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Services</h2>
                 <p class="lead text-secondary">{{ $user->heading_2 ?? "Orbit around our stellar digital solutions" }}</p>
             </div>
-            
+
             <div class="d-flex flex-wrap justify-content-center gap-5">
                 <div class="service-orb" data-aos="zoom-in" data-aos-delay="100">
                     <i class="bi bi-phone service-icon"></i>
                     <h4>Airtime Top-Up</h4>
                     <p>Instantly recharge with stellar speed across all networks.</p>
                 </div>
-                
+
                 <div class="service-orb" data-aos="zoom-in" data-aos-delay="200">
                     <i class="bi bi-wifi service-icon"></i>
                     <h4>Data Bundles</h4>
                     <p>Explore affordable data plans with cosmic connectivity.</p>
                 </div>
-                
+
                 <div class="service-orb" data-aos="zoom-in" data-aos-delay="300">
                     <i class="bi bi-tv service-icon"></i>
                     <h4>Cable TV</h4>
                     <p>Orbit your favorite shows with seamless subscriptions.</p>
                 </div>
-                
+
                 <div class="service-orb" data-aos="zoom-in" data-aos-delay="400">
                     <i class="bi bi-lightning service-icon"></i>
                     <h4>Electricity Bills</h4>
                     <p>Pay bills with the speed of light using our system.</p>
                 </div>
-                
+
                 <div class="service-orb" data-aos="zoom-in" data-aos-delay="500">
                     <i class="bi bi-file-text service-icon"></i>
                     <h4>Exam Results</h4>
                     <p>Access results instantly with our galactic platform.</p>
                 </div>
-                
+
                 <div class="service-orb" data-aos="zoom-in" data-aos-delay="600">
                     <i class="bi bi-chat-dots service-icon"></i>
                     <h4>Bulk SMS</h4>
@@ -617,18 +657,18 @@
             <div class="row align-items-center">
                 <div class="col-lg-6 order-lg-2" data-aos="fade-left" data-aos-duration="1500">
                     @if($user->image_2 !== null)
-                        <div class="orbit-card">
-                            <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_2 }}" alt="About Image" class="img-fluid" style="border-radius: 25px; object-fit: cover; width: 100%;">
-                        </div>
+                    <div class="orbit-card">
+                        <img src="https://vtubiz.com/newpersonal/public/website_images/{{ $user->image_2 }}" alt="About Image" class="img-fluid" style="border-radius: 25px; object-fit: cover; width: 100%;">
+                    </div>
                     @else
-                        <div class="orbit-card text-center">
-                            <i class="bi bi-shield-check" style="font-size: 7rem; color: var(--glow-color);"></i>
-                            <h3>Galactic Trust</h3>
-                            <p>Secure and reliable services</p>
-                        </div>
+                    <div class="orbit-card text-center">
+                        <i class="bi bi-shield-check" style="font-size: 7rem; color: var(--glow-color);"></i>
+                        <h3>Galactic Trust</h3>
+                        <p>Secure and reliable services</p>
+                    </div>
                     @endif
                 </div>
-                
+
                 <div class="col-lg-6 order-lg-1" data-aos="fade-right" data-aos-duration="1500">
                     <div class="orbit-card">
                         <h2 class="display-5 fw-bold mb-4" style="font-family: 'Playfair Display', serif;">About Us</h2>
@@ -646,13 +686,13 @@
                 <h2 class="display-4 fw-bold mb-3" style="font-family: 'Playfair Display', serif;">Our Data Plans</h2>
                 <!-- <p class="lead text-secondary">Launch into our competitive pricing</p> -->
             </div>
-            
+
             <div class="row g-5">
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="100">
                     <div class="orbit-card text-center">
-                        <img src="https://www.vtubiz.com/frontend/img/mtn.png" 
-                             class="rounded mx-auto d-block mb-4" 
-                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
+                        <img src="https://www.vtubiz.com/frontend/img/mtn.png"
+                            class="rounded mx-auto d-block mb-4"
+                            style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">MTN DATA PLANS</h5>
                         <div class="table-responsive mt-4">
                             <table class="table table-dark table-striped">
@@ -666,15 +706,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
+                        <a href="/data" class="btn-primary mt-4">Buy Now</a>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="200">
                     <div class="orbit-card text-center">
-                        <img src="https://www.vtubiz.com/frontend/img/glo.png" 
-                             class="rounded mx-auto d-block mb-4" 
-                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
+                        <img src="https://www.vtubiz.com/frontend/img/glo.png"
+                            class="rounded mx-auto d-block mb-4"
+                            style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">GLO DATA PLANS</h5>
                         <div class="table-responsive mt-4">
                             <table class="table table-dark table-striped">
@@ -688,15 +728,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
+                        <a href="/data" class="btn-primary mt-4">Buy Now</a>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="300">
                     <div class="orbit-card text-center">
-                        <img src="https://www.vtubiz.com/frontend/img/airtel.png" 
-                             class="rounded mx-auto d-block mb-4" 
-                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
+                        <img src="https://www.vtubiz.com/frontend/img/airtel.png"
+                            class="rounded mx-auto d-block mb-4"
+                            style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">AIRTEL DATA PLANS</h5>
                         <div class="table-responsive mt-4">
                             <table class="table table-dark table-striped">
@@ -710,15 +750,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
+                        <a href="/data" class="btn-primary mt-4">Buy Now</a>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6 col-lg-3" data-aos="zoom-in" data-aos-delay="400">
                     <div class="orbit-card text-center">
-                        <img src="https://www.vtubiz.com/frontend/img/9mobile.png" 
-                             class="rounded mx-auto d-block mb-4" 
-                             style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
+                        <img src="https://www.vtubiz.com/frontend/img/9mobile.png"
+                            class="rounded mx-auto d-block mb-4"
+                            style="height: 70px; width: 70px; padding: 8px; border: 3px solid var(--glow-color); border-radius: 15px; object-fit: contain;">
                         <h5 style="color: var(--glow-color);">9MOBILE DATA PLANS</h5>
                         <div class="table-responsive mt-4">
                             <table class="table table-dark table-striped">
@@ -732,7 +772,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a href="/data" class="btn-cosmic mt-4">Buy Now</a>
+                        <a href="/data" class="btn-primary mt-4">Buy Now</a>
                     </div>
                 </div>
             </div>
@@ -745,7 +785,7 @@
                 <div class="col-lg-8" data-aos="zoom-in" data-aos-duration="1500">
                     <div class="orbit-card text-center">
                         <h3 class="mb-5" style="font-family: 'Playfair Display', serif;">Connect Across the Cosmos</h3>
-                        
+
                         <div class="contact-info">
                             <div class="d-flex align-items-center mb-5 p-4 orbit-card">
                                 <i class="bi bi-telephone me-4" style="font-size: 2rem; color: var(--glow-color);"></i>
@@ -754,7 +794,7 @@
                                     <span>{{ $user->phone ?? '+234 123 456 7890' }}</span>
                                 </div>
                             </div>
-                            
+
                             <div class="d-flex align-items-center mb-5 p-4 orbit-card">
                                 <i class="bi bi-envelope me-4" style="font-size: 2rem; color: var(--glow-color);"></i>
                                 <div>
@@ -762,7 +802,7 @@
                                     <span>{{ $user->email ?? 'info@vtubiz.com' }}</span>
                                 </div>
                             </div>
-                            
+
                             <div class="d-flex align-items-center mb-5 p-4 orbit-card">
                                 <i class="bi bi-chat-dots me-4" style="font-size: 2rem; color: var(--glow-color);"></i>
                                 <div>
@@ -771,7 +811,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="social-links mt-5">
                             <h6 class="mb-4">Follow Our Socials</h6>
                             <a href="{{ $user->facebook ?? '#' }}" class="me-4"><i class="bi bi-facebook"></i></a>
@@ -792,7 +832,7 @@
                     <h5 class="fw-bold mb-4" style="font-family: 'Playfair Display', serif;">{{ $user->brand_name }}</h5>
                     <p class="text-secondary">{{ $user->about_us ?? "Your hub for digital transactions, delivering speed, security, and affordability." }}</p>
                 </div>
-                
+
                 <div class="col-lg-2 col-md-6">
                     <h6 class="fw-bold mb-4">Services</h6>
                     <ul class="list-unstyled">
@@ -802,7 +842,7 @@
                         <li class="mb-3"><a href="#" class="text-secondary text-decoration-none hover-glow">Electricity</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-2 col-md-6">
                     <h6 class="fw-bold mb-4">Company</h6>
                     <ul class="list-unstyled">
@@ -812,7 +852,7 @@
                         <li class="mb-3"><a href="#" class="text-secondary text-decoration-none hover-glow">Terms</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="col-lg-4 col-md-6">
                     <h6 class="fw-bold mb-4">Newsletter</h6>
                     <p class="text-secondary mb-4">Stay in our orbit with updates on new features and offers.</p>
@@ -822,9 +862,9 @@
                     </div>
                 </div>
             </div>
-            
+
             <hr style="border-color: var(--border-color); margin: 3rem 0;">
-            
+
             <div class="row align-items-center">
                 <div class="col-md-6 text-center text-md-start">
                     <p class="text-secondary mb-0">© {{ date('Y') }} {{ $user->brand_name }}. All rights reserved.</p>
@@ -832,16 +872,16 @@
                 <div class="col-md-6 text-center text-md-end">
                     <div class="social-links">
                         @if($user->facebook)
-                            <a href="{{ $user->facebook }}" class="me-4"><i class="bi bi-facebook"></i></a>
+                        <a href="{{ $user->facebook }}" class="me-4"><i class="bi bi-facebook"></i></a>
                         @endif
                         @if($user->twitter)
-                            <a href="{{ $user->twitter }}" class="me-4"><i class="bi bi-twitter-x"></i></a>
+                        <a href="{{ $user->twitter }}" class="me-4"><i class="bi bi-twitter-x"></i></a>
                         @endif
                         @if($user->instagram)
-                            <a href="{{ $user->instagram }}" class="me-4"><i class="bi bi-instagram"></i></a>
+                        <a href="{{ $user->instagram }}" class="me-4"><i class="bi bi-instagram"></i></a>
                         @endif
                         @if($user->whatsapp)
-                            <a href="{{ $user->whatsapp }}"><i class="bi bi-whatsapp"></i></a>
+                        <a href="{{ $user->whatsapp }}"><i class="bi bi-whatsapp"></i></a>
                         @endif
                     </div>
                 </div>
@@ -861,7 +901,7 @@
         });
 
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
+            anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
@@ -891,7 +931,7 @@
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('.nav-link');
             let currentSection = '';
-            
+
             sections.forEach(section => {
                 const sectionTop = section.offsetTop - 150;
                 if (window.scrollY >= sectionTop) {
@@ -907,6 +947,7 @@
             });
         });
     </script>
- 
+
 </body>
+
 </html>
