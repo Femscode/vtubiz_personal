@@ -1302,7 +1302,9 @@ class SubscriptionController extends Controller
             ));
             $response = curl_exec($curl);
             curl_close($curl);
-        } elseif ($request->exam_type == 'neco') {
+        } 
+        
+        elseif ($request->exam_type == 'neco') {
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -1324,7 +1326,55 @@ class SubscriptionController extends Controller
             ));
             $response = curl_exec($curl);
             curl_close($curl);
-        } else {
+        } 
+        elseif ($request->exam_type == 'nabteb') {
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://easyaccessapi.com.ng/api/nabteb_v2.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array(
+                    'no_of_pins' => $request->no_of_pins,
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                    "cache-control: no-cache"
+                ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+        } 
+        elseif ($request->exam_type == 'nbais') {
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://easyaccessapi.com.ng/api/nbais.php",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS => array(
+                    'no_of_pins' => $request->no_of_pins,
+                ),
+                CURLOPT_HTTPHEADER => array(
+                    "AuthorizationToken: " . env('EASY_ACCESS_AUTH'), //replace this with your authorization_token
+                    "cache-control: no-cache"
+                ),
+            ));
+            $response = curl_exec($curl);
+            curl_close($curl);
+        } 
+        
+        else {
             $response = [
                 'success' => false,
                 'message' => $request->exam_type . " currently not available.",
@@ -1698,28 +1748,28 @@ class SubscriptionController extends Controller
 
             Examination::create([
                 'user_id' => $user->company_id,
-                'exam_type' => 'WAEC RESULT CHECKER',
+                'exam_type' => 'waec',
                 'name' => 'WAEC RESULT CHECKER',
                 'actual_amount' => $waec->actual_amount,
                 'real_amount' => $waec->real_amount
             ]);
             Examination::create([
                 'user_id' => $user->id,
-                'exam_type' => 'NECO RESULT CHECKER',
+                'exam_type' => 'neco',
                 'name' => 'NECO RESULT CHECKER',
                 'actual_amount' => $neco->actual_amount,
                 'real_amount' => $neco->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
-                'exam_type' => 'NBAIS RESULT CHECKER',
+                'exam_type' => 'nbais',
                 'name' => 'NBAIS RESULT CHECKER',
                 'actual_amount' => $nbais->actual_amount,
                 'real_amount' => $nbais->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
-                'exam_type' => 'NABTEB RESULT CHECKER',
+                'exam_type' => 'nabteb',
                 'name' => 'NABTEB RESULT CHECKER',
                 'actual_amount' => $nabteb->actual_amount,
                 'real_amount' => $nabteb->real_amount,

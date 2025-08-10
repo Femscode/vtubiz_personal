@@ -633,28 +633,28 @@ class BusinessController extends Controller
 
             Examination::create([
                 'user_id' => $user->company_id,
-                'exam_type' => 'WAEC RESULT CHECKER',
+                'exam_type' => 'waec',
                 'name' => 'WAEC RESULT CHECKER',
                 'actual_amount' => $waec->actual_amount,
                 'real_amount' => $waec->real_amount
             ]);
             Examination::create([
                 'user_id' => $user->id,
-                'exam_type' => 'NECO RESULT CHECKER',
+                'exam_type' => 'neco',
                 'name' => 'NECO RESULT CHECKER',
                 'actual_amount' => $neco->actual_amount,
                 'real_amount' => $neco->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
-                'exam_type' => 'NBAIS RESULT CHECKER',
+                'exam_type' => 'nbais',
                 'name' => 'NBAIS RESULT CHECKER',
                 'actual_amount' => $nbais->actual_amount,
                 'real_amount' => $nbais->real_amount,
             ]);
             Examination::create([
                 'user_id' => $user->id,
-                'exam_type' => 'NABTEB RESULT CHECKER',
+                'exam_type' => 'nabteb',
                 'name' => 'NABTEB RESULT CHECKER',
                 'actual_amount' => $nabteb->actual_amount,
                 'real_amount' => $nabteb->real_amount,
