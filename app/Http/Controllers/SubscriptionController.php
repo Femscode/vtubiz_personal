@@ -1280,7 +1280,7 @@ class SubscriptionController extends Controller
         }
 
 
-        if ($request->exam_type == 'WAEC RESULT CHECKER') {
+        if ($request->exam_type == 'waec') {
             //purchase the eexampin
             $curl = curl_init();
             curl_setopt_array($curl, array(
@@ -1302,7 +1302,7 @@ class SubscriptionController extends Controller
             ));
             $response = curl_exec($curl);
             curl_close($curl);
-        } elseif ($request->exam_type == 'NECO RESULT CHECKER') {
+        } elseif ($request->exam_type == 'neco') {
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
